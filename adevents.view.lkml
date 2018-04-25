@@ -7,6 +7,11 @@ view: adevents {
     sql: ${TABLE}.event_id ;;
   }
 
+  dimension: keyword_id {
+    type: number
+    sql: ${TABLE}.keyword_id ;;
+  }
+
   dimension_group: created {
     type: time
     timeframes: [
@@ -24,12 +29,6 @@ view: adevents {
   dimension: event_type {
     type: string
     sql: ${TABLE}.event_type ;;
-  }
-
-  dimension: keyword_id {
-    type: number
-    # hidden: yes
-    sql: ${TABLE}.keyword_id ;;
   }
 
   dimension: is_click_event {

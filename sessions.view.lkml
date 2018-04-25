@@ -14,18 +14,13 @@ view: sessions {
         , MAX(user_id) AS session_user_id
         , MIN(id) AS landing_event_id
         , MAX(id) AS bounce_event_id
-      FROM events
+      FROM adwords.events
       GROUP BY session_id
       order by session_user_id
 ;;
   }
 
   #####  Basic Web Info  ########
-
-  measure: count {
-    type: count
-    drill_fields: [detail*]
-  }
 
   dimension: session_id {
     type: string
@@ -82,6 +77,11 @@ view: sessions {
     tiers: [10, 30, 60, 120, 300]
     style: integer
     sql: ${duration} ;;
+  }
+
+  measure: count {
+    type: count
+    drill_fields: [detail*]
   }
 
   #####  Bounce Information  ########
