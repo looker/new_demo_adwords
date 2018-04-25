@@ -18,8 +18,10 @@ view: keywords {
   }
 
   dimension: cpc_bid_amount {
+    label: "CPC Bid (USD)"
     type: number
-    sql: ${TABLE}.CPC_BID_AMOUNT ;;
+    sql:( ${TABLE}.CPC_BID_AMOUNT * 1.0 )/100.0 ;;
+    value_format_name: usd
   }
 
   dimension_group: created {
