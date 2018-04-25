@@ -2,6 +2,7 @@ view: adgroups {
   sql_table_name: adwords.adgroups ;;
 
   dimension: ad_id {
+    primary_key: yes
     type: number
     sql: ${TABLE}.ad_id ;;
   }
