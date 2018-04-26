@@ -1,3 +1,40 @@
+view: session_sequence {
+  derived_table: {
+    explore_source: sessions {
+      column: session_id {}
+      column: session_user_id {}
+      derived_column: session_sequence_nbr {
+        sql: row_number() over (partition by session_user_id order by session_start_raw) ;;
+      }
+      filters: {
+        field: sessions.session_user_id
+        value: "-NULL"
+      }
+    }
+  }
+  dimension: session_id {}
+  dimension: session_user_id {}
+  dimension: session_sequence_nbr {}
+  dimension: is_first {
+    type: yesno
+    sql: ${session_sequence_nbr} = 1 ;;
+  }
+  measure: acquisition_source {
+    type: max
+    sql: max(if(${is_first},${sessions.traffic_source},null) ;;
+  }
+  measure: acquisition_ad_event_id {
+    type: max
+    sql: max(max(if(${is_first},${sessions.ad_event_id},null) ;;
+  }
+  measure: session_count {
+    type: count
+  }
+}
+
+
+explore: sessions {}
+
 view: sessions {
   derived_table: {
     sql_trigger_value: select count(*) from events ;;
@@ -15,6 +52,8 @@ view: sessions {
         , MAX(user_id) AS session_user_id
         , MIN(id) AS landing_event_id
         , MAX(id) AS bounce_event_id
+        , MAX(traffic_source) AS traffic_source
+        , MAX(ad_event_id) AS ad_event_id
       FROM adwords.events
       GROUP BY session_id, user_id
       order by session_user_id, session_rank
@@ -34,6 +73,13 @@ view: sessions {
     sql: ${TABLE}.session_rank ;;
   }
 
+  dimension: traffic_source {
+    type: string
+  }
+
+  dimension: ad_event_id {
+    type: number
+  }
 
   dimension: session_purchase_rank {
     type: number
@@ -54,7 +100,7 @@ view: sessions {
 
   dimension_group: session_start {
     type: time
-#     timeframes: [time, date, week, month, hour_of_day, day_of_week]
+    timeframes: [raw, time, date, week, month, hour_of_day, day_of_week]
     sql: ${TABLE}.session_start ;;
   }
 
