@@ -47,6 +47,11 @@ view: campaigns {
     sql: ${TABLE}.period ;;
   }
 
+  dimension: is_active {
+    type: yesno
+    sql: DATEADD(${campaign_id}, 3, month) ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [campaign_id, campaign_name, adgroups.count]
