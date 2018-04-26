@@ -37,10 +37,11 @@ explore: sessions {}
 
 view: sessions {
   derived_table: {
-    sql_trigger_value: select count(*) ;;
+    sql_trigger_value: select count(*) from events ;;
     sql:
       SELECT
         session_id
+        , rank() over (partition by user_id order by session_id) as session_rank
         , MIN(created_at) AS session_start
         , MAX(created_at) AS session_end
         , COUNT(*) AS number_of_events_in_session
@@ -54,8 +55,8 @@ view: sessions {
         , MAX(traffic_source) AS traffic_source
         , MAX(ad_event_id) AS ad_event_id
       FROM adwords.events
-      GROUP BY session_id
-      order by session_user_id
+      GROUP BY session_id, user_id
+      order by session_user_id, session_rank
 ;;
   }
 
@@ -65,6 +66,11 @@ view: sessions {
     type: string
     primary_key: yes
     sql: ${TABLE}.session_id ;;
+  }
+
+  dimension: rank {
+    type: number
+    sql: ${TABLE}.session_rank ;;
   }
 
   dimension: traffic_source {
@@ -316,6 +322,8 @@ view: sessions {
     value_format_name: percent_2
     sql: 1.0 * ${count_purchase} / nullif(${count},0) ;;
   }
+
+
 
   set: detail {
     fields: [session_id, session_start_time, session_end_time, number_of_events_in_session, duration, number_of_purchase_events_in_session, number_of_cart_events_in_session]
