@@ -1,8 +1,10 @@
 view: session_sequence {
   derived_table: {
+    sql_trigger_value: select count(*) from events ;;
     explore_source: sessions {
       column: session_id {}
       column: session_user_id {}
+      column: session_start_raw {}
       derived_column: session_sequence_nbr {
         sql: row_number() over (partition by session_user_id order by session_start_raw) ;;
       }
@@ -12,7 +14,13 @@ view: session_sequence {
       }
     }
   }
-  dimension: session_id {}
+  dimension: session_id {
+    hidden: yes
+  }
+  dimension: session_user_key {
+    primary_key: yes
+    sql: concat(${session_id},cast(${session_user_id} as string)) ;;
+  }
   dimension: session_user_id {}
   dimension: session_sequence_nbr {}
   dimension: is_first {
@@ -20,12 +28,12 @@ view: session_sequence {
     sql: ${session_sequence_nbr} = 1 ;;
   }
   measure: acquisition_source {
-    type: max
-    sql: max(if(${is_first},${sessions.traffic_source},null) ;;
+    type: string
+    sql: max(if(${is_first},${sessions.traffic_source},null)) ;;
   }
   measure: acquisition_ad_event_id {
-    type: max
-    sql: max(max(if(${is_first},${sessions.ad_event_id},null) ;;
+    type: number
+    sql: max(if(${is_first},${sessions.ad_event_id},null)) ;;
   }
   measure: session_count {
     type: count
@@ -64,6 +72,7 @@ view: sessions {
 
   dimension: session_id {
     type: string
+    hidden: yes
     primary_key: yes
     sql: ${TABLE}.session_id ;;
   }
@@ -87,6 +96,7 @@ view: sessions {
   }
 
   dimension: session_user_id {
+    hidden: yes
     sql: ${TABLE}.session_user_id ;;
   }
 
