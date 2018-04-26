@@ -1,5 +1,3 @@
-explore: session_purchase_facts {}
-
 view: session_purchase_facts {
   derived_table: {
     sql_trigger_value: select count(*) from adwords.events;;
@@ -7,7 +5,7 @@ view: session_purchase_facts {
 
     with session_purchase_rank as (
       select
-      session_rank - lag(session_rank) over(partition by session_user_id order by session_id) as sessions_till_purchase
+      session_rank - lag(session_rank) over(partition by session_user_id order by session_end) as sessions_till_purchase
       ,*
       from ${sessions.SQL_TABLE_NAME}
       where purchase_events > 0
@@ -38,15 +36,15 @@ view: session_purchase_facts {
       ;;
   }
 
-
-
   dimension: session_id {
+    hidden: yes
     primary_key: yes
     type: string
     sql: ${TABLE}.session_id ;;
   }
 
   dimension: order_id {
+    hidden: yes
     type: number
     sql: ${TABLE}.order_id ;;
   }
@@ -56,22 +54,28 @@ view: session_purchase_facts {
     sql: ${TABLE}.sessions_till_purchase ;;
   }
 
+  dimension: sale_price {
+    type: number
+    sql: ${TABLE}.sale_price ;;
+  }
+
+  dimension: percent_attribution_per_session {
+    type: number
+    sql: 1.0/nullif(${sessions_till_purchase},0 );;
+  }
+
   dimension: attribution_per_session {
+    view_label: "Sessions"
     type: number
     sql: 1.0 * ${sale_price}/nullif(${sessions_till_purchase},0 );;
     value_format_name: usd_0
   }
 
   measure: total_attribution {
+    view_label: "Sessions"
     type: sum
     sql: ${attribution_per_session} ;;
     value_format_name: usd_0
-  }
-
-  dimension: sale_price {
-#     hidden: yes
-    type: number
-    sql: ${TABLE}.sale_price ;;
   }
 
 #   measure: total_sale_price {
@@ -85,6 +89,11 @@ view: session_purchase_facts {
     sql: ${TABLE}.session_purchase_rank ;;
   }
 
+  dimension_group: last_session_end {
+    type: time
+    sql: ${TABLE}.last_session_end ;;
+  }
+
   dimension_group: session_start {
     type: time
     sql: ${TABLE}.session_start ;;
@@ -95,15 +104,10 @@ view: session_purchase_facts {
     sql: ${TABLE}.session_end ;;
   }
 
-
   dimension: session_user_id {
+    hidden: yes
     type: number
     sql: ${TABLE}.session_user_id ;;
-  }
-
-  dimension_group: last_session_end {
-    type: time
-    sql: ${TABLE}.last_session_end ;;
   }
 
   set: detail {

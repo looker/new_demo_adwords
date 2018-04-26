@@ -41,15 +41,19 @@ view: session_sequence {
 }
 
 
-explore: sessions {}
+explore: sessions {
+}
 
 view: sessions {
   derived_table: {
     sql_trigger_value: select count(*) from events ;;
     sql:
       SELECT
+        rank() over (partition by user_id order by session_end) as session_rank
+        , *
+      FROM(
+      SELECT
         session_id
-        , rank() over (partition by user_id order by session_id) as session_rank
         , MIN(created_at) AS session_start
         , MAX(created_at) AS session_end
         , COUNT(*) AS number_of_events_in_session
@@ -65,6 +69,7 @@ view: sessions {
       FROM adwords.events
       GROUP BY session_id, user_id
       order by session_user_id, session_rank
+      )
 ;;
   }
 

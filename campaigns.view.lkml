@@ -47,9 +47,9 @@ view: campaigns {
     sql: ${TABLE}.period ;;
   }
 
-  dimension: is_active {
+  dimension: is_active_now {
     type: yesno
-    sql: DATEADD(${campaign_id}, 3, month) ;;
+    sql: DATE_ADD(${campaign_id}, ${period}, day) >= TODAY() ;;
   }
 
   measure: count {
