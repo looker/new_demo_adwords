@@ -2,6 +2,7 @@ include: "thelook_adwords.model.lkml"
 
 view: user_session_fact {
   derived_table: {
+    sql_trigger_value: select count(*) from events ;;
     explore_source: events {
       column: session_user_id { field: sessions.session_user_id }
       column: acquisition_ad_event_id { field: sessions.acquisition_ad_event_id }
