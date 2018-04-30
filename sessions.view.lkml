@@ -1,49 +1,3 @@
-view: session_sequence {
-  derived_table: {
-    sql_trigger_value: select count(*) from events ;;
-    explore_source: sessions {
-      column: session_id {}
-      column: session_user_id {}
-      column: session_start_raw {}
-      derived_column: session_sequence_nbr {
-        sql: row_number() over (partition by session_user_id order by session_start_raw) ;;
-      }
-      filters: {
-        field: sessions.session_user_id
-        value: "-NULL"
-      }
-    }
-  }
-  dimension: session_id {
-    hidden: yes
-  }
-  dimension: session_user_key {
-    primary_key: yes
-    sql: concat(${session_id},cast(${session_user_id} as string)) ;;
-  }
-  dimension: session_user_id {}
-  dimension: session_sequence_nbr {}
-  dimension: is_first {
-    type: yesno
-    sql: ${session_sequence_nbr} = 1 ;;
-  }
-  measure: acquisition_source {
-    type: string
-    sql: max(if(${is_first},${sessions.traffic_source},null)) ;;
-  }
-  measure: acquisition_ad_event_id {
-    type: number
-    sql: max(if(${is_first},${sessions.ad_event_id},null)) ;;
-  }
-  measure: session_count {
-    type: count
-  }
-}
-
-
-explore: sessions {
-}
-
 view: sessions {
   derived_table: {
     sql_trigger_value: select count(*) from events ;;
@@ -67,8 +21,7 @@ view: sessions {
         , MAX(traffic_source) AS traffic_source
         , MAX(ad_event_id) AS ad_event_id
       FROM adwords.events
-      GROUP BY session_id, user_id
-      order by session_user_id, session_end
+      GROUP BY session_id
       )
 ;;
   }
@@ -95,13 +48,12 @@ view: sessions {
     type: number
   }
 
-  dimension: session_purchase_rank {
+  dimension: session_rank {
     type: number
-    sql: ${TABLE}.session_purchase_rank ;;
+    sql: ${TABLE}.session_rank ;;
   }
 
   dimension: session_user_id {
-    hidden: yes
     sql: ${TABLE}.session_user_id ;;
   }
 
@@ -336,6 +288,20 @@ view: sessions {
     type: number
     value_format_name: percent_2
     sql: 1.0 * ${count_purchase} / nullif(${count},0) ;;
+  }
+
+  ### Acquisition Info
+  dimension: is_first {
+    type: yesno
+    sql: ${session_rank} = 1 ;;
+  }
+  measure: acquisition_source {
+    type: string
+    sql: max(if(${is_first},${sessions.traffic_source},null)) ;;
+  }
+  measure: acquisition_ad_event_id {
+    type: number
+    sql: max(if(${is_first},${sessions.ad_event_id},null)) ;;
   }
 
 
