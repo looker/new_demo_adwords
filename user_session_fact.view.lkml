@@ -7,7 +7,7 @@ view: user_session_fact {
       column: session_user_id { field: sessions.session_user_id }
       column: acquisition_ad_event_id { field: sessions.acquisition_ad_event_id }
       column: acquisition_source { field: sessions.acquisition_source }
-      column: count { field: sessions.count }
+      column: session_count { field: sessions.count }
       column: count_bounce_sessions { field: sessions.count_bounce_sessions }
       column: count_with_cart { field: sessions.count_with_cart }
       column: count_with_purchase { field: sessions.count_with_purchase }
@@ -20,7 +20,7 @@ view: user_session_fact {
   dimension: acquisition_source {
     type: number
   }
-  dimension: count {
+  dimension: session_count {
     type: number
   }
   dimension: count_bounce_sessions {
@@ -31,5 +31,8 @@ view: user_session_fact {
   }
   dimension: count_with_purchase {
     type: number
+  }
+  measure: count {
+    type: count
   }
 }
