@@ -20,6 +20,7 @@ view: adevents {
       date,
       week,
       month,
+      month_num,
       quarter,
       year
     ]
@@ -61,6 +62,13 @@ view: adevents {
       value: "click"
     }
     value_format_name: usd
+  }
+
+  measure: total_cumulative_spend {
+    label: "Total Cost (Cumulative)"
+    type: running_total
+    sql: ${total_cost_clicks} ;;
+    value_format_name: usd_0
   }
 
   measure: events {

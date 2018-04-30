@@ -40,6 +40,13 @@ view: sessions {
     sql: ${TABLE}.session_rank ;;
   }
 
+
+
+  measure: conversions_from_search_first_touch {
+    description: "All Conversions with Traffic Source *Search* as a first touch point"
+
+  }
+
   dimension: traffic_source {
     type: string
   }
