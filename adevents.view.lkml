@@ -63,6 +63,10 @@ view: adevents {
     value_format_name: usd
   }
 
+  measure: events {
+    type: count
+  }
+
   measure: total_clicks {
     type: sum
     sql: case when ${event_type} = "click" then 1 else 0 end;;

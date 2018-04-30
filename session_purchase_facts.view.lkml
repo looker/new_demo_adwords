@@ -5,6 +5,7 @@ view: session_purchase_facts {
 
     with session_purchase_rank as (
       select
+      --Contains AdWords
       session_rank - lag(session_rank) over(partition by session_user_id order by session_end) as sessions_till_purchase
       ,*
       from ${sessions.SQL_TABLE_NAME}
@@ -109,6 +110,14 @@ view: session_purchase_facts {
     type: number
     sql: ${TABLE}.session_user_id ;;
   }
+
+#   measure: count_purchases {
+#     type: count
+#     filters: {
+#       field: sessions.traffic_source
+#       value: "Search"
+#     }
+#   }
 
   set: detail {
     fields: [

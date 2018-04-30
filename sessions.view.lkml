@@ -49,7 +49,7 @@ view: sessions {
     sql_trigger_value: select count(*) from events ;;
     sql:
       SELECT
-        rank() over (partition by user_id order by session_end) as session_rank
+        rank() over (partition by session_user_id order by session_end) as session_rank
         , *
       FROM(
       SELECT
@@ -68,7 +68,7 @@ view: sessions {
         , MAX(ad_event_id) AS ad_event_id
       FROM adwords.events
       GROUP BY session_id, user_id
-      order by session_user_id, session_rank
+      order by session_user_id, session_end
       )
 ;;
   }

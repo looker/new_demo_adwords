@@ -14,7 +14,7 @@ view: events {
 
   dimension: utm_code {
     type: string
-    sql: concat(ad_event_id, referrer_code) ;;
+    sql: concat(cast(${ad_event_id} as string), cast(${referrer_code} as string)) ;;
   }
 
   dimension: ad_event_id {
@@ -164,6 +164,18 @@ view: events {
         WHEN ${event_type} = 'Product' THEN '(3) View Product'
         WHEN ${event_type} = 'Cart' THEN '(4) Add Item to Cart'
         WHEN ${event_type} = 'Purchase' THEN '(5) Purchase'
+      END
+       ;;
+  }
+
+  dimension: funnel_step_adwords {
+    description: "Login -> Browse -> Add to Cart -> Checkout (for Adwords)"
+    sql: CASE
+        WHEN ${event_type} IN ('Login', 'Home') and ${utm_code} is not null THEN '(1) Land'
+        WHEN ${event_type} IN ('Category', 'Brand') and ${utm_code} is not null THEN '(2) Browse Inventory'
+        WHEN ${event_type} = 'Product' and ${utm_code} is not null THEN '(3) View Product'
+        WHEN ${event_type} = 'Cart' and ${utm_code} is not null THEN '(4) Add Item to Cart'
+        WHEN ${event_type} = 'Purchase' and ${utm_code} is not null THEN '(5) Purchase'
       END
        ;;
   }
