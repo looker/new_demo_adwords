@@ -10,13 +10,12 @@ explore: events{
     relationship: many_to_one
     sql_on: ${events.session_id} = ${sessions.session_id} ;;
   }
-  join: session_sequence {
-    view_label: "Sessions"
-    relationship: one_to_one
-    type: left_outer
-    sql_on: ${sessions.session_id} = ${session_sequence.session_id} ;;
+  join: user_session_fact {
+    view_label: "Users"
+    relationship: many_to_one
+    type: inner
+    sql: ${sessions.session_user_id} = ${session_purchase_facts.session_user_id} ;;
   }
-
   join: session_purchase_facts {
     relationship: many_to_one
     sql_on: ${sessions.session_user_id} = ${session_purchase_facts.session_user_id}
