@@ -78,11 +78,14 @@ view: adevents {
   measure: total_clicks {
     type: sum
     sql: case when ${event_type} = "click" then 1 else 0 end;;
+    drill_fields: [detail*]
   }
 
   measure: total_impressions {
     type: sum
     sql: case when ${event_type} = "impression" then 1 else 0 end;;
+    drill_fields: [detail*]
+
   }
 
   measure: click_rate {
@@ -91,6 +94,8 @@ view: adevents {
     type: number
     sql: ${total_clicks}*1.0/nullif(${total_impressions},0) ;;
     value_format_name: percent_2
+    drill_fields: [detail*]
+
   }
 
   measure: cost_per_click {
@@ -99,5 +104,11 @@ view: adevents {
     type: number
     sql: ${total_cost_clicks}* 1.0/ NULLIF(${total_clicks},0) ;;
     value_format_name: usd
+    drill_fields: [detail*]
+
+  }
+
+  set: detail {
+    fields: [adevent_id, event_type, cost]
   }
 }

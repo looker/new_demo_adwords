@@ -108,7 +108,7 @@ view: session_purchase_facts {
   measure: total_attribution {
     view_label: "Sessions"
     type: sum
-    sql: ${attribution_per_session} ;;
+    sql: round(${attribution_per_session},1) ;;
     value_format_name: usd_0
   }
 

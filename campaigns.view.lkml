@@ -24,7 +24,7 @@ view: campaigns {
 
   dimension: campaign_name {
     type: string
-    sql: ${TABLE}.campaign_name ;;
+    sql: concat(cast(${campaign_id} as string), " - " , ${TABLE}.campaign_name) ;;
   }
 
   dimension_group: created {
@@ -42,6 +42,21 @@ view: campaigns {
     sql: ${TABLE}.CREATED_AT ;;
   }
 
+  dimension_group: end {
+    type: time
+    timeframes: [
+      raw,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    convert_tz: no
+    datatype: date
+    sql: DATE_ADD(${created_date}, INTERVAL ${period} DAY) ;;
+  }
+
   dimension: period {
     type: number
     sql: ${TABLE}.period ;;
@@ -49,7 +64,7 @@ view: campaigns {
 
   dimension: is_active_now {
     type: yesno
-    sql: DATE_ADD(${campaign_id}, ${period}, day) >= TODAY() ;;
+    sql: ${end_date} >= current_date() ;;
   }
 
   measure: count {
