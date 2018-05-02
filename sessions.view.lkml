@@ -30,7 +30,7 @@ view: sessions {
 
   dimension: session_id {
     type: string
-    hidden: yes
+#     hidden: yes
     primary_key: yes
     sql: ${TABLE}.session_id ;;
   }
@@ -38,13 +38,6 @@ view: sessions {
   dimension: rank {
     type: number
     sql: ${TABLE}.session_rank ;;
-  }
-
-
-
-  measure: conversions_from_search_first_touch {
-    description: "All Conversions with Traffic Source *Search* as a first touch point"
-
   }
 
   dimension: traffic_source {
@@ -61,6 +54,7 @@ view: sessions {
   }
 
   dimension: session_user_id {
+    type: number
     sql: ${TABLE}.session_user_id ;;
   }
 

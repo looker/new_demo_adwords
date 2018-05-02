@@ -1,5 +1,3 @@
-explore: session_purchase_facts {}
-
 view: session_purchase_facts {
   derived_table: {
     sql_trigger_value: select count(*) from adwords.events;;
@@ -14,7 +12,7 @@ view: session_purchase_facts {
       from ${sessions.SQL_TABLE_NAME}
       where purchase_events > 0
       order by session_user_id, session_rank
-    ) ,
+    ),
     session_contains_search as (
     select
       session_purchase.session_id,
@@ -26,7 +24,7 @@ view: session_purchase_facts {
 
     )
     select *,
-        lag(session_end) over (order by session_user_id, session_end) as last_session_end
+          COALESCE(lag(session_end) over (order by session_user_id, session_start), '0001-01-01 00:00:00') as last_session_end
         , rank() over (partition by session_user_id order by session_end) as session_purchase_rank
 
     from (
@@ -44,6 +42,7 @@ view: session_purchase_facts {
       JOIN session_purchase on session_purchase.session_id = events.session_id
       JOIN session_contains_search on session_purchase.session_id = session_contains_search.session_id
       GROUP BY session_id, order_id
+      --GROUP BY session_id
       having sum(CASE WHEN event_type = 'Purchase' THEN 1 else 0 end) > 0
       order by session_user_id
     )
@@ -85,7 +84,7 @@ view: session_purchase_facts {
 
   dimension: sessions_till_purchase {
     type: number
-    sql: ${TABLE}.sessions_till_purchase ;;
+    sql: COALESCE(${TABLE}.sessions_till_purchase,1) ;;
   }
 
   dimension: sale_price {
@@ -102,30 +101,27 @@ view: session_purchase_facts {
     view_label: "Sessions"
     type: number
     sql: 1.0 * ${sale_price}/nullif(${sessions_till_purchase},0 );;
-    value_format_name: usd_0
+    value_format_name: usd
   }
 
   measure: total_attribution {
     view_label: "Sessions"
-    type: sum
-    sql: round(${attribution_per_session},1) ;;
-    value_format_name: usd_0
+    type: sum_distinct
+    sql_distinct_key: ${sessions.session_id} ;;
+    sql: ${attribution_per_session} ;;
+    value_format_name: usd
   }
-
-#   measure: total_adwords_conversions {
-#     type: count_distinct
-#     sql: ${order_id} ;;
-#     filters: {
-#       field: sessions.contains_search
-#       value: "yes"
-#     }
-#   }
 
 #   measure: total_sale_price {
 #     type: sum
 #     sql: ${sale_price} ;;
 #     value_format_name: usd
 #   }
+
+  measure: total_sessions_till_purchase {
+    type: sum
+    sql: ${sessions_till_purchase} ;;
+  }
 
   dimension: session_purchase_rank {
     type: number
@@ -134,7 +130,7 @@ view: session_purchase_facts {
 
   dimension_group: last_session_end {
     type: time
-    sql: ${TABLE}.last_session_end ;;
+    sql: ${TABLE}.last_session_end;;
   }
 
   dimension_group: session_start {
@@ -153,14 +149,6 @@ view: session_purchase_facts {
     sql: ${TABLE}.session_user_id ;;
   }
 
-#   measure: count_purchases {
-#     type: count
-#     filters: {
-#       field: sessions.traffic_source
-#       value: "Search"
-#     }
-#   }
-
   set: detail {
     fields: [
       session_id,
@@ -174,14 +162,25 @@ view: session_purchase_facts {
 
 
 
-#     with session_purchase_rank as (
+# with session_purchase as (
 #       select
-#       --Contains AdWords
 #       session_rank - lag(session_rank) over(partition by session_user_id order by session_end) as sessions_till_purchase
+#       , lag(session_end) over(partition by session_user_id order by session_end) as purchase_session_start
+#
 #       ,*
 #       from ${sessions.SQL_TABLE_NAME}
 #       where purchase_events > 0
 #       order by session_user_id, session_rank
+#     ) ,
+#     session_contains_search as (
+#     select
+#       session_purchase.session_id,
+#       sum(case when sessions.traffic_source = 'Search' then 1 else 0 end) as search_sessions
+#     from session_purchase
+#     join ${sessions.SQL_TABLE_NAME}  as sessions
+#     on session_purchase.session_user_id = sessions.session_user_id and sessions.session_start >= session_purchase.purchase_session_start and sessions.session_end <= session_purchase.session_end
+#     group by 1
+#
 #     )
 #     select *,
 #         lag(session_end) over (order by session_user_id, session_end) as last_session_end
@@ -190,19 +189,21 @@ view: session_purchase_facts {
 #     from (
 #       SELECT
 #         events.session_id
-#         , order_id
+#         --, order_id
 #         , sum(sessions_till_purchase) as sessions_till_purchase
 #         , sum(sale_price) AS sale_price
+#         , sum(search_sessions) as search_session_count
 #         , MIN(events.created_at) AS session_start
 #         , MAX(events.created_at) AS session_end
 #         , MAX(events.user_id) AS session_user_id
 #       FROM adwords.events
 #       JOIN adwords.order_items on order_items.created_at = events.created_at
-#       JOIN session_purchase_rank on session_purchase_rank.session_id = events.session_id
-#       GROUP BY session_id, order_id
+#       JOIN session_purchase on session_purchase.session_id = events.session_id
+#       JOIN session_contains_search on session_purchase.session_id = session_contains_search.session_id
+# --       GROUP BY session_id, order_id
+#       GROUP BY session_id
 #       having sum(CASE WHEN event_type = 'Purchase' THEN 1 else 0 end) > 0
 #       order by session_user_id
 #     )
 #     order by session_user_id, session_end
-#
-#       ;;
+#     ;;

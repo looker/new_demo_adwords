@@ -43,7 +43,7 @@ view: adevents {
 
   dimension: cost {
     type: number
-    sql: (1.0*${TABLE}.cost)/1000 ;;
+    sql: (1.0*${TABLE}.cost)/100 ;;
     value_format_name: usd
   }
 
