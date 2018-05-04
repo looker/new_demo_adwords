@@ -3,7 +3,11 @@ view: sessions {
     sql_trigger_value: select count(*) from events ;;
     sql:
       SELECT
-        rank() over (partition by session_user_id order by session_end) as session_rank
+        row_number() over (partition by session_user_id order by session_end) as session_rank
+        ,CASE WHEN purchase_events > 0
+              THEN row_number() over (partition by session_user_id order by session_end)
+              ELSE null
+          END AS purchase_rank
         , *
       FROM(
       SELECT
@@ -51,6 +55,11 @@ view: sessions {
   dimension: session_rank {
     type: number
     sql: ${TABLE}.session_rank ;;
+  }
+
+  dimension: purchase_rank {
+    type: number
+    sql: ${TABLE}.purchase_rank ;;
   }
 
   dimension: session_user_id {
@@ -296,13 +305,25 @@ view: sessions {
     type: yesno
     sql: ${session_rank} = 1 ;;
   }
-  measure: acquisition_source {
+  dimension: is_first_purchase {
+    type: yesno
+    sql: ${purchase_rank} = 1 ;;
+  }
+  measure: site_acquisition_source {
     type: string
     sql: max(if(${is_first},${sessions.traffic_source},null)) ;;
   }
-  measure: acquisition_ad_event_id {
+  measure: site_acquisition_ad_event_id {
     type: number
     sql: max(if(${is_first},${sessions.ad_event_id},null)) ;;
+  }
+  measure: purchase_acquisition_source {
+    type: string
+    sql: max(if(${is_first_purchase},${sessions.traffic_source},null)) ;;
+  }
+  measure: purhcase_acquisition_ad_event_id {
+    type: number
+    sql: max(if(${is_first_purchase},${sessions.ad_event_id},null)) ;;
   }
 
 
