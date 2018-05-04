@@ -14,7 +14,7 @@ view: adgroups {
 
   dimension: campaign_id {
     type: number
-    # hidden: yes
+    hidden: yes
     sql: ${TABLE}.campaign_id ;;
   }
 
@@ -50,6 +50,6 @@ view: adgroups {
 
   measure: count {
     type: count
-    drill_fields: [name, campaigns.campaign_name, campaigns.campaign_id]
+    drill_fields: [campaigns.campaign_name, name, ad_type, created_date]
   }
 }

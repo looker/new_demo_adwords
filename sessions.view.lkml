@@ -35,11 +35,6 @@ view: sessions {
     sql: ${TABLE}.session_id ;;
   }
 
-  dimension: rank {
-    type: number
-    sql: ${TABLE}.session_rank ;;
-  }
-
   dimension: traffic_source {
     type: string
   }
