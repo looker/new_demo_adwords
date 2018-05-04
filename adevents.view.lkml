@@ -1,4 +1,5 @@
 view: adevents {
+  view_label: "Ad Events"
   sql_table_name: adwords.adevents ;;
 
   dimension: adevent_id {
@@ -54,7 +55,7 @@ view: adevents {
   }
 
   measure: total_cost_clicks {
-    label: "Total Cost (clicks)"
+    label: "Total Cost (Clicks)"
     type: sum
     sql: ${cost} ;;
     filters: {
@@ -71,10 +72,6 @@ view: adevents {
     value_format_name: usd_0
   }
 
-  measure: events {
-    type: count
-  }
-
   measure: total_clicks {
     type: sum
     sql: case when ${event_type} = "click" then 1 else 0 end;;
@@ -85,7 +82,6 @@ view: adevents {
     type: sum
     sql: case when ${event_type} = "impression" then 1 else 0 end;;
     drill_fields: [detail*]
-
   }
 
   measure: click_rate {
@@ -109,6 +105,7 @@ view: adevents {
   }
 
   set: detail {
-    fields: [adevent_id, event_type, cost]
+    fields: [adevent_id, keywords.criterion_name, event_type, total_cost_clicks]
+
   }
 }

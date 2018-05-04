@@ -34,6 +34,12 @@ explore: events{
     relationship: many_to_one
     sql_on: ${campaigns.campaign_id} = ${adgroups.campaign_id} ;;
   }
+  join: user_session_fact {
+    view_label: "Users"
+    relationship: many_to_one
+    type: inner
+    sql: ${sessions.session_user_id} = ${session_purchase_facts.session_user_id} ;;
+  }
 }
 
 explore: acquisition_analysis {
