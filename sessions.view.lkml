@@ -320,6 +320,14 @@ view: sessions {
     type: number
     sql: max(if(${is_first_purchase},${sessions.ad_event_id},null)) ;;
   }
+  measure: first_visit_dt {
+    type: number
+    sql: min(if(${is_first},${sessions.session_start_raw},null)) ;;
+  }
+  measure: first_purchase_dt {
+    type: string
+    sql: min(if(${is_first_purchase},${sessions.session_start_raw},null)) ;;
+  }
 
 
 

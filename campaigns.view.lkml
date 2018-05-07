@@ -24,7 +24,17 @@ view: campaigns {
 
   dimension: campaign_name {
     type: string
-    sql: concat(cast(${campaign_id} as string), " - " , ${TABLE}.campaign_name) ;;
+    sql: concat(cast(${campaign_id} as string), " - " , ${campaign_name_raw}) ;;
+  }
+
+  dimension: campaign_name_raw {
+    label: "Campaign Name"
+    hidden: yes
+    sql: ${TABLE}.campaign_name ;;
+  }
+
+  dimension: campaign_type {
+    sql: SUBSTR(SUBSTR(${campaign_name_raw},STRPOS(${campaign_name_raw},' - ')+3),STRPOS(SUBSTR(${campaign_name_raw},STRPOS(${campaign_name_raw},' - ')+3),' - ')+3) ;;
   }
 
   dimension_group: created {
@@ -54,7 +64,7 @@ view: campaigns {
     ]
     convert_tz: no
     datatype: date
-    sql: DATE_ADD(${created_date}, INTERVAL ${period} DAY) ;;
+    sql: DATE_ADD(${created_raw}, INTERVAL ${period} DAY) ;;
   }
 
   dimension: period {

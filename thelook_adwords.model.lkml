@@ -34,14 +34,29 @@ explore: events{
     relationship: many_to_one
     sql_on: ${campaigns.campaign_id} = ${adgroups.campaign_id} ;;
   }
-  join: user_session_fact {
-    view_label: "Users"
-    relationship: many_to_one
-    type: inner
-    sql: ${sessions.session_user_id} = ${session_purchase_facts.session_user_id} ;;
-  }
 }
 
 explore: acquisition_analysis {
+  view_label: "Users"
   from: user_session_fact
+  join: adevents {
+    type: inner
+    relationship: one_to_one
+    sql_on: ${acquisition_analysis.site_acquisition_ad_event_id} = ${adevents.adevent_id};;
+  }
+  join: keywords {
+    type: inner
+    relationship: many_to_one
+    sql_on:${keywords.keyword_id} = ${adevents.keyword_id} ;;
+  }
+  join: adgroups{
+    type: inner
+    relationship: many_to_one
+    sql_on: ${keywords.ad_id} = ${adgroups.ad_id} ;;
+  }
+  join: campaigns {
+    type: inner
+    relationship: many_to_one
+    sql_on: ${campaigns.campaign_id} = ${adgroups.campaign_id} ;;
+  }
 }
