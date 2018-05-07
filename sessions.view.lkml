@@ -109,14 +109,14 @@ view: sessions {
   }
 
   measure: spend_per_session {
-    group_label: "Efficiency Metrics"
+    group_label: "Last Touch Metrics"
     type: number
     value_format_name: usd
     sql: 1.0*${adevents.total_cost} / NULLIF(${count},0) ;;
   }
 
   measure: spend_per_purchase {
-    group_label: "Efficiency Metrics"
+    group_label: "Last Touch Metrics"
     type: number
     value_format_name: usd
     sql: 1.0*${adevents.total_cost} / NULLIF(${count_with_purchase},0) ;;

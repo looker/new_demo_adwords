@@ -97,7 +97,7 @@ view: session_purchase_facts {
 
   measure: total_sale_price {
     view_label: "Sessions"
-    group_label: "Efficiency Metrics"
+    group_label: "Last Touch Metrics"
     type: sum
     value_format_name: usd
     sql: ${sale_price} ;;
@@ -105,7 +105,7 @@ view: session_purchase_facts {
 
   measure: return_on_investment {
     view_label: "Sessions"
-    group_label: "Efficiency Metrics"
+    group_label: "Last Touch Metrics"
     type: number
     value_format_name: usd
     sql: 1.0*${total_sale_price} / NULLIF(${adevents.total_cost},0) - 1 ;;
