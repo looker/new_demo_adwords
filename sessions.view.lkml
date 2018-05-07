@@ -108,6 +108,20 @@ view: sessions {
     drill_fields: [detail*]
   }
 
+  measure: spend_per_session {
+    group_label: "Last Touch Metrics"
+    type: number
+    value_format_name: usd
+    sql: 1.0*${adevents.total_cost} / NULLIF(${count},0) ;;
+  }
+
+  measure: spend_per_purchase {
+    group_label: "Last Touch Metrics"
+    type: number
+    value_format_name: usd
+    sql: 1.0*${adevents.total_cost} / NULLIF(${count_with_purchase},0) ;;
+  }
+
   #####  Bounce Information  ########
 
   dimension: is_bounce_session {
@@ -319,6 +333,14 @@ view: sessions {
   measure: purhcase_acquisition_ad_event_id {
     type: number
     sql: max(if(${is_first_purchase},${sessions.ad_event_id},null)) ;;
+  }
+  measure: first_visit_dt {
+    type: number
+    sql: min(if(${is_first},${sessions.session_start_raw},null)) ;;
+  }
+  measure: first_purchase_dt {
+    type: string
+    sql: min(if(${is_first_purchase},${sessions.session_start_raw},null)) ;;
   }
 
 

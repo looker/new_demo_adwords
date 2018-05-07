@@ -18,7 +18,6 @@ view: events {
   }
 
   dimension: ad_event_id {
-    hidden: yes
     type: number
     sql: cast(${TABLE}.ad_event_id as int64) ;;
   }
