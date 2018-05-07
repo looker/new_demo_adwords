@@ -20,6 +20,8 @@ view: adevents {
       time,
       date,
       week,
+      hour_of_day,
+      day_of_week,
       month,
       month_num,
       quarter,
