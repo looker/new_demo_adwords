@@ -95,6 +95,22 @@ view: session_purchase_facts {
     sql: ${TABLE}.sale_price ;;
   }
 
+  measure: total_sale_price {
+    view_label: "Sessions"
+    group_label: "Efficiency Metrics"
+    type: sum
+    value_format_name: usd
+    sql: ${sale_price} ;;
+  }
+
+  measure: return_on_investment {
+    view_label: "Sessions"
+    group_label: "Efficiency Metrics"
+    type: number
+    value_format_name: usd
+    sql: 1.0*${total_sale_price} / NULLIF(${adevents.total_cost},0) - 1 ;;
+  }
+
   dimension: percent_attribution_per_session {
     label: "Multi-Touch Linear Attribution"
     description: "Associated Weight (%) from sales based on a linear multi-touch source attribution"

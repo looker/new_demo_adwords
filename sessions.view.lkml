@@ -108,6 +108,20 @@ view: sessions {
     drill_fields: [detail*]
   }
 
+  measure: spend_per_session {
+    group_label: "Efficiency Metrics"
+    type: number
+    value_format_name: usd
+    sql: 1.0*${adevents.total_cost} / NULLIF(${count},0) ;;
+  }
+
+  measure: spend_per_purchase {
+    group_label: "Efficiency Metrics"
+    type: number
+    value_format_name: usd
+    sql: 1.0*${adevents.total_cost} / NULLIF(${count_with_purchase},0) ;;
+  }
+
   #####  Bounce Information  ########
 
   dimension: is_bounce_session {
