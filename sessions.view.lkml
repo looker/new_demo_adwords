@@ -109,17 +109,19 @@ view: sessions {
   }
 
   measure: spend_per_session {
-    group_label: "Last Touch Metrics"
+    group_label: "ROI (Last Touch Metrics)"
     type: number
     value_format_name: usd
     sql: 1.0*${adevents.total_cost} / NULLIF(${count},0) ;;
+    drill_fields: [detail*]
   }
 
   measure: spend_per_purchase {
-    group_label: "Last Touch Metrics"
+    group_label: "ROI (Last Touch Metrics)"
     type: number
     value_format_name: usd
     sql: 1.0*${adevents.total_cost} / NULLIF(${count_with_purchase},0) ;;
+    drill_fields: [detail*]
   }
 
   #####  Bounce Information  ########
@@ -136,7 +138,6 @@ view: sessions {
       field: is_bounce_session
       value: "Yes"
     }
-
     drill_fields: [detail*]
   }
 
@@ -346,6 +347,10 @@ view: sessions {
 
 
   set: detail {
-    fields: [session_id, session_start_time, session_end_time, number_of_events_in_session, duration, number_of_purchase_events_in_session, number_of_cart_events_in_session]
+    fields: [session_id,
+      session_start_time, session_end_time,
+      number_of_events_in_session, duration,
+      number_of_purchase_events_in_session,
+      number_of_cart_events_in_session]
   }
 }

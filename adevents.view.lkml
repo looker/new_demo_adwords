@@ -87,6 +87,7 @@ view: adevents {
     type: number
     sql: ${total_cost_clicks} + ${total_cost_impressions} ;;
     value_format_name: usd
+    drill_fields: [detail*]
   }
 
   measure: total_cumulative_spend {
@@ -94,6 +95,8 @@ view: adevents {
     type: running_total
     sql: ${total_cost_clicks} ;;
     value_format_name: usd_0
+    drill_fields: [detail*]
+
   }
 
   measure: total_ad_events {
@@ -120,6 +123,8 @@ view: adevents {
     type: number
     sql: ${total_impressions} * .66 ;;
     value_format_name: decimal_0
+    drill_fields: [detail*]
+
   }
 
   measure: click_rate {
@@ -151,7 +156,10 @@ view: adevents {
   }
 
   set: detail {
-    fields: [adevent_id, keywords.criterion_name, event_type, total_cost_clicks]
+    fields: [adevent_id, keywords.criterion_name, event_type, total_cost]
 
+  }
+  set: campaign_detail {
+    fields: [campaign_detail*, adgroups.name, adgroups.ad_type, total_cost]
   }
 }

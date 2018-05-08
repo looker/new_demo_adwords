@@ -97,43 +97,50 @@ view: session_purchase_facts {
 
   measure: total_sale_price {
     view_label: "Sessions"
-    group_label: "Last Touch Metrics"
     type: sum
     value_format_name: usd
     sql: ${sale_price} ;;
+    drill_fields: [detail*]
+
   }
 
   measure: return_on_investment {
     view_label: "Sessions"
-    group_label: "Last Touch Metrics"
+    group_label: "ROI (Last Touch Metrics)"
     type: number
     value_format_name: usd
     sql: 1.0*${total_sale_price} / NULLIF(${adevents.total_cost},0) - 1 ;;
+#     drill_fields: [detail*]
   }
 
   dimension: percent_attribution_per_session {
+    view_label: "Sessions"
     label: "Multi-Touch Linear Attribution"
     description: "Associated Weight (%) from sales based on a linear multi-touch source attribution"
-    view_label: "Sessions"
     type: number
     sql: 1.0/nullif(${sessions_till_purchase},0 );;
+    drill_fields: [detail*]
   }
 
   dimension: attribution_per_session {
+    view_label: "Sessions"
     description: "Associated Revenue ($) from sales based on a linear multi-touch source attribution"
     hidden: yes
-    view_label: "Sessions"
     type: number
     sql: 1.0 * ${sale_price}/nullif(${sessions_till_purchase},0 );;
     value_format_name: usd
+    drill_fields: [detail*]
   }
 
   measure: total_attribution {
+    group_label: "ROI (Multi Touch Linear)"
     view_label: "Sessions"
+    label: "ROI (Multi Touch Linear)"
     type: sum_distinct
     sql_distinct_key: ${sessions.session_id} ;;
     sql: ${attribution_per_session} ;;
     value_format_name: usd
+    drill_fields: [detail*]
   }
 
 #   measure: total_sale_price {
@@ -155,6 +162,7 @@ view: session_purchase_facts {
 
   dimension_group: last_session_end {
     label: "Purchase Start Session"
+    view_label: "Sessions"
     type: time
     timeframes: [raw, time, date, week, month]
     sql: ${TABLE}.last_session_end;;
@@ -169,6 +177,7 @@ view: session_purchase_facts {
 
   dimension_group: session_end {
     type: time
+    view_label: "Sessions"
     label: "Purchase End Session"
     timeframes: [raw, time, date, week, month]
     sql: ${TABLE}.session_end ;;
@@ -186,7 +195,8 @@ view: session_purchase_facts {
       session_start_time,
       session_end_time,
       session_user_id,
-      last_session_end_time
+      last_session_end_time,
+      total_attribution
     ]
   }
 }
