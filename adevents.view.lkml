@@ -78,14 +78,14 @@ view: adevents {
   dimension: cost {
     type: number
     hidden: yes
-    sql: ${cost_search} + ${cost_display} ;;
+    sql: 1.0 * ${TABLE}.cost / 100 ;;
     value_format_name: usd
   }
 
   measure: total_cost {
     label: "Total Spend"
-    type: number
-    sql: ${total_cost_clicks} + ${total_cost_impressions} ;;
+    type: sum
+    sql: ${cost} ;;
     value_format_name: usd
     drill_fields: [detail*]
   }

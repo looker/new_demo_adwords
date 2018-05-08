@@ -1,6 +1,16 @@
 view: campaigns {
   sql_table_name: adwords.campaigns ;;
 
+  filter: campaign_selector {
+    type: string
+    suggest_dimension: campaign_name_raw
+  }
+
+  dimension: campaign_benchmark {
+    type: string
+    sql: IF( {% condition campaign_selector %} ${campaign_name_raw} {% endcondition %}, ${campaign_name_raw}, 'Benchmark') ;;
+  }
+
   dimension: campaign_id {
     primary_key: yes
     type: number

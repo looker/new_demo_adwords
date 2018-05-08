@@ -101,7 +101,6 @@ view: session_purchase_facts {
     value_format_name: usd
     sql: ${sale_price} ;;
     drill_fields: [detail*]
-
   }
 
   measure: return_on_investment {
@@ -110,7 +109,6 @@ view: session_purchase_facts {
     type: number
     value_format_name: usd
     sql: 1.0*${total_sale_price} / NULLIF(${adevents.total_cost},0) - 1 ;;
-#     drill_fields: [detail*]
   }
 
   dimension: percent_attribution_per_session {
@@ -135,12 +133,21 @@ view: session_purchase_facts {
   measure: total_attribution {
     group_label: "ROI (Multi Touch Linear)"
     view_label: "Sessions"
-    label: "ROI (Multi Touch Linear)"
+    label: "Revenue"
     type: sum_distinct
     sql_distinct_key: ${sessions.session_id} ;;
     sql: ${attribution_per_session} ;;
     value_format_name: usd
     drill_fields: [detail*]
+  }
+
+  measure: ROI {
+    view_label: "Sessions"
+    label: "ROI"
+    group_label: "ROI (Multi Touch Linear)"
+    type: number
+    value_format_name: usd
+    sql: 1.0 * ${total_attribution}/ NULLIF(${adevents.total_cost},0) - 1 ;;
   }
 
 #   measure: total_sale_price {

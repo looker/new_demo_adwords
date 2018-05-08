@@ -193,6 +193,12 @@ view: sessions {
     sql: ${number_of_purchase_events_in_session} > 0 ;;
   }
 
+  dimension: weeks_since_campaing_start {
+    view_label: "Campaigns"
+    type: number
+    sql: DATE_DIFF(${session_start_date},${campaigns.created_date},WEEK)  ;;
+  }
+
   measure: count_with_cart {
     type: count
 
@@ -312,35 +318,43 @@ view: sessions {
 
   ### Acquisition Info
   dimension: is_first {
+    hidden: yes
     type: yesno
     sql: ${session_rank} = 1 ;;
   }
   dimension: is_first_purchase {
+    hidden: yes
     type: yesno
     sql: ${purchase_rank} = 1 ;;
   }
   measure: site_acquisition_source {
+    hidden: yes
     type: string
     sql: max(if(${is_first},${sessions.traffic_source},null)) ;;
   }
   measure: site_acquisition_ad_event_id {
+    hidden: yes
     type: number
     sql: max(if(${is_first},${sessions.ad_event_id},null)) ;;
   }
   measure: purchase_acquisition_source {
+    hidden: yes
     type: string
     sql: max(if(${is_first_purchase},${sessions.traffic_source},null)) ;;
   }
   measure: purhcase_acquisition_ad_event_id {
+    hidden: yes
     type: number
     sql: max(if(${is_first_purchase},${sessions.ad_event_id},null)) ;;
   }
   measure: first_visit_dt {
+    hidden: yes
     type: number
     sql: min(if(${is_first},${sessions.session_start_raw},null)) ;;
   }
   measure: first_purchase_dt {
     type: string
+    hidden: yes
     sql: min(if(${is_first_purchase},${sessions.session_start_raw},null)) ;;
   }
 
