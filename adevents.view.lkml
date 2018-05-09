@@ -95,7 +95,7 @@ view: adevents {
     type: running_total
     sql: ${total_cost_clicks} ;;
     value_format_name: usd_0
-    drill_fields: [detail*]
+    drill_fields: [campaign_detail*]
 
   }
 
@@ -160,6 +160,6 @@ view: adevents {
 
   }
   set: campaign_detail {
-    fields: [campaign_detail*, adgroups.name, adgroups.ad_type, total_cost]
+    fields: [campaigns.campaign_name, adgroups.name, adgroups.ad_type, total_cost]
   }
 }
