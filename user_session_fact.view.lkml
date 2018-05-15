@@ -11,7 +11,8 @@ view: user_acquisition {
           session_user_id
           ,COALESCE(purchase_acquisition_source,'Organic') as acquisition_source
           ,'First Purchase' as behavior
-          FROM `lookerdata.looker_scratch.LR_YVAPMAT8XD4I7CJT81P3G_user_session_fact`
+          FROM  ${user_session_fact.SQL_TABLE_NAME}
+
 
           UNION ALL
 
@@ -19,7 +20,7 @@ view: user_acquisition {
           session_user_id
           ,site_acquisition_source as acquisition_source
           ,'First Visit' as behavior
-          FROM `lookerdata.looker_scratch.LR_YVAPMAT8XD4I7CJT81P3G_user_session_fact`
+          FROM  ${user_session_fact.SQL_TABLE_NAME}
     ;;
   }
 
@@ -32,6 +33,8 @@ view: user_acquisition {
     type: count
   }
 }
+
+
 
 view: user_session_fact {
   derived_table: {

@@ -3,10 +3,16 @@ connection: "lookerdata_bigquery_standard_sql"
 include: "*.view.lkml"         # include all views in this project
 include: "*.dashboard.lookml"  # include all dashboards in this project
 
+
 explore: events{
   join: sessions {
     relationship: many_to_one
     sql_on: ${events.session_id} = ${sessions.session_id} ;;
+  }
+  join: user_acquisition {
+    view_label: "Users"
+    relationship: many_to_one
+    sql_on: ${events.user_id} = ${user_acquisition.session_user_id} ;;
   }
   join: session_purchase_facts {
     relationship: many_to_one
@@ -58,5 +64,10 @@ explore: acquisition_analysis {
     type: inner
     relationship: many_to_one
     sql_on: ${campaigns.campaign_id} = ${adgroups.campaign_id} ;;
+  }
+  join: order_items {
+    relationship: one_to_many
+    type: left_outer
+    sql_on: ${acquisition_analysis.session_user_id} = ${order_items.user_id};;
   }
 }

@@ -40,6 +40,7 @@ view: sessions {
   }
 
   dimension: traffic_source {
+    group_label: "Attribution"
     type: string
   }
 

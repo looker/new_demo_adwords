@@ -61,7 +61,15 @@ view: adevents {
     value_format_name: usd
   }
 
+  dimension: cost {
+    type: number
+    hidden: yes
+    sql: ${cost_search} + ${cost_display} ;;
+    value_format_name: usd
+  }
+
   measure: total_cost_clicks {
+    hidden: yes
     label: "Total Spend (Search Clicks)"
     type: sum
     sql: ${cost_search} ;;
@@ -69,23 +77,17 @@ view: adevents {
   }
 
   measure: total_cost_impressions {
+    hidden: yes
     label: "Total Spend (Display Impressions)"
     type: sum
     sql: ${cost_display} ;;
     value_format_name: usd
   }
 
-  dimension: cost {
-    type: number
-    hidden: yes
-    sql: 1.0 * ${TABLE}.cost / 100 ;;
-    value_format_name: usd
-  }
-
   measure: total_cost {
     label: "Total Spend"
-    type: sum
-    sql: ${cost} ;;
+    type: number
+    sql: ${total_cost_clicks} + ${total_cost_impressions} ;;
     value_format_name: usd
     drill_fields: [detail*]
   }
