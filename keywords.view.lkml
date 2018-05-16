@@ -42,6 +42,11 @@ view: keywords {
   dimension: criterion_name {
     type: string
     sql: ${TABLE}.CRITERION_NAME ;;
+    link: {
+      icon_url: "https://www.google.com/images/branding/product/ico/googleg_lodp.ico"
+      label: "Google Search"
+      url: "https://www.google.com/search?q={{ value | encode_uri}}"
+    }
   }
 
   dimension: keyword_match_type {

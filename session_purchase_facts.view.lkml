@@ -156,7 +156,7 @@ view: session_purchase_facts {
     sql_distinct_key: ${sessions.session_id} ;;
     sql: ${attribution_per_session} ;;
     value_format_name: usd
-    drill_fields: [detail*]
+    drill_fields: [attribution_detail*]
   }
 
   measure: ROI {
@@ -218,12 +218,23 @@ view: session_purchase_facts {
 
   set: detail {
     fields: [
-#       session_id,
+      session_id,
       session_start_time,
       session_end_time,
       session_user_id,
       last_session_end_time,
       total_attribution
+    ]
+  }
+  set: attribution_detail {
+    fields: [
+      session_user_id,
+      sessions.session_rank,
+      sessions.includes_purchase,
+      sessions.traffic_source,
+      session_start_time,
+      total_attribution,
+      total_sale_price
     ]
   }
 }

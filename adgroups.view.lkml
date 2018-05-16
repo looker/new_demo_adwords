@@ -39,6 +39,21 @@ view: adgroups {
   }
 
   dimension: name {
+    link: {
+      label: "View on AdWords"
+      icon_url: "https://www.google.com/s2/favicons?domain=www.adwords.google.com"
+      url: "https://adwords.google.com/aw/ads?campaignId={{ campaign_id._value }}&adGroupId={{ ad_id._value }}"
+    }
+    link: {
+      label: "Pause Ad Group"
+      icon_url: "https://www.google.com/s2/favicons?domain=www.adwords.google.com"
+      url: "https://adwords.google.com/aw/ads?campaignId={{ campaign_id._value }}&adGroupId={{ ad_id._value }}"
+    }
+    link: {
+      url: "https://adwords.google.com/aw/ads?campaignId={{ campaign_id._value }}&adGroupId={{ ad_id._value }}"
+      icon_url: "https://www.gstatic.com/awn/awsm/brt/awn_awsm_20171108_RC00/aw_blend/favicon.ico"
+      label: "Change Bid"
+    }
     type: string
     sql: ${TABLE}.name ;;
   }

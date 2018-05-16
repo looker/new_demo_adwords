@@ -35,6 +35,21 @@ view: campaigns {
   dimension: campaign_name {
     type: string
     sql: concat(cast(${campaign_id} as string), " - " , ${campaign_name_raw}) ;;
+    link: {
+      label: "View on AdWords"
+      icon_url: "https://www.google.com/s2/favicons?domain=www.adwords.google.com"
+      url: "https://adwords.google.com/aw/adgroups?campaignId={{ campaign_id._value | encode_uri }}"
+    }
+    link: {
+      label: "Pause Campaign"
+      icon_url: "https://www.google.com/s2/favicons?domain=www.adwords.google.com"
+      url: "https://adwords.google.com/aw/ads?campaignId={{ campaign_id._value | encode_uri }}"
+    }
+    link: {
+      url: "https://adwords.google.com/aw/ads?campaignId={{ campaign_id._value | encode_uri }}"
+      icon_url: "https://www.gstatic.com/awn/awsm/brt/awn_awsm_20171108_RC00/aw_blend/favicon.ico"
+      label: "Change Budget"
+    }
   }
 
   dimension: campaign_name_raw {
