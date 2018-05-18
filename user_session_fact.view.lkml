@@ -5,9 +5,9 @@ explore: user_acquisition {
 }
 view: user_acquisition {
   derived_table: {
-    sql_trigger_value: select count(*) from `lookerdata.looker_scratch.LR_YVAPMAT8XD4I7CJT81P3G_user_session_fact` ;;
+    sql_trigger_value: select count(*) from ${user_session_fact.SQL_TABLE_NAME} ;;
     distribution: "session_user_id"
-    sortkeys: ["session_start"]
+    sortkeys: ["session_user_id"]
     sql:
           SELECT
           session_user_id
@@ -36,12 +36,10 @@ view: user_acquisition {
   }
 }
 
-explore: user_session_fact {}
-
 view: user_session_fact {
   derived_table: {
     distribution: "session_user_id"
-    sortkeys: ["session_start"]
+    sortkeys: ["session_user_id"]
     sql_trigger_value: select count(*) from ecomm.events ;;
     explore_source: events {
       column: session_user_id { field: sessions.session_user_id }
@@ -60,7 +58,7 @@ view: user_session_fact {
   dimension: session_user_id {}
   dimension: site_acquisition_ad_event_id {
     type: number
-    sql: CAST(${TABLE}.site_acquisition_ad_event_id as INT64) ;;
+    sql: ${TABLE}.site_acquisition_ad_event_id :: INT64 ;;
   }
   dimension: site_acquisition_source {
     type: string

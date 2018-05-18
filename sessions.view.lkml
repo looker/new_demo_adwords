@@ -2,7 +2,7 @@ view: sessions {
   derived_table: {
     sql_trigger_value: select count(*) from ecomm.events ;;
     distribution: "session_user_id"
-    sortkeys: ["session_start"]
+    sortkeys: ["session_user_id", "session_rank"]
     sql:
       SELECT
         row_number() over (partition by session_user_id order by session_end) as session_rank
@@ -333,32 +333,32 @@ view: sessions {
   measure: site_acquisition_source {
     hidden: yes
     type: string
-    sql: max(if(${is_first},${sessions.traffic_source},null)) ;;
+    sql: max(case when ${is_first} then ${sessions.traffic_source} else null end) ;;
   }
   measure: site_acquisition_ad_event_id {
     hidden: yes
     type: number
-    sql: max(if(${is_first},${sessions.ad_event_id},null)) ;;
+    sql: max(case when ${is_first} then ${sessions.ad_event_id} else null end) ;;
   }
   measure: purchase_acquisition_source {
     hidden: yes
     type: string
-    sql: max(if(${is_first_purchase},${sessions.traffic_source},null)) ;;
+    sql: max(case when ${is_first_purchase} then ${sessions.traffic_source} else null end) ;;
   }
   measure: purhcase_acquisition_ad_event_id {
     hidden: yes
     type: number
-    sql: max(if(${is_first_purchase},${sessions.ad_event_id},null)) ;;
+    sql: max(case when ${is_first_purchase} then ${sessions.ad_event_id} else null end) ;;
   }
   measure: first_visit_dt {
     hidden: yes
     type: number
-    sql: min(if(${is_first},${sessions.session_start_raw},null)) ;;
+    sql: min(case when ${is_first} then ${sessions.session_start_raw} else null end) ;;
   }
   measure: first_purchase_dt {
     type: string
     hidden: yes
-    sql: min(if(${is_first_purchase},${sessions.session_start_raw},null)) ;;
+    sql: min(case when ${is_first_purchase} then ${sessions.session_start_raw} else null end) ;;
   }
 
 

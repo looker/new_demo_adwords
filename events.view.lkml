@@ -14,7 +14,7 @@ view: events {
 
   dimension: utm_code {
     type: string
-    sql: concat(cast(${ad_event_id} as string), cast(${referrer_code} as string)) ;;
+    sql: ${ad_event_id}:: varchar + ' - ' + ${referrer_code} ::varchar ;;
   }
 
   dimension: ad_event_id {
