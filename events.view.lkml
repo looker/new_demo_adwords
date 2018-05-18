@@ -1,5 +1,5 @@
 view: events {
-  sql_table_name: adwords.events ;;
+  sql_table_name: ecomm.events ;;
 
   dimension: event_id {
     primary_key: yes

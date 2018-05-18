@@ -1,5 +1,5 @@
 view: adgroups {
-  sql_table_name: adwords.adgroups ;;
+  sql_table_name: ecomm.adgroups ;;
 
   dimension: ad_id {
     primary_key: yes

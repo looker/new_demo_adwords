@@ -1,5 +1,5 @@
 view: campaigns {
-  sql_table_name: adwords.campaigns ;;
+  sql_table_name: ecomm.campaigns ;;
 
   filter: campaign_selector {
     type: string

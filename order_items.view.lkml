@@ -1,5 +1,5 @@
 view: order_items {
-  sql_table_name: adwords.order_items ;;
+  sql_table_name: ecomm.order_items ;;
 
   dimension: id {
     primary_key: yes

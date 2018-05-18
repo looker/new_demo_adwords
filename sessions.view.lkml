@@ -1,6 +1,8 @@
 view: sessions {
   derived_table: {
-    sql_trigger_value: select count(*) from events ;;
+    sql_trigger_value: select count(*) from ecomm.events ;;
+    distribution: "session_user_id"
+    sortkeys: ["session_start"]
     sql:
       SELECT
         row_number() over (partition by session_user_id order by session_end) as session_rank
@@ -24,7 +26,7 @@ view: sessions {
         , MAX(id) AS bounce_event_id
         , MAX(traffic_source) AS traffic_source
         , MAX(ad_event_id) AS ad_event_id
-      FROM adwords.events
+      FROM ecomm.events
       GROUP BY session_id
       )
 ;;
@@ -34,7 +36,7 @@ view: sessions {
 
   dimension: session_id {
     type: string
-#     hidden: yes
+    hidden: yes
     primary_key: yes
     sql: ${TABLE}.session_id ;;
   }

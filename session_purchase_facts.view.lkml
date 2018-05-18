@@ -1,8 +1,9 @@
 view: session_purchase_facts {
   derived_table: {
-    sql_trigger_value: select count(*) from adwords.events;;
+    sql_trigger_value: select count(*) from ecomm.events;;
+    distribution_style: all
+    sortkeys: ["session_start"]
     sql:
-
       with session_purchase as (
       select
       coalesce(session_rank - lag(session_rank) over(partition by session_user_id order by session_end), session_rank) as sessions_till_purchase
@@ -41,8 +42,8 @@ view: session_purchase_facts {
         , MIN(events.created_at) AS session_start
         , MAX(events.created_at) AS session_end
         , MAX(events.user_id) AS session_user_id
-      FROM adwords.events
-      JOIN adwords.order_items on order_items.created_at = events.created_at
+      FROM ecomm.events
+      JOIN ecomm.order_items on order_items.created_at = events.created_at
       JOIN session_purchase on session_purchase.session_id = events.session_id
       JOIN session_contains_search on session_purchase.session_id = session_contains_search.session_id
       GROUP BY session_id, order_id, session_purchase.traffic_source

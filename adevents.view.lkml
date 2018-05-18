@@ -1,6 +1,6 @@
 view: adevents {
   view_label: "Ad Events"
-  sql_table_name: adwords.adevents ;;
+  sql_table_name: ecomm.adevents ;;
 
   dimension: adevent_id {
     type: number
