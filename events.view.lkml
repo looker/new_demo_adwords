@@ -19,13 +19,13 @@ view: events {
 
   dimension: ad_event_id {
     type: number
-    sql: cast(${TABLE}.ad_event_id as int64) ;;
+    sql: ${TABLE}.ad_event_id :: int ;;
   }
 
   dimension: referrer_code {
     hidden: yes
     type: number
-    sql: cast(${TABLE}.referrer_code as int64) ;;
+    sql: ${TABLE}.referrer_code :: int ;;
   }
 
   dimension: browser {

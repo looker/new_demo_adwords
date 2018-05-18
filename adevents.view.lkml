@@ -1,11 +1,12 @@
 view: adevents {
   view_label: "Ad Events"
-  sql_table_name: ecomm.adevents ;;
+#   sql_table_name: ecomm.adevents ;;
+  sql_table_name: ecomm.adimpressions ;;
 
   dimension: adevent_id {
     type: number
     primary_key: yes
-    sql: ${TABLE}.event_id ;;
+    sql: ${TABLE}.id ;;
   }
 
   dimension: keyword_id {
@@ -37,18 +38,18 @@ view: adevents {
 
   dimension: is_click_event {
     type: yesno
-    sql: ${event_type} = "click";;
+    sql: ${event_type} = 'click';;
   }
   dimension: is_impression_event {
     type: yesno
-    sql: ${event_type} = "impression";;
+    sql: ${event_type} = 'impression';;
   }
 
   dimension: cost_search{
     hidden: yes
     type: number
     sql: case when ${is_click_event} = true
-        and ${campaigns.advertising_channel} = "Search" then (1.0*${TABLE}.cost)/100 end ;;
+        and ${campaigns.advertising_channel} = 'Search' then (1.0*${TABLE}.amount)/100 end ;;
     value_format_name: usd
   }
 
@@ -56,8 +57,8 @@ view: adevents {
     hidden: yes
     type: number
     sql: case when ${is_impression_event} = true
-      and ${campaigns.advertising_channel} <> "Search"
-      then (1.0*${TABLE}.cost)/1000 end ;;
+      and ${campaigns.advertising_channel} <> 'Search'
+      then (1.0*${TABLE}.amount)/1000 end ;;
     value_format_name: usd
   }
 
@@ -109,13 +110,13 @@ view: adevents {
 
   measure: total_clicks {
     type: sum
-    sql: case when ${event_type} = "click" then 1 else 0 end;;
+    sql: case when ${event_type} = 'click' then 1 else 0 end;;
     drill_fields: [detail*]
   }
 
   measure: total_impressions {
     type: sum
-    sql: case when ${event_type} = "impression" then 1 else 0 end;;
+    sql: case when ${event_type} = 'impression' then 1 else 0 end;;
     drill_fields: [detail*]
 
   }

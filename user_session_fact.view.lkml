@@ -36,7 +36,7 @@ view: user_acquisition {
   }
 }
 
-
+explore: user_session_fact {}
 
 view: user_session_fact {
   derived_table: {

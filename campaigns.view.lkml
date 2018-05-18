@@ -1,5 +1,7 @@
 view: campaigns {
-  sql_table_name: ecomm.campaigns ;;
+#   sql_table_name: ecomm.campaigns ;;
+  sql_table_name: ecomm.campaign ;;
+
 
   filter: campaign_selector {
     type: string
@@ -14,7 +16,7 @@ view: campaigns {
   dimension: campaign_id {
     primary_key: yes
     type: number
-    sql: ${TABLE}.campaign_id ;;
+    sql: ${TABLE}.id ;;
   }
 
   dimension: advertising_channel {
@@ -34,7 +36,7 @@ view: campaigns {
 
   dimension: campaign_name {
     type: string
-    sql: concat(cast(${campaign_id} as string), " - " , ${campaign_name_raw}) ;;
+    sql: ${campaign_id}::VARCHAR +  ' - ' + ${campaign_name_raw} ;;
     link: {
       label: "View on AdWords"
       icon_url: "https://www.google.com/s2/favicons?domain=www.adwords.google.com"
@@ -89,17 +91,17 @@ view: campaigns {
     ]
     convert_tz: no
     datatype: date
-    sql: DATE_ADD(${created_raw}, INTERVAL ${period} DAY) ;;
+    sql: date_add('day', ${period},${created_date}) ;;
   }
 
   dimension: period {
     type: number
-    sql: ${TABLE}.period ;;
+    sql: ${TABLE}.period :: int ;;
   }
 
   dimension: is_active_now {
     type: yesno
-    sql: ${end_date} >= current_date() ;;
+    sql: ${end_date} >= CURRENT_DATE ;;
   }
 
   measure: count {
