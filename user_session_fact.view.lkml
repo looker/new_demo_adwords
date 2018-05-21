@@ -58,7 +58,7 @@ view: user_session_fact {
   dimension: session_user_id {}
   dimension: site_acquisition_ad_event_id {
     type: number
-    sql: ${TABLE}.site_acquisition_ad_event_id :: INT64 ;;
+    sql: ${TABLE}.site_acquisition_ad_event_id :: int ;;
   }
   dimension: site_acquisition_source {
     type: string
