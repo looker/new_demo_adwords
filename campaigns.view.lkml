@@ -39,7 +39,7 @@ view: campaigns {
     link: {
       label: "Campaign Performance Dashboard"
       icon_url: "http://www.looker.com/favicon.ico"
-      url: "https://demo.looker.com/dashboards/3016?Campaign Name={{ value | encode_uri }} target=\"_blank\""
+      url: "https://demo.looker.com/dashboards/3016?Campaign Name={{ value | encode_uri }}"
     }
     link: {
       label: "View on AdWords"
