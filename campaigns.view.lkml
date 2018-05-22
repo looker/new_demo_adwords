@@ -10,7 +10,7 @@ view: campaigns {
 
   dimension: campaign_benchmark {
     type: string
-    sql: IF( {% condition campaign_selector %} ${campaign_name} {% endcondition %}, ${campaign_name}, 'Benchmark') ;;
+    sql: case when ( {% condition campaign_selector %} ${campaign_name} {% endcondition %}) then ${campaign_name} else 'Benchmark' end  ;;
   }
 
   dimension: campaign_id {
