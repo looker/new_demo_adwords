@@ -1,5 +1,3 @@
-include: "thelook_adwords.model.lkml"
-
 explore: user_acquisition {
   hidden: yes
 }

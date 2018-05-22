@@ -1,7 +1,6 @@
 view: adevents {
   view_label: "Ad Events"
-#   sql_table_name: ecomm.adevents ;;
-  sql_table_name: ecomm.adimpressions ;;
+  sql_table_name: ecomm.ad_events ;;
 
   dimension: adevent_id {
     type: number
@@ -29,6 +28,11 @@ view: adevents {
       year
     ]
     sql: ${TABLE}.created_at ;;
+  }
+
+  dimension: device_type {
+    type: string
+    sql: ${TABLE}.device_type ;;
   }
 
   dimension: event_type {

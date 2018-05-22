@@ -69,19 +69,11 @@ view: session_purchase_facts {
 
   dimension: purchase_session_source {
     group_label: "Attribution"
-    view_label: "Session"
+    view_label: "Sessions"
     description: "Last Touch Attribution: Source of last session before purchase"
     type: string
     sql: ${TABLE}.purchase_session_traffic_source ;;
   }
-
-#   dimension: first_session_source {
-#     view_label: "Session"
-#     group_label: "Attribution"
-#     description: "First Touch Attribution: Source of first session leading up to a purchase"
-#     type: string
-#     sql: ${TABLE}.purchase_session_traffic_source ;;
-#   }
 
   dimension: contains_search {
     view_label: "Ad Events"
@@ -212,7 +204,7 @@ view: session_purchase_facts {
   }
 
   dimension: session_user_id {
-#     hidden: yes
+    hidden: yes
     type: number
     sql: ${TABLE}.session_user_id ;;
   }

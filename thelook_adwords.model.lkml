@@ -13,6 +13,13 @@ explore: events{
     relationship: many_to_one
     sql_on: ${events.user_id} = ${user_acquisition.session_user_id} ;;
   }
+  join: users {
+    view_label: "Users"
+    relationship: many_to_one
+    sql_on: ${events.user_id} = ${users.id} ;;
+    fields: [user_facts*]
+  }
+
   join: session_purchase_facts {
     relationship: many_to_one
     sql_on: ${sessions.session_user_id} = ${session_purchase_facts.session_user_id}

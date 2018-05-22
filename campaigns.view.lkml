@@ -1,6 +1,5 @@
 view: campaigns {
-#   sql_table_name: ecomm.campaigns ;;
-  sql_table_name: ecomm.campaign ;;
+  sql_table_name: ecomm.campaigns ;;
 
 
   filter: campaign_selector {
@@ -37,6 +36,11 @@ view: campaigns {
   dimension: campaign_name {
     type: string
     sql: ${campaign_id}::VARCHAR +  ' - ' + ${campaign_name_raw} ;;
+    link: {
+      label: "Campaign Performance Dashboard"
+      icon_url: "http://www.looker.com/favicon.ico"
+      url: "https://demo.looker.com/dashboards/3016?Campaign Name={{ value | encode_uri }} target=\"_blank\""
+    }
     link: {
       label: "View on AdWords"
       icon_url: "https://www.google.com/s2/favicons?domain=www.adwords.google.com"

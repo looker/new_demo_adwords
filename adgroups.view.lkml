@@ -1,7 +1,6 @@
 view: adgroups {
-#   sql_table_name: ecomm.adgroups ;;
-  sql_table_name: ecomm.adgroup ;;
-
+  view_label: "Ad Groups"
+  sql_table_name: ecomm.ad_groups ;;
 
   dimension: ad_id {
     primary_key: yes

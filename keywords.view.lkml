@@ -1,5 +1,5 @@
 view: keywords {
-  sql_table_name: ecomm.keyword ;;
+  sql_table_name: ecomm.keywords ;;
 
   dimension: keyword_id {
     primary_key: yes
