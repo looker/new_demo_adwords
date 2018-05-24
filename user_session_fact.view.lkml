@@ -57,15 +57,10 @@ view: user_session_fact {
       column: count_with_purchase { field: sessions.count_with_purchase }
     }
   }
-  dimension: session_user_id {}
-#   dimension: session_id {}
+  dimension: session_user_id {
+    primary_key: yes
+  }
 
-#   dimension: primary_key {
-#     type: string
-#     primary_key: yes
-#     hidden: yes
-#     sql: ${session_id} + (${session_user_id} :: varchar) ;;
-#   }
   dimension: site_acquisition_ad_event_id {
     type: number
     sql: ${TABLE}.site_acquisition_ad_event_id :: int ;;
