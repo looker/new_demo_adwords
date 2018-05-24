@@ -19,6 +19,12 @@ explore: events{
     sql_on: ${events.user_id} = ${users.id} ;;
     fields: [user_facts*]
   }
+#   join: user_session_fact {
+#     view_label: "Users"
+#     relationship: one_to_one
+#     sql_on: ${sessions.session_id} = ${user_session_fact.session_id} ;;
+#     fields: [user_session_measures*]
+#   }
 
   join: session_purchase_facts {
     relationship: many_to_one

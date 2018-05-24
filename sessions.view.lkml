@@ -60,6 +60,12 @@ view: sessions {
     sql: ${TABLE}.purchase_rank ;;
   }
 
+  dimension: session_type {
+    description: "Used for Pivots"
+    type: string
+    sql: 'All' ;;
+  }
+
   dimension: session_user_id {
     type: number
     sql: ${TABLE}.session_user_id ;;
@@ -112,7 +118,7 @@ view: sessions {
   }
 
   measure: spend_per_session {
-    group_label: "ROI (Last Touch Metrics)"
+    hidden: yes
     type: number
     value_format_name: usd
     sql: 1.0*${adevents.total_cost} / NULLIF(${count},0) ;;
@@ -120,7 +126,7 @@ view: sessions {
   }
 
   measure: spend_per_purchase {
-    group_label: "ROI (Last Touch Metrics)"
+    hidden: yes
     type: number
     value_format_name: usd
     sql: 1.0*${adevents.total_cost} / NULLIF(${count_with_purchase},0) ;;

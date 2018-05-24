@@ -27,12 +27,15 @@ view: user_acquisition {
   dimension: session_user_id {
     primary_key: yes
   }
-  dimension: acquisition_source {}
+  dimension: acquisition_source {
+    group_label: "Attribution"
+  }
   dimension: behavior {}
   measure: count {
     type: count
   }
 }
+
 
 view: user_session_fact {
   derived_table: {
@@ -41,6 +44,7 @@ view: user_session_fact {
     sql_trigger_value: select count(*) from ecomm.events ;;
     explore_source: events {
       column: session_user_id { field: sessions.session_user_id }
+#       column: session_id {field: sessions.session_id}
       column: site_acquisition_ad_event_id { field: sessions.site_acquisition_ad_event_id }
       column: site_acquisition_source { field: sessions.site_acquisition_source }
       column: first_visit_dt { field: sessions.first_visit_dt }
@@ -54,6 +58,14 @@ view: user_session_fact {
     }
   }
   dimension: session_user_id {}
+#   dimension: session_id {}
+
+#   dimension: primary_key {
+#     type: string
+#     primary_key: yes
+#     hidden: yes
+#     sql: ${session_id} + (${session_user_id} :: varchar) ;;
+#   }
   dimension: site_acquisition_ad_event_id {
     type: number
     sql: ${TABLE}.site_acquisition_ad_event_id :: int ;;
@@ -154,5 +166,13 @@ view: user_session_fact {
     type: average
     value_format_name: decimal_1
     sql: ${session_count} ;;
+  }
+
+  set: user_session_measures {
+    fields: [
+      first_visit_month,
+      average_engagement,
+      average_loyalty
+    ]
   }
 }

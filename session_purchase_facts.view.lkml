@@ -134,14 +134,6 @@ view: session_purchase_facts {
     drill_fields: [detail*]
   }
 
-  measure: return_on_investment {
-    view_label: "Sessions"
-    group_label: "ROI (Last Touch Metrics)"
-    type: number
-    value_format_name: usd
-    sql: 1.0*${total_sale_price} / NULLIF(${adevents.total_cost},0) - 1 ;;
-  }
-
   dimension: percent_attribution_per_session {
     view_label: "Sessions"
     label: "Multi-Touch Linear Attribution"
@@ -173,8 +165,7 @@ view: session_purchase_facts {
 
   measure: ROI {
     view_label: "Sessions"
-    label: "ROI"
-    group_label: "ROI (Multi Touch Linear)"
+    label: "ROI (Revenue/Cost)"
     type: number
     value_format_name: usd
     sql: 1.0 * ${total_attribution}/ NULLIF(${adevents.total_cost},0) - 1 ;;
