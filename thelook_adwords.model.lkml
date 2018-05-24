@@ -51,10 +51,20 @@ explore: events{
 explore: acquisition_analysis {
   view_label: "Users"
   from: user_session_fact
+
+  join: user_acquisition {
+    relationship: one_to_many
+    sql_on: ${acquisition_analysis.session_user_id} = ${user_acquisition.session_user_id} ;;
+  }
+
   join: adevents {
     type: inner
     relationship: one_to_one
     sql_on: ${acquisition_analysis.site_acquisition_ad_event_id} = ${adevents.adevent_id};;
+  }
+  join: users {
+    relationship: one_to_one
+    sql_on: ${acquisition_analysis.session_user_id} = ${users.id} ;;
   }
   join: keywords {
     type: inner
