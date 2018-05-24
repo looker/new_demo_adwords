@@ -122,7 +122,6 @@ view: adevents {
     type: sum
     sql: case when ${event_type} = 'impression' then 1 else 0 end;;
     drill_fields: [detail*]
-
   }
 
   # Typically Viewability score for display

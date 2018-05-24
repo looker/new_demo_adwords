@@ -67,6 +67,27 @@ view: session_purchase_facts {
     sql: ${TABLE}.order_id ;;
   }
 
+  dimension: purchases_per_session {
+    view_label: "Sessions"
+    hidden: yes
+    type: number
+    sql: 1.0 * 1.0 /nullif(${sessions_till_purchase},0 );;
+    value_format_name: usd
+    drill_fields: [detail*]
+  }
+
+  measure: total_purchases {
+    view_label: "Sessions"
+    label: "Purchases"
+    type: sum_distinct
+    sql_distinct_key: ${sessions.session_id} ;;
+    sql: ${purchases_per_session} ;;
+    value_format_name: usd
+    drill_fields: [attribution_detail*]
+  }
+
+
+
   dimension: purchase_session_source {
     group_label: "Attribution"
     view_label: "Sessions"
@@ -140,11 +161,9 @@ view: session_purchase_facts {
     drill_fields: [detail*]
   }
 
-
   measure: total_attribution {
-    group_label: "ROI (Multi Touch Linear)"
     view_label: "Sessions"
-    label: "Revenue"
+    label: "Associated Revenue (ROI)"
     type: sum_distinct
     sql_distinct_key: ${sessions.session_id} ;;
     sql: ${attribution_per_session} ;;
@@ -209,6 +228,37 @@ view: session_purchase_facts {
     sql: ${TABLE}.session_user_id ;;
   }
 
+#   ----------------
+  parameter: attribution_filter {
+    view_label: "Cohort"
+    label: "Attribution Picker"
+    description: "Choose a type of Attribution"
+    allowed_value: { value: "Acquisition Source" }
+    allowed_value: { value: "Last Touch" }
+    allowed_value: { value: "Multi-Touch Linear" }
+  }
+
+  dimension: attribution_source {
+    view_label: "Cohort"
+    type: string
+    description: "Use in conjuction with the Attribution Picker"
+    sql: CASE
+          WHEN {% parameter attribution_filter %} = 'Acquisition Source' THEN ${user_acquisition.acquisition_source}
+          WHEN {% parameter attribution_filter %} = 'Last Touch' THEN ${purchase_session_source}
+          WHEN {% parameter attribution_filter %} = 'Multi-Touch Linear' THEN ${sessions.traffic_source}
+          ELSE NULL
+        END ;;
+#     html:  {% if metric_name._value contains 'User Retention' %}
+#             {{ linked_value }}{{ format_symbol._value }}
+#           {% else %}
+#             {{ format_symbol._value }}{{ linked_value }}
+#           {% endif %} ;;
+#     drill_fields: [cohort_size, percent_user_retention, users.count, average_orders_per_user, average_spend_per_user]
+      label_from_parameter: attribution_filter
+    }
+
+#   ----------------
+
   set: detail {
     fields: [
       session_id,
@@ -221,13 +271,12 @@ view: session_purchase_facts {
   }
   set: attribution_detail {
     fields: [
-      session_user_id,
-      sessions.session_rank,
-      sessions.includes_purchase,
-      sessions.traffic_source,
-      session_start_time,
+      campaigns.campaign_name,
+      adevents.total_cost,
+      adevents.click_rate,
       total_attribution,
-      total_sale_price
+      total_sale_price,
+      events.bounce_rate
     ]
   }
 }

@@ -112,4 +112,10 @@ view: campaigns {
     type: count
     drill_fields: [campaign_id, campaign_name, adgroups.count]
   }
+
+  set: detail {
+    fields: [
+      campaign_id, campaign_name, adgroups.count
+    ]
+  }
 }
