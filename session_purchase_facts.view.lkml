@@ -264,7 +264,7 @@ view: session_purchase_facts {
     fields: [
       campaigns.campaign_name,
       adevents.total_cost,
-      adevents.click_rate,
+      sessions.purchases,
       total_attribution,
       total_sale_price,
       events.bounce_rate
