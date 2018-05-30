@@ -112,9 +112,18 @@ view: user_session_fact {
     sql: ${TABLE}.first_purchase_dt ;;
   }
   dimension: session_count {
+    label: "Lifetime Sessions"
     type: number
     drill_fields: [first_visit_month]
   }
+  dimension: session_count_tier {
+    label: "Lifetime Sessions Tier"
+    type: tier
+    sql: ${session_count} ;;
+    tiers: [0,3,6,9]
+    style: integer
+  }
+
   dimension: count_bounce_sessions {
     type: number
   }
@@ -125,6 +134,15 @@ view: user_session_fact {
     type: number
     drill_fields: [first_visit_month]
   }
+  dimension: count_with_purchase_tier {
+    label: "Lifetime Purchases Tier"
+    type: tier
+    sql: ${count_with_purchase} ;;
+    tiers: [0,1,3]
+    style: integer
+
+  }
+
   measure: count {
     type: count
     drill_fields: [campaigns.advertising_channel,count_p1]
