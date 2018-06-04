@@ -112,6 +112,11 @@ view: sessions {
     sql: ${duration} ;;
   }
 
+  dimension: months_since_first_session {
+    type: number
+    sql: datediff( month, ${users.created_raw}, ${session_start_raw} ) ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [detail*]

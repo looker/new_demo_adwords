@@ -12,6 +12,7 @@ view: user_acquisition {
           ,COALESCE(purchase_acquisition_source,'Organic') as acquisition_source
           ,'First Purchase' as behavior
           FROM  ${user_session_fact.SQL_TABLE_NAME}
+          WHERE  count_with_purchase > 0  -- Users whithout a purchase should not have a First Purchase acquisition source
 
 
           UNION ALL
@@ -141,6 +142,12 @@ view: user_session_fact {
     tiers: [0,1,3]
     style: integer
 
+  }
+
+  dimension: has_purchase {
+    label: "Is Customer (Y/N)"
+    type: yesno
+    sql: ${count_with_purchase}>0 ;;
   }
 
   measure: count {
