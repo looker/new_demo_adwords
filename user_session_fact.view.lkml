@@ -138,10 +138,25 @@ view: user_session_fact {
   }
   dimension: count_with_purchase_tier {
     label: "Lifetime Purchases Tier"
-    type: tier
+    type: string
+    case: {
+      when: {
+        sql: ${count_with_purchase} = 0 ;;
+        label: "None"
+      }
+
+      when: {
+        sql: ${count_with_purchase} > 0 AND ${count_with_purchase} < 3 ;;
+        label: "1-2"
+      }
+
+      when: {
+        sql:${count_with_purchase} >= 3 ;;
+        label: "3+"
+      }
+    }
+
     sql: ${count_with_purchase} ;;
-    tiers: [0,1,3]
-    style: integer
 
   }
 
