@@ -37,6 +37,9 @@ view: user_acquisition {
   }
 }
 
+explore: user_session_fact {
+  hidden: yes
+}
 
 view: user_session_fact {
   derived_table: {
@@ -92,7 +95,8 @@ view: user_session_fact {
   }
   dimension: purchase_acquisition_source {
     type: string
-    sql: COALESCE(${TABLE}.purchase_acquisition_source,'Organic') ;;
+    sql: COALESCE(${TABLE}.purchase_acquisition_source,'No Purchase') ;;
+
   }
   dimension_group: first_purchase {
     type: time
@@ -137,10 +141,25 @@ view: user_session_fact {
   }
   dimension: count_with_purchase_tier {
     label: "Lifetime Purchases Tier"
-    type: tier
+    type: string
+    case: {
+      when: {
+        sql: ${count_with_purchase} = 0 ;;
+        label: "None"
+      }
+
+      when: {
+        sql: ${count_with_purchase} > 0 AND ${count_with_purchase} < 3 ;;
+        label: "1-2"
+      }
+
+      when: {
+        sql:${count_with_purchase} >= 3 ;;
+        label: "3+"
+      }
+    }
+
     sql: ${count_with_purchase} ;;
-    tiers: [0,1,3]
-    style: integer
 
   }
 
@@ -186,6 +205,66 @@ view: user_session_fact {
     type: average
     value_format_name: decimal_1
     sql: ${session_count} ;;
+  }
+
+  dimension: preferred_category {
+    sql:
+      CASE
+      WHEN ${site_acquisition_source} = 'Adwords'
+        THEN
+            CASE
+              WHEN random() <.6 THEN 'Jeans'
+              WHEN random() <.7 THEN 'Accessories'
+              ELSE 'Tops'
+            END
+
+
+
+      WHEN ${site_acquisition_source} = 'Email'
+        THEN
+            CASE
+              WHEN random() <.05 THEN 'Jeans'
+              WHEN random() <.4 THEN 'Accessories'
+              ELSE 'Tops'
+            END
+
+       WHEN ${site_acquisition_source} = 'Facebook'
+        THEN
+            CASE
+              WHEN random() <.6 THEN 'Jeans'
+              WHEN random() <.7 THEN 'Accessories'
+              ELSE 'Tops'
+            END
+      WHEN ${site_acquisition_source} = 'Organic'
+        THEN
+            CASE
+              WHEN random() <.6 THEN 'Jeans'
+              WHEN random() <.7 THEN 'Accessories'
+              ELSE 'Tops'
+            END
+
+      WHEN ${site_acquisition_source} = 'Youtube'
+      THEN
+          CASE
+            WHEN random() <.6 THEN 'Jeans'
+            WHEN random() <.7 THEN 'Accessories'
+            ELSE 'Tops'
+          END
+
+    ELSE
+            CASE
+              WHEN random() <.6 THEN 'Jeans'
+              WHEN random() <.7 THEN 'Accessories'
+              ELSE 'Tops'
+            END
+
+
+    END
+
+
+    ;;
+
+
   }
 
   set: user_session_measures {
