@@ -34,6 +34,7 @@ view: campaigns {
   }
 
   dimension: campaign_name {
+    full_suggestions: yes
     type: string
     sql: ${campaign_id}::VARCHAR +  ' - ' + ${campaign_name_raw} ;;
     link: {
