@@ -26,14 +26,6 @@ explore: events{
 #     fields: [user_session_measures*] -- ZL: commenting out so I can use first and last touch attribution sources as regular dimensions
   }
 
-#ZL: Getting rid of this because we're probably not going to use it
-#   join: user_purchase_facts {
-#     view_label: "Users"
-#     relationship: one_to_one
-#     sql_on: ${events.user_id} = ${user_purchase_facts.user_id} ;;
-#   }
-
-
   join: session_purchase_facts {
     relationship: many_to_one
     sql_on: ${sessions.session_user_id} = ${session_purchase_facts.session_user_id}
