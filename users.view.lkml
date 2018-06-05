@@ -142,7 +142,7 @@ view: users {
 
   dimension_group: created {
     type: time
-#     timeframes: [time, date, week, month, raw]
+    timeframes: [time, date, month, raw]
     sql: ${TABLE}.created_at ;;
   }
 
@@ -202,10 +202,10 @@ view: users {
   }
 
   set: detail {
-    fields: [id, name, email, age, created_date, orders.count, order_items.count]
+    fields: [id, name, email, age, created_date, created_month, orders.count, order_items.count]
   }
 
   set: user_facts {
-    fields: [name, email, age, gender, created_date]
+    fields: [name, email, age, gender, created_date, created_month]
   }
 }

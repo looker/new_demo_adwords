@@ -107,7 +107,7 @@ view: adevents {
   }
 
   measure: total_ad_events {
-    hidden: yes
+#     hidden: yes
     type: count
     drill_fields: [events.id, keywords.criterion_name, keywords.keyword_id]
   }
