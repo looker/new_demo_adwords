@@ -92,7 +92,8 @@ view: user_session_fact {
   }
   dimension: purchase_acquisition_source {
     type: string
-    sql: COALESCE(${TABLE}.purchase_acquisition_source,'Organic') ;;
+    sql: COALESCE(${TABLE}.purchase_acquisition_source,'No Purchase') ;;
+
   }
   dimension_group: first_purchase {
     type: time
