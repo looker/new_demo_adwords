@@ -62,7 +62,7 @@ view: session_purchase_facts {
   }
 
   dimension: order_id {
-    hidden: yes
+#     hidden: yes
     type: number
     sql: ${TABLE}.order_id ;;
   }
@@ -86,8 +86,6 @@ view: session_purchase_facts {
     drill_fields: [attribution_detail*]
   }
 
-
-
   dimension: purchase_session_source {
     group_label: "Attribution"
     view_label: "Sessions"
@@ -96,26 +94,26 @@ view: session_purchase_facts {
     sql: ${TABLE}.purchase_session_traffic_source ;;
   }
 
-  dimension: contains_search {
-    view_label: "Ad Events"
-    label: "Sessions leading up to Purchase contains search"
-    type: yesno
-    sql: ${TABLE}.search_session_count > 0 ;;
-  }
-
-  measure: conversions_from_search {
-    view_label: "Ad Events"
-    description: "All Conversions with Traffic Source *Search* as a touch point"
-    type: count_distinct
-    sql: ${session_purchase_facts.order_id} ;;
-    filters: {
-      field: session_purchase_facts.contains_search
-      value: "yes"
-    }
-  }
+#   dimension: contains_search {
+#     view_label: "Ad Events"
+#     label: "Sessions leading up to Purchase contains search"
+#     type: yesno
+#     sql: ${TABLE}.search_session_count > 0 ;;
+#   }
+#
+#   measure: conversions_from_search {
+#     view_label: "Ad Events"
+#     description: "All Conversions with Traffic Source *Search* as a touch point"
+#     type: count_distinct
+#     sql: ${session_purchase_facts.order_id} ;;
+#     filters: {
+#       field: session_purchase_facts.contains_search
+#       value: "yes"
+#     }
+#   }
 
   dimension: sessions_till_purchase {
-    hidden: yes
+#     hidden: yes
     type: number
     sql: ${TABLE}.sessions_till_purchase ;;
   }
@@ -126,7 +124,7 @@ view: session_purchase_facts {
     sql: ${TABLE}.sale_price ;;
   }
 
-  measure: total_sale_price {
+  measure: revenue {
     view_label: "Sessions"
     type: sum
     value_format_name: usd
@@ -134,56 +132,45 @@ view: session_purchase_facts {
     drill_fields: [detail*]
   }
 
-  dimension: percent_attribution_per_session {
-    view_label: "Sessions"
-    label: "Multi-Touch Linear Attribution"
-    description: "Associated Weight (%) from sales based on a linear multi-touch source attribution"
-    type: number
-    sql: 1.0/nullif(${sessions_till_purchase},0 );;
-    drill_fields: [detail*]
-  }
+#   dimension: percent_attribution_per_session {
+#     view_label: "Sessions"
+#     label: "Multi-Touch Linear Attribution"
+#     description: "Associated Weight (%) from sales based on a linear multi-touch source attribution"
+#     type: number
+#     sql: 1.0/nullif(${sessions_till_purchase},0 );;
+#     drill_fields: [detail*]
+#   }
 
-  dimension: attribution_per_session {
-    view_label: "Sessions"
-    description: "Associated Revenue ($) from sales based on a linear multi-touch source attribution"
-    hidden: yes
-    type: number
-    sql: 1.0 * ${sale_price}/nullif(${sessions_till_purchase},0 );;
-    value_format_name: usd
-    drill_fields: [detail*]
-  }
-
-  measure: total_attribution {
-    view_label: "Sessions"
-    label: "Associated Revenue (ROI)"
-    type: sum_distinct
-    sql_distinct_key: ${sessions.session_id} ;;
-    sql: ${attribution_per_session} ;;
-    value_format_name: usd
-    drill_fields: [attribution_detail*]
-  }
+#   dimension: attribution_per_session {
+#     view_label: "Sessions"
+#     description: "Associated Revenue ($) from sales based on a linear multi-touch source attribution"
+#     hidden: yes
+#     type: number
+#     sql: 1.0 * ${sale_price}/nullif(${sessions_till_purchase},0 );;
+#     value_format_name: usd
+#     drill_fields: [detail*]
+#   }
+#
+#   measure: total_attribution {
+#     view_label: "Sessions"
+#     label: "Associated Revenue (ROI)"
+#     type: sum_distinct
+#     sql_distinct_key: ${sessions.session_id} ;;
+#     sql: ${attribution_per_session} ;;
+#     value_format_name: usd
+#     drill_fields: [attribution_detail*]
+#   }
 
   measure: ROI {
     view_label: "Sessions"
     label: "ROI (Revenue/Cost)"
     type: number
     value_format_name: usd
-    sql: 1.0 * ${total_attribution}/ NULLIF(${adevents.total_cost},0) - 1 ;;
+    sql: 1.0 * ${revenue}/ NULLIF(${adevents.total_cost},0) - 1 ;;
   }
 
-
-#   measure: total_sale_price {
-#     type: sum
-#     sql: ${sale_price} ;;
-#     value_format_name: usd
-#   }
-
-#   measure: total_sessions_till_purchase {
-#     type: sum
-#     sql: ${sessions_till_purchase} ;;
-#   }
-
   dimension: session_purchase_rank {
+    hidden: yes
     view_label: "Sessions"
     type: number
     sql: ${TABLE}.session_purchase_rank ;;
@@ -191,6 +178,7 @@ view: session_purchase_facts {
 
 
   dimension_group: last_session_end {
+#     hidden: yes
     label: "Purchase Start Session"
     view_label: "Sessions"
     type: time
@@ -220,35 +208,6 @@ view: session_purchase_facts {
   }
 
 #   ----------------
-  parameter: attribution_filter {
-    view_label: "Cohort"
-    label: "Attribution Picker"
-    description: "Choose a type of Attribution"
-    allowed_value: { value: "Acquisition Source" }
-    allowed_value: { value: "Last Touch" }
-    allowed_value: { value: "Multi-Touch Linear" }
-  }
-
-  dimension: attribution_source {
-    view_label: "Cohort"
-    type: string
-    description: "Use in conjuction with the Attribution Picker"
-    sql: CASE
-          WHEN {% parameter attribution_filter %} = 'Acquisition Source' THEN ${user_acquisition.acquisition_source}
-          WHEN {% parameter attribution_filter %} = 'Last Touch' THEN ${purchase_session_source}
-          WHEN {% parameter attribution_filter %} = 'Multi-Touch Linear' THEN ${sessions.traffic_source}
-          ELSE NULL
-        END ;;
-#     html:  {% if metric_name._value contains 'User Retention' %}
-#             {{ linked_value }}{{ format_symbol._value }}
-#           {% else %}
-#             {{ format_symbol._value }}{{ linked_value }}
-#           {% endif %} ;;
-#     drill_fields: [cohort_size, percent_user_retention, users.count, average_orders_per_user, average_spend_per_user]
-      label_from_parameter: attribution_filter
-    }
-
-#   ----------------
 
   set: detail {
     fields: [
@@ -257,7 +216,7 @@ view: session_purchase_facts {
       session_end_time,
       session_user_id,
       last_session_end_time,
-      total_attribution
+      revenue
     ]
   }
   set: attribution_detail {
@@ -265,8 +224,7 @@ view: session_purchase_facts {
       campaigns.campaign_name,
       adevents.total_cost,
       sessions.purchases,
-      total_attribution,
-      total_sale_price,
+      revenue,
       events.bounce_rate
     ]
   }
