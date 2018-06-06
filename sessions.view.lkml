@@ -87,7 +87,7 @@ view: sessions {
 
   dimension_group: session_end {
     type: time
-    timeframes: [raw, time, date, week, month]
+    timeframes: [raw, time, date, week, month,quarter]
     sql: ${TABLE}.session_end ;;
   }
 

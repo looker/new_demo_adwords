@@ -1,6 +1,22 @@
 view: campaigns {
-  sql_table_name: ecomm.campaigns ;;
+#   sql_table_name: ecomm.campaigns ;;
+derived_table: {
+  sql_trigger_value: select count(*) from ecomm.campaigns ;;
+  distribution: "id"
+  sortkeys: ["id"]
+  sql: SELECT *
+            FROM   ecomm.campaigns
+            UNION
+            SELECT 9999                        AS id,
+            NULL                        AS advertising_channel,
+            0                           AS amount,
+            NULL                        AS bid_type,
+            'Total'                     AS campaign_name,
+            '60'                        AS period,
+            Dateadd(day, -1, Getdate()) AS created_at ;;
+}
 
+##### Campaign Facts #####
 
   filter: campaign_selector {
     type: string
@@ -54,8 +70,7 @@ view: campaigns {
   }
 
   dimension: campaign_name_raw {
-    label: "Campaign Name"
-    hidden: yes
+    label: "Campaign Abbreviated"
     sql: ${TABLE}.campaign_name ;;
   }
 
@@ -91,6 +106,15 @@ view: campaigns {
     convert_tz: no
     datatype: date
     sql: date_add('day', ${period},${created_date}) ;;
+  }
+
+  dimension: day_of_quarter {
+    type: number
+    sql: DATEDIFF(
+        'day',
+        CAST(CONCAT(${created_quarter}, '-01') as date),
+        ${created_raw})
+       ;;
   }
 
   dimension: period {

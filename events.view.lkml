@@ -58,6 +58,30 @@ view: events {
     sql: ${TABLE}.created_at ;;
   }
 
+  filter: previous_period_filter {
+    type: date
+    description: "Use this filter for period analysis"
+  }
+
+  dimension: previous_period {
+    type: string
+    description: "The reporting period as selected by the Previous Period Filter"
+    sql:
+      CASE
+        WHEN {% date_start previous_period_filter %} is not null AND {% date_end previous_period_filter %} is not null /* date ranges or in the past x days */
+          THEN
+            CASE
+              WHEN ${event_raw} >=  {% date_start previous_period_filter %}
+                AND ${event_raw}  <= {% date_end previous_period_filter %}
+                THEN 'This Period'
+              WHEN ${event_raw}  >= DATEADD(day,-1*DATEDIFF(day,{% date_start previous_period_filter %}, {% date_end previous_period_filter %} ) + 1, DATEADD(day,-1,{% date_start previous_period_filter %} ) )
+                AND ${event_raw}  <= DATEADD(day,-1,{% date_start previous_period_filter %} )
+                THEN 'Previous Period'
+            END
+          END ;;
+  }
+
+
   dimension: event_type {
     type: string
     sql: ${TABLE}.event_type ;;
@@ -155,6 +179,8 @@ view: events {
        ;;
   }
 
+##### Funnel Analysis #####
+
   dimension: funnel_step {
     description: "Login -> Browse -> Add to Cart -> Checkout"
     sql: CASE
@@ -207,8 +233,6 @@ view: events {
 #     description: "Did the visitor sign in as a website user?"
 #     sql: ${users.id} > 0 ;;
 #   }
-
-
 
   measure: count {
     type: count

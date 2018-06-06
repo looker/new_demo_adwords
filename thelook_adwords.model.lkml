@@ -23,15 +23,7 @@ explore: events{
     view_label: "Users"
     relationship: one_to_one
     sql_on: ${events.user_id} = ${user_session_fact.session_user_id} ;;
-#     fields: [user_session_measures*] -- ZL: commenting out so I can use first and last touch attribution sources as regular dimensions
-  }
-
-## Removing preferred category in favor of version based directly off of referral source
-#   join: user_purchase_facts {
-#     view_label: "Users"
-#     relationship: one_to_one
-#     sql_on: ${events.user_id} = ${user_purchase_facts.user_id} ;;
-#   }
+}
 
   join: session_purchase_facts {
     relationship: many_to_one
@@ -58,6 +50,7 @@ explore: events{
   join: campaigns {
     relationship: many_to_one
     sql_on: ${campaigns.campaign_id} = ${adgroups.campaign_id} ;;
+    type: full_outer
   }
 }
 

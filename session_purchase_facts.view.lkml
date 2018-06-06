@@ -163,14 +163,14 @@ view: session_purchase_facts {
     drill_fields: [attribution_detail*]
   }
 
+## made ROI % and took away -1
   measure: ROI {
     view_label: "Sessions"
     label: "ROI (Revenue/Cost)"
     type: number
-    value_format_name: usd
-    sql: 1.0 * ${total_attribution}/ NULLIF(${adevents.total_cost},0) - 1 ;;
+    value_format_name: percent_2
+    sql: 1.0 * ${total_attribution}/ NULLIF(${adevents.total_cost},0) ;;
   }
-
 
 #   measure: total_sale_price {
 #     type: sum

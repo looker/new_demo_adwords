@@ -30,6 +30,29 @@ view: adevents {
     sql: ${TABLE}.created_at ;;
   }
 
+  filter: previous_period_filter {
+    type: date
+    description: "Use this filter for period analysis"
+  }
+
+  dimension: previous_period {
+    type: string
+    description: "The reporting period as selected by the Previous Period Filter"
+    sql:
+      CASE
+        WHEN {% date_start previous_period_filter %} is not null AND {% date_end previous_period_filter %} is not null /* date ranges or in the past x days */
+          THEN
+            CASE
+              WHEN ${created_raw} >=  {% date_start previous_period_filter %}
+                AND ${created_raw}  <= {% date_end previous_period_filter %}
+                THEN 'This Period'
+              WHEN ${created_raw}  >= DATEADD(day,-1*DATEDIFF(day,{% date_start previous_period_filter %}, {% date_end previous_period_filter %} ) + 1, DATEADD(day,-1,{% date_start previous_period_filter %} ) )
+                AND ${created_raw}  <= DATEADD(day,-1,{% date_start previous_period_filter %} )
+                THEN 'Previous Period'
+            END
+          END ;;
+  }
+
   dimension: device_type {
     type: string
     sql: ${TABLE}.device_type ;;
@@ -73,6 +96,8 @@ view: adevents {
     value_format_name: usd
   }
 
+##### Campaign Standard Metric Aggregates #####
+
   measure: total_cost_clicks {
     hidden: yes
     label: "Total Spend (Search Clicks)"
@@ -105,9 +130,9 @@ view: adevents {
     drill_fields: [campaign_detail*]
 
   }
+##### Ad Event Metrics #####
 
   measure: total_ad_events {
-#     hidden: yes
     type: count
     drill_fields: [events.id, keywords.criterion_name, keywords.keyword_id]
   }
@@ -124,7 +149,8 @@ view: adevents {
     drill_fields: [detail*]
   }
 
-  # Typically Viewability score for display
+##### Viewability & Conversion Metrics #####
+
   measure: total_viewability {
     type: number
     sql: ${total_impressions} * .66 ;;
