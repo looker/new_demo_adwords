@@ -351,16 +351,6 @@ view: sessions {
     type: number
     sql: max(case when ${is_first} then ${sessions.ad_event_id} else null end) ;;
   }
-  measure: purchase_acquisition_source {
-    hidden: yes
-    type: string
-    sql: max(case when ${is_first_purchase} then ${sessions.traffic_source} else null end) ;;
-  }
-  measure: purhcase_acquisition_ad_event_id {
-    hidden: yes
-    type: number
-    sql: max(case when ${is_first_purchase} then ${sessions.ad_event_id} else null end) ;;
-  }
   measure: first_visit_dt {
     hidden: yes
     type: number
