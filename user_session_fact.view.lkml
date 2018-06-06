@@ -1,42 +1,3 @@
-explore: user_acquisition {
-  hidden: yes
-}
-view: user_acquisition {
-  derived_table: {
-    sql_trigger_value: select count(*) from ${user_session_fact.SQL_TABLE_NAME} ;;
-    distribution: "session_user_id"
-    sortkeys: ["session_user_id"]
-    sql:
-          SELECT
-          session_user_id
-          ,COALESCE(purchase_acquisition_source,'Organic') as acquisition_source
-          ,'First Purchase' as behavior
-          FROM  ${user_session_fact.SQL_TABLE_NAME}
-          WHERE  count_with_purchase > 0  -- Users whithout a purchase should not have a First Purchase acquisition source
-
-
-          UNION ALL
-
-          SELECT
-          session_user_id
-          ,site_acquisition_source as acquisition_source
-          ,'First Visit' as behavior
-          FROM  ${user_session_fact.SQL_TABLE_NAME}
-    ;;
-  }
-
-  dimension: session_user_id {
-    primary_key: yes
-  }
-  dimension: acquisition_source {
-    group_label: "Attribution"
-  }
-  dimension: behavior {}
-  measure: count {
-    type: count
-  }
-}
-
 explore: user_session_fact {
   hidden: yes
 }
@@ -52,8 +13,6 @@ view: user_session_fact {
       column: site_acquisition_ad_event_id { field: sessions.site_acquisition_ad_event_id }
       column: site_acquisition_source { field: sessions.site_acquisition_source }
       column: first_visit_dt { field: sessions.first_visit_dt }
-      column: purchase_acquisition_ad_event_id { field: sessions.purhcase_acquisition_ad_event_id }
-      column: purchase_acquisition_source { field: sessions.purchase_acquisition_source }
       column: first_purchase_dt { field: sessions.first_purchase_dt }
       column: session_count { field: sessions.count }
       column: count_bounce_sessions { field: sessions.count_bounce_sessions }
@@ -90,14 +49,7 @@ view: user_session_fact {
       ]
       sql: ${TABLE}.first_visit_dt ;;
   }
-  dimension: purchase_acquisition_ad_event_id {
-    type: number
-  }
-  dimension: purchase_acquisition_source {
-    type: string
-    sql: COALESCE(${TABLE}.purchase_acquisition_source,'No Purchase') ;;
 
-  }
   dimension_group: first_purchase {
     type: time
     timeframes:

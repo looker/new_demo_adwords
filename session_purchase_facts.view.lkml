@@ -72,7 +72,7 @@ view: session_purchase_facts {
     hidden: yes
     type: number
     sql: 1.0 * 1.0 /nullif(${sessions_till_purchase},0 );;
-    value_format_name: usd
+    value_format_name: decimal_0
     drill_fields: [detail*]
   }
 
@@ -82,7 +82,7 @@ view: session_purchase_facts {
     type: sum_distinct
     sql_distinct_key: ${sessions.session_id} ;;
     sql: ${purchases_per_session} ;;
-    value_format_name: usd
+    value_format_name: decimal_0
     drill_fields: [attribution_detail*]
   }
 
