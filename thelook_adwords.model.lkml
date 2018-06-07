@@ -47,22 +47,17 @@ explore: events{
     sql_on: ${campaigns.campaign_id} = ${adgroups.campaign_id} ;;
     type: full_outer
   }
-
 }
 
 
 
 explore: sessions{
+  fields: [ALL_FIELDS*, -funnel_view*]
   label: "Attribution"
   join: adevents {
     relationship: many_to_one
     sql_on: ${adevents.adevent_id} = ${sessions.ad_event_id} ;;
   }
-#   join: user_acquisition {
-#     view_label: "Users"
-#     relationship: many_to_one
-#     sql_on: ${sessions.session_user_id} = ${user_acquisition.session_user_id} ;;
-#   }
   join: users {
     view_label: "Users"
     relationship: many_to_one
@@ -76,13 +71,6 @@ explore: sessions{
 #     fields: [user_session_measures*] -- ZL: commenting out so I can use first and last touch attribution sources as regular dimensions
   }
 
-## Removing preferred category in favor of version based directly off of referral source
-#   join: user_purchase_facts {
-#     view_label: "Users"
-#     relationship: one_to_one
-#     sql_on: ${events.user_id} = ${user_purchase_facts.user_id} ;;
-#   }
-
   join: session_attribution {
     relationship: many_to_one
     sql_on: ${sessions.session_user_id} = ${session_attribution.session_user_id}
@@ -90,16 +78,6 @@ explore: sessions{
           and ${sessions.session_end_raw} <= ${session_attribution.session_end_raw};;
     fields: [attribution_detail*]
   }
-
-
-
-#   join: adevents {
-#     relationship: one_to_many
-#     sql_on: ${events.ad_event_id} = ${adevents.adevent_id}
-#       and ${events.referrer_code} = ${adevents.keyword_id}
-#       and ${events.is_entry_event}
-#       ;;
-#   }
   join: keywords {
     relationship: many_to_one
     sql_on:${keywords.keyword_id} = ${adevents.keyword_id} ;;
@@ -112,4 +90,19 @@ explore: sessions{
     relationship: many_to_one
     sql_on: ${campaigns.campaign_id} = ${adgroups.campaign_id} ;;
   }
+
+  ## Removing preferred category in favor of version based directly off of referral source
+#   join: user_purchase_facts {
+#     view_label: "Users"
+#     relationship: one_to_one
+#     sql_on: ${events.user_id} = ${user_purchase_facts.user_id} ;;
+#   }
+
+#   join: adevents {
+#     relationship: one_to_many
+#     sql_on: ${events.ad_event_id} = ${adevents.adevent_id}
+#       and ${events.referrer_code} = ${adevents.keyword_id}
+#       and ${events.is_entry_event}
+#       ;;
+#   }
 }

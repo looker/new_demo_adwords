@@ -270,7 +270,6 @@ view: sessions {
       value: "(2) Browse,(3) View Product,(4) Add to Cart,(5) Purchase
       "
     }
-
     drill_fields: [detail*]
   }
 
@@ -363,6 +362,15 @@ view: sessions {
   }
 
 
+  set: funnel_view {
+    fields: [
+      all_sessions,
+      count_browse_or_later,
+      count_product_or_later,
+      count_cart_or_later,
+      count_purchase
+    ]
+  }
 
   set: detail {
     fields: [session_id,

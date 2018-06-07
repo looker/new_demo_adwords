@@ -95,24 +95,6 @@ view: session_purchase_facts {
     sql: ${TABLE}.purchase_session_traffic_source ;;
   }
 
-  dimension: contains_search {
-    view_label: "Ad Events"
-    label: "Sessions leading up to Purchase contains search"
-    type: yesno
-    sql: ${TABLE}.search_session_count > 0 ;;
-  }
-#
-  measure: conversions_from_search {
-    view_label: "Ad Events"
-    description: "All Conversions with Traffic Source *Search* as a touch point"
-    type: count_distinct
-    sql: ${session_purchase_facts.order_id} ;;
-    filters: {
-      field: contains_search
-      value: "yes"
-    }
-  }
-
   dimension: sessions_till_purchase {
     hidden: yes
     type: number
