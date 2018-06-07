@@ -36,7 +36,7 @@ view: sessions {
 
   dimension: session_id {
     type: string
-#     hidden: yes
+    hidden: yes
     primary_key: yes
     sql: ${TABLE}.session_id ;;
   }
