@@ -8,7 +8,6 @@ explore: events{
     relationship: many_to_one
     sql_on: ${events.session_id} = ${sessions.session_id} ;;
   }
-
   join: users {
     view_label: "Users"
     relationship: many_to_one
@@ -18,7 +17,7 @@ explore: events{
   join: user_session_fact {
     view_label: "Users"
     relationship: one_to_one
-    sql_on: ${events.user_id} = ${user_session_fact.session_user_id} ;;
+    sql_on: ${users.id} = ${user_session_fact.session_user_id} ;;
 }
 
   join: session_purchase_facts {
@@ -89,7 +88,10 @@ explore: sessions{
     sql_on: ${sessions.session_user_id} = ${session_attribution.session_user_id}
           and ${sessions.session_start_raw} >= ${session_attribution.last_session_end_raw}
           and ${sessions.session_end_raw} <= ${session_attribution.session_end_raw};;
+    fields: [attribution_detail*]
   }
+
+
 
 #   join: adevents {
 #     relationship: one_to_many
@@ -111,34 +113,3 @@ explore: sessions{
     sql_on: ${campaigns.campaign_id} = ${adgroups.campaign_id} ;;
   }
 }
-
-
-
-
-
-
-
-
-
-
-# explore: adevents {
-#   join: events {
-#     relationship: one_to_one
-#     sql_on: ${events.ad_event_id} = ${adevents.adevent_id}
-# --      and ${events.referrer_code} = ${adevents.keyword_id}
-#       and ${events.is_entry_event}
-#       ;;
-#
-#   }
-# }
-#
-# explore: events_test {
-#   from: events
-#   join: adevents {
-#     relationship: many_to_one
-#     sql_on: ${events_test.ad_event_id} = ${adevents.adevent_id}
-#       and ${events_test.referrer_code} = ${adevents.keyword_id}
-#       and ${events_test.is_entry_event}
-#       ;;
-#   }
-# }

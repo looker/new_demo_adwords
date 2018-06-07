@@ -2,6 +2,7 @@ explore: user_session_fact {
   hidden: yes
 }
 
+
 view: user_session_fact {
   derived_table: {
     distribution: "session_user_id"
@@ -170,8 +171,6 @@ view: user_session_fact {
               ELSE 'Tops'
             END
 
-
-
       WHEN ${site_acquisition_source} = 'Email'
         THEN
             CASE
@@ -202,18 +201,13 @@ view: user_session_fact {
             WHEN random() <.7 THEN 'Accessories'
             ELSE 'Tops'
           END
-
-    ELSE
+      ELSE
             CASE
               WHEN random() <.6 THEN 'Jeans'
               WHEN random() <.7 THEN 'Accessories'
               ELSE 'Tops'
             END
-
-
-    END
-
-
+      END
     ;;
 
 
