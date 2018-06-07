@@ -188,7 +188,7 @@ view: adevents {
   }
 
   set: detail {
-    fields: [adevent_id, keywords.criterion_name, event_type, total_cost]
+    fields: [campaigns.campaign_name, keywords.criterion_name, device_type, event_type, total_cost]
 
   }
   set: campaign_detail {

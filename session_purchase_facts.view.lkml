@@ -74,7 +74,7 @@ view: session_purchase_facts {
     type: number
     sql: 1.0 * 1.0 /nullif(${sessions_till_purchase},0 );;
     value_format_name: decimal_0
-    drill_fields: [detail*]
+    drill_fields: [attribution_detail*]
   }
 
   measure: total_purchases {
@@ -117,48 +117,17 @@ view: session_purchase_facts {
     type: sum
     value_format_name: usd
     sql: ${sale_price} ;;
-    drill_fields: [detail*]
+    drill_fields: [attribution_detail*]
   }
 
-
-#   dimension: percent_attribution_per_session {
-#     view_label: "Sessions"
-#     label: "Multi-Touch Linear Attribution"
-#     description: "Associated Weight (%) from sales based on a linear multi-touch source attribution"
-#     type: number
-#     sql: 1.0/nullif(${sessions_till_purchase},0 );;
-#     drill_fields: [detail*]
-#   }
-
-#   dimension: attribution_per_session {
-#     view_label: "Sessions"
-#     description: "Associated Revenue ($) from sales based on a linear multi-touch source attribution"
-#     hidden: yes
-#     type: number
-#     sql: 1.0 * ${sale_price}/nullif(${sessions_till_purchase},0 );;
-#     value_format_name: usd
-#     drill_fields: [detail*]
-#   }
-#
-#   measure: total_attribution {
-#     view_label: "Sessions"
-#     label: "Associated Revenue (ROI)"
-#     type: sum_distinct
-#     sql_distinct_key: ${sessions.session_id} ;;
-#     sql: ${attribution_per_session} ;;
-#     value_format_name: usd
-#     drill_fields: [attribution_detail*]
-#   }
-
-## made ROI % and took away -1
   measure: ROI {
     view_label: "Sessions"
     label: "ROI (Revenue/Cost)"
     type: number
     value_format_name: percent_2
     sql: 1.0 * ${revenue}/ NULLIF(${adevents.total_cost},0) - 1 ;;
+    drill_fields: [attribution_detail*]
   }
-
 
   dimension: session_purchase_rank {
     hidden: yes
@@ -167,15 +136,14 @@ view: session_purchase_facts {
     sql: ${TABLE}.session_purchase_rank ;;
   }
 
-
   dimension_group: last_session_end {
-#     hidden: yes
     label: "Purchase Start Session"
     view_label: "Sessions"
     type: time
     timeframes: [raw, time, date, week, month]
     sql: ${TABLE}.last_session_end;;
   }
+
   dimension_group: session_end {
     type: time
     view_label: "Sessions"
@@ -199,6 +167,16 @@ view: session_purchase_facts {
 
 #   ----------------
 
+  set: attribution_detail {
+    fields: [
+      campaigns.campaign_name,
+      adevents.total_cost,
+      sessions.purchases,
+      revenue,
+      events.bounce_rate
+    ]
+  }
+
   set: detail {
     fields: [
       session_id,
@@ -207,15 +185,6 @@ view: session_purchase_facts {
       session_user_id,
       last_session_end_time,
       revenue
-    ]
-  }
-  set: attribution_detail {
-    fields: [
-      campaigns.campaign_name,
-      adevents.total_cost,
-      sessions.purchases,
-      revenue,
-      events.bounce_rate
     ]
   }
 }

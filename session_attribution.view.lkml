@@ -2,14 +2,13 @@ include: "session_purchase_facts.view.lkml"         # include all views in this 
 view: session_attribution {
   extends: [session_purchase_facts]
 
-#   dimension: percent_attribution_per_session {
-#     view_label: "Sessions"
-#     label: "Multi-Touch Linear Attribution"
-#     description: "Associated Weight (%) from sales based on a linear multi-touch source attribution"
-#     type: number
-#     sql: 1.0/nullif(${sessions_till_purchase},0 );;
-#     drill_fields: [detail*]
-#   }
+  dimension: percent_attribution_per_session {
+    view_label: "Sessions"
+    description: "Associated Weight (%) from sales based on a linear multi-touch source attribution"
+    type: number
+    sql: 1.0/nullif(${sessions_till_purchase},0 );;
+    drill_fields: [detail*]
+  }
 
   dimension: contains_search {
     view_label: "Ad Events"
@@ -17,7 +16,7 @@ view: session_attribution {
     type: yesno
     sql: ${TABLE}.search_session_count > 0 ;;
   }
-#
+
   measure: conversions_from_search {
     view_label: "Ad Events"
     description: "All Conversions with Traffic Source *Search* as a touch point"
@@ -36,7 +35,7 @@ view: session_attribution {
     type: number
     sql: 1.0 * ${sale_price}/nullif(${sessions_till_purchase},0 );;
     value_format_name: usd
-    drill_fields: [detail*]
+    drill_fields: [metric_drill*]
   }
 
   measure: total_attribution {
@@ -46,7 +45,7 @@ view: session_attribution {
     sql_distinct_key: ${sessions.session_id} ;;
     sql: ${attribution_per_session} ;;
     value_format_name: usd
-    drill_fields: [attribution_detail*]
+    drill_fields: [metric_drill*]
   }
 
   measure: ROI {
@@ -79,12 +78,6 @@ view: session_attribution {
           WHEN {% parameter attribution_filter %} = 'Multi-Touch Linear' THEN ${sessions.traffic_source}
           ELSE NULL
         END ;;
-#     html:  {% if metric_name._value contains 'User Retention' %}
-#             {{ linked_value }}{{ format_symbol._value }}
-#           {% else %}
-#             {{ format_symbol._value }}{{ linked_value }}
-#           {% endif %} ;;
-#     drill_fields: [cohort_size, percent_user_retention, users.count, average_orders_per_user, average_spend_per_user]
       label_from_parameter: attribution_filter
     }
 
@@ -113,6 +106,16 @@ view: session_attribution {
       ROI,
       attribution_filter,
       attribution_source,
+    ]
+  }
+
+  set: metric_drill {
+    fields: [
+      campaigns.campaign_name,
+      adevents.total_cost,
+      sessions.purchases,
+      total_attribution,
+      events.bounce_rate
     ]
   }
 }
