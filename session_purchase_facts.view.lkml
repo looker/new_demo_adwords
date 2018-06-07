@@ -63,7 +63,7 @@ view: session_purchase_facts {
   }
 
   dimension: order_id {
-#     hidden: yes
+    hidden: yes
     type: number
     sql: ${TABLE}.order_id ;;
   }
@@ -88,7 +88,6 @@ view: session_purchase_facts {
   }
 
   dimension: purchase_session_source {
-    group_label: "Attribution"
     view_label: "Sessions"
     description: "Last Touch Attribution: Source of last session before purchase"
     type: string

@@ -52,7 +52,7 @@ explore: events{
 
 
 explore: sessions{
-  fields: [ALL_FIELDS*, -funnel_view*]
+  fields: [ALL_FIELDS*, -sessions.funnel_view*]
   label: "Attribution"
   join: adevents {
     relationship: many_to_one

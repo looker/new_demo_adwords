@@ -42,7 +42,6 @@ view: sessions {
   }
 
   dimension: traffic_source {
-    group_label: "Attribution"
     type: string
   }
 
@@ -208,6 +207,7 @@ view: sessions {
   }
 
   dimension: weeks_since_campaing_start {
+    label: "Weeks Since Campaign Start"
     view_label: "Campaigns"
     type: number
     sql: DATE_DIFF('week', ${campaigns.created_date}, ${session_start_date})  ;;
@@ -368,7 +368,9 @@ view: sessions {
       count_browse_or_later,
       count_product_or_later,
       count_cart_or_later,
-      count_purchase
+      count_purchase,
+      cart_to_checkout_conversion,
+      overall_conversion
     ]
   }
 
