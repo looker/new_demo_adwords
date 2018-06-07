@@ -34,7 +34,7 @@ view: session_attribution {
     description: "Associated Revenue ($) from sales based on a linear multi-touch source attribution"
     hidden: yes
     type: number
-    sql: 1.0 * ${gross_revenue}/nullif(${sessions_till_purchase},0 );;
+    sql: 1.0 * ${sale_price}/nullif(${sessions_till_purchase},0 );;
     value_format_name: usd
     drill_fields: [detail*]
   }

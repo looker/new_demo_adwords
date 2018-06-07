@@ -38,14 +38,14 @@ view: session_purchase_facts {
         , session_purchase.traffic_source as purchase_session_traffic_source
         , sum(sessions_till_purchase) as sessions_till_purchase
         , sum(sale_price) AS sale_price
-        , sum(inventory_items.cost) as cost
+        --, sum(inventory_items.cost) as cost
         , sum(search_sessions) as search_session_count
         , MIN(events.created_at) AS session_start
         , MAX(events.created_at) AS session_end
         , MAX(events.user_id) AS session_user_id
       FROM ecomm.events
       JOIN ecomm.order_items on order_items.created_at = events.created_at
-      JOIN ecomm.inventory_items  AS inventory_items ON inventory_items.id = order_items.inventory_item_id
+      --JOIN ecomm.inventory_items  AS inventory_items ON inventory_items.id = order_items.inventory_item_id
       JOIN session_purchase on session_purchase.session_id = events.session_id
       JOIN session_contains_search on session_purchase.session_id = session_contains_search.session_id
       GROUP BY events.session_id, order_id, session_purchase.traffic_source
@@ -101,10 +101,10 @@ view: session_purchase_facts {
     sql: ${TABLE}.sessions_till_purchase ;;
   }
 
-  dimension: gross_revenue {
+  dimension: sale_price {
     hidden: yes
     type: number
-    sql: ${TABLE}.sale_price - ${TABLE}.cost ;;
+    sql: ${TABLE}.sale_price ;;
   }
 
   dimension: purchase_pk {
@@ -114,12 +114,10 @@ view: session_purchase_facts {
 
   measure: revenue {
     view_label: "Sessions"
-    label:  "Gross Revenue"
-#     type: sum_distinct
-#     sql_distinct_key: ${purchase_pk} ;;
+    label:  "Revenue"
     type: sum
     value_format_name: usd
-    sql: ${gross_revenue} ;;
+    sql: ${sale_price} ;;
     drill_fields: [detail*]
   }
 
