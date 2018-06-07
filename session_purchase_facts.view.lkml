@@ -176,20 +176,19 @@ view: session_purchase_facts {
     timeframes: [raw, time, date, week, month]
     sql: ${TABLE}.last_session_end;;
   }
-
-  dimension_group: session_start {
-    hidden: yes
-    type: time
-    timeframes: [raw, time, date, week, month]
-    sql: ${TABLE}.session_start ;;
-  }
-
   dimension_group: session_end {
     type: time
     view_label: "Sessions"
     label: "Purchase End Session"
     timeframes: [raw, time, date, week, month]
     sql: ${TABLE}.session_end ;;
+  }
+
+  dimension_group: session_start {
+    hidden: yes
+    type: time
+    timeframes: [raw, time, date, week, month]
+    sql: ${TABLE}.session_start ;;
   }
 
   dimension: session_user_id {

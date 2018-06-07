@@ -88,8 +88,26 @@ view: session_attribution {
       label_from_parameter: attribution_filter
     }
 
+  dimension_group: last_session_end {
+#     hidden: yes
+    label: "Purchase Start Session"
+    view_label: "Sessions"
+    type: time
+    timeframes: [raw, time, date, week, month]
+    sql: ${TABLE}.last_session_end;;
+  }
+  dimension_group: session_end {
+    type: time
+    view_label: "Sessions"
+    label: "Purchase End Session"
+    timeframes: [raw, time, date, week, month]
+    sql: ${TABLE}.session_end ;;
+  }
+
   set: attribution_detail {
     fields: [
+      last_session_end_month,
+      session_end_month,
       attribution_per_session,
       total_attribution,
       ROI,

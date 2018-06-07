@@ -10,7 +10,6 @@ view: user_session_fact {
     sql_trigger_value: select count(*) from ecomm.events ;;
     explore_source: events {
       column: session_user_id { field: sessions.session_user_id }
-#       column: session_id {field: sessions.session_id}
       column: site_acquisition_ad_event_id { field: sessions.site_acquisition_ad_event_id }
       column: site_acquisition_source { field: sessions.site_acquisition_source }
       column: first_visit_dt { field: sessions.first_visit_dt }

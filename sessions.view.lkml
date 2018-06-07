@@ -376,8 +376,10 @@ view: sessions {
 
   set: detail {
     fields: [session_id,
-      session_start_time, session_end_time,
-      number_of_events_in_session, duration,
+      session_start_time,
+      session_end_time,
+      number_of_events_in_session,
+      duration,
       number_of_purchase_events_in_session,
       number_of_cart_events_in_session]
   }
