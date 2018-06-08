@@ -56,7 +56,7 @@ derived_table: {
     link: {
       label: "Campaign Performance Dashboard"
       icon_url: "http://www.looker.com/favicon.ico"
-      url: "https://demo.looker.com/dashboards/3016?Campaign Name={{ value | encode_uri }}"
+      url: "https://demo.looker.com/dashboards/3106?Campaign Name={{ value | encode_uri }}"
     }
     link: {
       label: "View on AdWords"
@@ -73,6 +73,21 @@ derived_table: {
   dimension: campaign_name_raw {
     label: "Campaign Abbreviated"
     sql: ${TABLE}.campaign_name ;;
+    link: {
+      label: "Campaign Performance Dashboard"
+      icon_url: "http://www.looker.com/favicon.ico"
+      url: "https://demo.looker.com/dashboards/3106?Campaign Name={{ campaign_name._value | encode_uri }}"
+    }
+    link: {
+      label: "View on AdWords"
+      icon_url: "https://www.google.com/s2/favicons?domain=www.adwords.google.com"
+      url: "https://adwords.google.com/aw/adgroups?campaignId={{ campaign_id._value | encode_uri }}"
+    }
+    link: {
+      label: "Pause Campaign"
+      icon_url: "https://www.google.com/s2/favicons?domain=www.adwords.google.com"
+      url: "https://adwords.google.com/aw/ads?campaignId={{ campaign_id._value | encode_uri }}"
+    }
   }
 
   dimension: campaign_type {
