@@ -4,6 +4,7 @@ include: "*.view.lkml"         # include all views in this project
 include: "*.dashboard.lookml"  # include all dashboards in this project
 
 explore: events{
+  label:  "1. Digital Ads - Event Data"
   join: sessions {
     relationship: many_to_one
     sql_on: ${events.session_id} = ${sessions.session_id} ;;
@@ -18,13 +19,13 @@ explore: events{
     view_label: "Users"
     relationship: one_to_one
     sql_on: ${users.id} = ${user_session_fact.session_user_id} ;;
-}
+  }
 
   join: session_purchase_facts {
     relationship: many_to_one
     sql_on: ${sessions.session_user_id} = ${session_purchase_facts.session_user_id}
-    and ${sessions.session_start_raw} >= ${session_purchase_facts.last_session_end_raw}
-    and ${sessions.session_end_raw} <= ${session_purchase_facts.session_end_raw};;
+          and ${sessions.session_start_raw} >= ${session_purchase_facts.last_session_end_raw}
+          and ${sessions.session_end_raw} <= ${session_purchase_facts.session_end_raw};;
   }
 
   join: adevents {
@@ -53,7 +54,7 @@ explore: events{
 
 explore: sessions{
   fields: [ALL_FIELDS*, -sessions.funnel_view*]
-  label: "Attribution"
+  label: "2. Marketing Attribution"
   join: adevents {
     relationship: many_to_one
     sql_on: ${adevents.adevent_id} = ${sessions.ad_event_id} ;;
