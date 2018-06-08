@@ -63,7 +63,7 @@ view: session_attribution {
     view_label: "Cohort"
     label: "Attribution Picker"
     description: "Choose a type of Attribution"
-    allowed_value: { value: "Acquisition Source" }
+    allowed_value: { value: "First Touch" }
     allowed_value: { value: "Last Touch" }
     allowed_value: { value: "Multi-Touch Linear" }
   }
