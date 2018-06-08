@@ -129,6 +129,15 @@ view: session_purchase_facts {
     drill_fields: [attribution_detail*]
   }
 
+  measure: net_profit {
+    view_label: "Sessions"
+    label: "Profit"
+    type: number
+    value_format_name: usd
+    sql: ${revenue} - ${adevents.total_cost} ;;
+    drill_fields: [attribution_detail*]
+  }
+
   dimension: session_purchase_rank {
     hidden: yes
     view_label: "Sessions"
