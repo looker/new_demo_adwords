@@ -125,7 +125,7 @@ view: session_purchase_facts {
     label: "ROI (Revenue/Cost)"
     type: number
     value_format_name: percent_1
-    sql: round(1.0 * ${revenue}/ NULLIF(${adevents.total_cost},0) - 1,3) ;;
+    sql: trunc(1.0 * ${revenue}/ NULLIF(${adevents.total_cost},0) - 1,3) ;;
     drill_fields: [attribution_detail*]
   }
 
