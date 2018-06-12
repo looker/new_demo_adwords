@@ -63,7 +63,7 @@ view: session_attribution {
     view_label: "Cohort"
     label: "Attribution Picker"
     description: "Choose a type of Attribution"
-    allowed_value: { value: "Acquisition Source" }
+    allowed_value: { value: "First Touch" }
     allowed_value: { value: "Last Touch" }
     allowed_value: { value: "Multi-Touch Linear" }
   }
@@ -73,7 +73,7 @@ view: session_attribution {
     type: string
     description: "Use in conjuction with the Attribution Picker"
     sql: CASE
-          WHEN {% parameter attribution_filter %} = 'Acquisition Source' THEN ${user_session_fact.site_acquisition_source}
+          WHEN {% parameter attribution_filter %} = 'First Touch' THEN ${user_session_fact.site_acquisition_source}
           WHEN {% parameter attribution_filter %} = 'Last Touch' THEN ${purchase_session_source}
           WHEN {% parameter attribution_filter %} = 'Multi-Touch Linear' THEN ${sessions.traffic_source}
           ELSE NULL
