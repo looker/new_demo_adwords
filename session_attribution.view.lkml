@@ -86,7 +86,7 @@ view: session_attribution {
     label: "Purchase Start Session"
     view_label: "Sessions"
     type: time
-    timeframes: [raw, time, date, week, month]
+    timeframes: [raw, time, date, week, quarter, month]
     sql: ${TABLE}.last_session_end;;
   }
   dimension_group: session_end {
@@ -100,6 +100,7 @@ view: session_attribution {
   set: attribution_detail {
     fields: [
       last_session_end_month,
+      last_session_end_quarter,
       session_end_month,
       attribution_per_session,
       total_attribution,

@@ -80,7 +80,7 @@ view: sessions {
 
   dimension_group: session_start {
     type: time
-    timeframes: [raw, time, date, week, month, hour_of_day, day_of_week]
+    timeframes: [raw, time, date, week, month, quarter, hour_of_day, day_of_week]
     sql: ${TABLE}.session_start ;;
   }
 
