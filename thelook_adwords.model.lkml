@@ -1,3 +1,5 @@
+label: "Digital Marketing"
+
 connection: "demonew_events_ecommerce"
 
 include: "*.view.lkml"         # include all views in this project
