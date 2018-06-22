@@ -208,6 +208,7 @@ view: sessions {
 
   dimension: weeks_since_campaing_start {
     label: "Weeks Since Campaign Start"
+    description:  "Weeks between campaign start and user's session start (e.g. first click)"
     view_label: "Campaigns"
     type: number
     sql: DATE_DIFF('week', ${campaigns.created_date}, ${session_start_date})  ;;
