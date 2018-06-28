@@ -179,11 +179,11 @@ view: adevents {
   }
 
   measure: cost_per_impression {
-    label: "Cost per Impression (CPM)"
-    description: "Average cost per ad impression for display ads."
+    label: "Cost per Thousand Impressions (CPM)"
+    description: "Average cost per one thousand ad impressions for display ads."
     type: number
-    sql: ${total_cost_impressions}* 1.0/ NULLIF(${total_impressions},0) ;;
-    value_format_name: usd
+    sql: ${total_cost_impressions}* 1.0/ NULLIF(1.0*${total_impressions}/1000,0) ;;
+    value_format: "$0.000"
     drill_fields: [detail*]
   }
 

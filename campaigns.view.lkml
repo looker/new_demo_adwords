@@ -91,7 +91,7 @@ derived_table: {
   }
 
   dimension: campaign_type {
-    sql: SUBSTR(SUBSTR(${campaign_name_raw},STRPOS(${campaign_name_raw},' - ')+3),STRPOS(SUBSTR(${campaign_name_raw},STRPOS(${campaign_name_raw},' - ')+3),' - ')+3) ;;
+    sql: substring(substring(${campaign_name_raw},STRPOS(${campaign_name_raw},' - ')+3),STRPOS(substring(${campaign_name_raw},STRPOS(${campaign_name_raw},' - ')+3),' - ')+3) ;;
   }
 
   dimension_group: created {
