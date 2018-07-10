@@ -1,6 +1,12 @@
 # Attribution
 
-Check out this article for a great introduction to Attribution: https://segment.com/academy/collecting-data/an-introduction-to-multi-touch-attribution/
+
+<h2 style="color:rgb(100,81,138)">Helpful Links</h2>
+
+Read: [Introduction to Attribution](https://segment.com/academy/collecting-data/an-introduction-to-multi-touch-attribution/)
+
+
+<h2 style="color:rgb(100,81,138)">Overview</h2>
 
 In this demo, we've specified three different types of attribution.
 
@@ -11,7 +17,7 @@ In this demo, we've specified three different types of attribution.
   3.  __Multi-Touch Linear Attribution__ - Every session leading up to a purchase gets equal weight for the purchase
 
 
-Session Purchase Facts is a PDT that sessionizes the session table based on purchases. It contains dimensions such as sessions_till_purchase and sale_price to help identify how revenue should be distributed back across the table. It is joined back into the sessions table and revenue can be looked at at attributes of the session table, like session.traffice_source, purchase_session_source, etc...
+Session Purchase Facts is a PDT that sessionizes the session table based on purchases. It contains dimensions such as sessions_till_purchase and sale_price to help identify how revenue should be distributed back across the table. It is joined back into the sessions table and revenue can be looked at as attributes of the session table, like session.traffice_source, purchase_session_source, etc...
 
 
 <h2 style="color:rgb(100,81,138)">Examples</h2>
