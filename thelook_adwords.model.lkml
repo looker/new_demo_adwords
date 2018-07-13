@@ -5,6 +5,8 @@ connection: "demonew_events_ecommerce"
 include: "*.view.lkml"         # include all views in this project
 include: "*.dashboard.lookml"  # include all dashboards in this project
 
+persist_for: "12 hours"
+
 explore: events{
   label:  "1. Digital Ads - Event Data"
   join: sessions {

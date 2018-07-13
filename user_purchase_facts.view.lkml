@@ -2,7 +2,7 @@ view: user_purchase_facts {
   derived_table: {
     sql: with user_product_sales as (select user_id, product_category, sum(sale_price) as product_sales, row_number() over(PARTITION BY user_id order by sum(sale_price ) desc ) as category_rank
       from ecomm.order_items
-      join public.inventory_items
+      join ecomm.inventory_items
       on order_items.inventory_item_id = inventory_items.id
       join products
       on inventory_items.product_id = products.id
