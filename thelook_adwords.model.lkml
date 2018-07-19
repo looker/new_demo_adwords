@@ -1,4 +1,4 @@
-label: "Digital Marketing"
+label: "3) Digital Marketing"
 
 connection: "demonew_events_ecommerce"
 
@@ -8,7 +8,7 @@ include: "*.dashboard.lookml"  # include all dashboards in this project
 persist_for: "12 hours"
 
 explore: events{
-  label:  "1. Digital Ads - Event Data"
+  label:  "(1) Digital Ads - Event Data"
   join: sessions {
     relationship: many_to_one
     sql_on: ${events.session_id} = ${sessions.session_id} ;;
@@ -58,7 +58,7 @@ explore: events{
 
 explore: sessions{
   fields: [ALL_FIELDS*, -sessions.funnel_view*]
-  label: "2. Marketing Attribution"
+  label: "(2) Marketing Attribution"
   join: adevents {
     relationship: many_to_one
     sql_on: ${adevents.adevent_id} = ${sessions.ad_event_id} ;;
