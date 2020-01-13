@@ -35,18 +35,19 @@ view: adevents {
     description: "Use this filter for period analysis"
   }
 
-  dimension: previous_period {
+  dimension: previous_period
+  {
     type: string
     description: "The reporting period as selected by the Previous Period Filter"
     sql:
       CASE
-        WHEN {% date_start previous_period_filter %} is not null AND {% date_end previous_period_filter %} is not null /* date ranges or in the past x days */
+        WHEN {% date_start previous_period_filter %} is [not] null AND {% date_end previous_period_filter %} is [not] null /* date ranges or in the past x days */
           THEN
             CASE
               WHEN ${created_raw} >=  {% date_start previous_period_filter %}
                 AND ${created_raw}  <= {% date_end previous_period_filter %}
                 THEN 'This Period'
-              WHEN ${created_raw}  >= DATEADD(day,-1*DATEDIFF(day,{% date_start previous_period_filter %}, {% date_end previous_period_filter %} ) + 1, DATEADD(day,-1,{% date_start previous_period_filter %} ) )
+              WHEN ${created_raw}  >= DATEADD(day,-1*DATEDIFF('day',{% date_start previous_period_filter %}, {% date_end previous_period_filter %} ) + 1, DATEADD(day,-1,{% date_start previous_period_filter %} ) )
                 AND ${created_raw}  <= DATEADD(day,-1,{% date_start previous_period_filter %} )
                 THEN 'Previous Period'
             END
@@ -84,7 +85,7 @@ view: adevents {
     hidden: yes
     type: number
     sql: case when ${is_impression_event} = true
-      and ${campaigns.advertising_channel} <> 'Search'
+      and ${campaigns.advertising_channel} != 'Search'
       then (1.0*${TABLE}.amount)/1000 end ;;
     value_format_name: usd
   }

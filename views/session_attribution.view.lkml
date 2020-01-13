@@ -40,7 +40,8 @@ view: session_attribution {
 
   measure: total_attribution {
     view_label: "Sessions"
-    label: "Associated Revenue (ROI)"
+    label: "Associated Revenue"
+    description: "The total revenue associated with these sessions"
     type: sum_distinct
     sql_distinct_key: ${sessions.session_id} ;;
     sql: ${attribution_per_session} ;;
@@ -50,11 +51,24 @@ view: session_attribution {
 
   measure: ROI {
     view_label: "Sessions"
-    label: "ROI (Revenue/Cost)"
+    label: "Percent ROI"
+    description: "Associated revenue divided by the total cost"
     type: number
-    value_format_name: usd
+    value_format_name: percent_2
     sql: 1.0 * ${total_attribution}/ NULLIF(${adevents.total_cost},0) - 1 ;;
   }
+
+  measure: net_roi {
+    view_label: "Sessions"
+    label: "Net Revenue"
+    description: "Associated revenue minus total associated cost"
+    type: number
+    value_format_name: usd
+    sql:  ${total_attribution}-${adevents.total_cost} ;;
+  }
+
+
+
 
 
 #   ----------------------------------------------------  #

@@ -1,11 +1,15 @@
 label: "3) Digital Marketing"
 
-connection: "demonew_events_ecommerce"
+connection: "snowflake"
 
-include: "*.view.lkml"         # include all views in this project
-include: "*.dashboard.lookml"  # include all dashboards in this project
+include: "*/*.view.lkml"         # include all views in this project
+# include: "*.dashboard.lookml"  # include all dashboards in this project
 
-persist_for: "12 hours"
+
+datagroup: ecommerce_etl {
+  sql_trigger: SELECT max(completed_at) FROM ecomm.etl_jobs ;;
+  max_cache_age: "24 hours"}
+persist_with: ecommerce_etl
 
 explore: events{
   label:  "(1) Digital Ads - Event Data"

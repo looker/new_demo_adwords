@@ -1,8 +1,6 @@
 view: session_purchase_facts {
   derived_table: {
-    sql_trigger_value: select count(*) from ecomm.events;;
-    distribution_style: all
-    sortkeys: ["session_start"]
+    datagroup_trigger: ecommerce_etl
     sql:
       with session_purchase as (
       select

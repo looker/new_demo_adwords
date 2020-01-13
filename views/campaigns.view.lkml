@@ -1,19 +1,17 @@
 view: campaigns {
-#   sql_table_name: ecomm.campaigns ;;
+
 derived_table: {
-  sql_trigger_value: select count(*) from ecomm.campaigns ;;
-  distribution: "id"
-  sortkeys: ["id"]
+  datagroup_trigger: ecommerce_etl
   sql: SELECT *
-            FROM   ecomm.campaigns
-            UNION
-            SELECT 9999                        AS id,
-            NULL                        AS advertising_channel,
-            0                           AS amount,
-            NULL                        AS bid_type,
-            'Total'                     AS campaign_name,
-            '60'                        AS period,
-            Dateadd(day, -1, Getdate()) AS created_at ;;
+      FROM   ecomm.campaigns
+      UNION
+      SELECT 9999                 AS id,
+      NULL                        AS advertising_channel,
+      0                           AS amount,
+      NULL                        AS bid_type,
+      'Total'                     AS campaign_name,
+      '60'                        AS period,
+      Dateadd(day, -1, current_timestamp()::timestamp_ntz) AS created_at  ;;
 }
 
 ##### Campaign Facts #####
@@ -52,7 +50,7 @@ derived_table: {
   dimension: campaign_name {
     full_suggestions: yes
     type: string
-    sql: ${campaign_id}::VARCHAR +  ' - ' + ${campaign_name_raw} ;;
+    sql: ${campaign_id}::VARCHAR ||  ' - ' || ${campaign_name_raw} ;;
     link: {
       label: "Campaign Performance Dashboard"
       icon_url: "http://www.looker.com/favicon.ico"
@@ -91,7 +89,7 @@ derived_table: {
   }
 
   dimension: campaign_type {
-    sql: substring(substring(${campaign_name_raw},STRPOS(${campaign_name_raw},' - ')+3),STRPOS(substring(${campaign_name_raw},STRPOS(${campaign_name_raw},' - ')+3),' - ')+3) ;;
+    sql: substring(substring(${campaign_name_raw},POSITION(' - ', ${campaign_name_raw})+3),POSITION(' - ', substring(${campaign_name_raw},POSITION(' - ', ${campaign_name_raw})+3))+3) ;;
   }
 
   dimension_group: created {
@@ -121,7 +119,7 @@ derived_table: {
     ]
     convert_tz: no
     datatype: date
-    sql: date_add('day', ${period},${created_date}) ;;
+    sql: dateadd('day', ${period},${created_date}) ;;
   }
 
   dimension: day_of_quarter {

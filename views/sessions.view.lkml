@@ -1,8 +1,6 @@
 view: sessions {
   derived_table: {
-    sql_trigger_value: select count(*) from ecomm.events ;;
-    distribution: "session_user_id"
-    sortkeys: ["session_user_id", "session_rank"]
+    datagroup_trigger: ecommerce_etl
     sql:
       SELECT
         row_number() over (partition by session_user_id order by session_end) as session_rank
@@ -113,7 +111,7 @@ view: sessions {
 
   dimension: months_since_first_session {
     type: number
-    sql: datediff( month, ${users.created_raw}, ${session_start_raw} ) ;;
+    sql: datediff( 'month', ${users.created_raw}, ${session_start_raw} ) ;;
   }
 
   measure: count {
@@ -211,7 +209,7 @@ view: sessions {
     description:  "Weeks between campaign start and user's session start (e.g. first click)"
     view_label: "Campaigns"
     type: number
-    sql: DATE_DIFF('week', ${campaigns.created_date}, ${session_start_date})  ;;
+    sql: DATEDIFF('week', ${campaigns.created_date}, ${session_start_date})  ;;
   }
 
   measure: count_with_cart {

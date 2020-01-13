@@ -14,7 +14,7 @@ view: events {
 
   dimension: utm_code {
     type: string
-    sql: ${ad_event_id}:: varchar + ' - ' + ${referrer_code} ::varchar ;;
+    sql: ${ad_event_id}:: varchar || ' - ' || ${referrer_code} ::varchar ;;
   }
 
   dimension: ad_event_id {
@@ -74,7 +74,7 @@ view: events {
               WHEN ${event_raw} >=  {% date_start previous_period_filter %}
                 AND ${event_raw}  <= {% date_end previous_period_filter %}
                 THEN 'This Period'
-              WHEN ${event_raw}  >= DATEADD(day,-1*DATEDIFF(day,{% date_start previous_period_filter %}, {% date_end previous_period_filter %} ) + 1, DATEADD(day,-1,{% date_start previous_period_filter %} ) )
+              WHEN ${event_raw}  >= DATEADD(day,-1*DATEDIFF('day',{% date_start previous_period_filter %}, {% date_end previous_period_filter %} ) + 1, DATEADD(day,-1,{% date_start previous_period_filter %} ) )
                 AND ${event_raw}  <= DATEADD(day,-1,{% date_start previous_period_filter %} )
                 THEN 'Previous Period'
             END
@@ -174,7 +174,7 @@ view: events {
   dimension: viewed_product_id {
     type: number
     sql: CASE
-        WHEN ${event_type} = 'Product' THEN right(${full_page_url},len(${full_page_url})-9)
+        WHEN ${event_type} = 'Product' THEN right(${full_page_url},length(${full_page_url})-9)
       END
        ;;
   }
@@ -196,11 +196,11 @@ view: events {
   dimension: funnel_step_adwords {
     description: "Login -> Browse -> Add to Cart -> Checkout (for Adwords)"
     sql: CASE
-        WHEN ${event_type} IN ('Login', 'Home') and ${utm_code} is not null THEN '(1) Land'
-        WHEN ${event_type} IN ('Category', 'Brand') and ${utm_code} is not null THEN '(2) Browse Inventory'
-        WHEN ${event_type} = 'Product' and ${utm_code} is not null THEN '(3) View Product'
-        WHEN ${event_type} = 'Cart' and ${utm_code} is not null THEN '(4) Add Item to Cart'
-        WHEN ${event_type} = 'Purchase' and ${utm_code} is not null THEN '(5) Purchase'
+        WHEN ${event_type} IN ('Login', 'Home') and ${utm_code} is [not] null THEN '(1) Land'
+        WHEN ${event_type} IN ('Category', 'Brand') and ${utm_code} is [not] null THEN '(2) Browse Inventory'
+        WHEN ${event_type} = 'Product' and ${utm_code} is [not] null THEN '(3) View Product'
+        WHEN ${event_type} = 'Cart' and ${utm_code} is [not] null THEN '(4) Add Item to Cart'
+        WHEN ${event_type} = 'Purchase' and ${utm_code} is [not] null THEN '(5) Purchase'
       END
        ;;
   }
