@@ -12,6 +12,7 @@ datagroup: ecommerce_etl {
 persist_with: ecommerce_etl
 
 explore: events{
+  hidden: yes
   label:  "(1) Digital Ads - Event Data"
   join: sessions {
     relationship: many_to_one
