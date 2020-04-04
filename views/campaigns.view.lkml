@@ -11,7 +11,7 @@ derived_table: {
       NULL                        AS bid_type,
       'Total'                     AS campaign_name,
       '60'                        AS period,
-      date_add(current_date() interval -1 days) AS created_at  ;;
+      date_add(current_date(), interval -1 days) AS created_at  ;;
 }
 
 ##### Campaign Facts #####
