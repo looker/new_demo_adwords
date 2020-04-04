@@ -106,7 +106,7 @@ view: session_purchase_facts {
 
   dimension: purchase_pk {
     hidden: yes
-    sql: cast(${session_purchase_rank} as varchar) + cast(${session_user_id} as varchar) ;;
+    sql: concat(cast(${session_purchase_rank} as string),cast(${session_user_id} as string)) ;;
   }
 
   measure: revenue {

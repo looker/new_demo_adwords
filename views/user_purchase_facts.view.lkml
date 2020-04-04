@@ -1,7 +1,6 @@
 view: user_purchase_facts {
   derived_table: {
     datagroup_trigger: ecommerce_etl
-
     sql:
     with user_product_sales as (
     select user_id, product_category, sum(sale_price) as product_sales, row_number() over(PARTITION BY user_id order by sum(sale_price ) desc ) as category_rank

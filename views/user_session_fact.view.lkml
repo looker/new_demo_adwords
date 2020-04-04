@@ -2,7 +2,6 @@ explore: user_session_fact {
   hidden: yes
 }
 
-
 view: user_session_fact {
   derived_table: {
     datagroup_trigger: ecommerce_etl
@@ -97,20 +96,16 @@ view: user_session_fact {
         sql: ${count_with_purchase} = 0 ;;
         label: "None"
       }
-
       when: {
         sql: ${count_with_purchase} > 0 AND ${count_with_purchase} < 3 ;;
         label: "1-2"
       }
-
       when: {
         sql:${count_with_purchase} >= 3 ;;
         label: "3+"
       }
     }
-
     sql: ${count_with_purchase} ;;
-
   }
 
   dimension: has_purchase {
@@ -130,28 +125,33 @@ view: user_session_fact {
     type: count
     drill_fields: [campaigns.campaign_type,count_p2]
   }
+
   measure: count_p2 {
     label: "Count"
     hidden: yes
     type: count
     drill_fields: [campaigns.campaign_name_raw,count_p3]
   }
+
   measure: count_p3 {
     label: "Count"
     hidden: yes
     type: count
     drill_fields: [keywords.criterion_name,count_p4]
   }
+
   measure: count_p4 {
     label: "Count"
     hidden: yes
     type: count
   }
+
   measure: average_loyalty {
     type: average
     value_format_name: decimal_1
     sql: ${count_with_purchase} ;;
   }
+
   measure: average_engagement {
     type: average
     value_format_name: decimal_1
@@ -207,8 +207,6 @@ view: user_session_fact {
             END
       END
     ;;
-
-
   }
 
   set: user_session_measures {

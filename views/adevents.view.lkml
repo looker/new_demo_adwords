@@ -35,23 +35,25 @@ view: adevents {
     description: "Use this filter for period analysis"
   }
 
-  dimension: previous_period
-  {
+  dimension: previous_period {
     type: string
     description: "The reporting period as selected by the Previous Period Filter"
     sql:
       CASE
-        WHEN {% date_start previous_period_filter %} is [not] null AND {% date_end previous_period_filter %} is [not] null /* date ranges or in the past x days */
-          THEN
+        WHEN ({% date_start previous_period_filter %} is not null
+          AND {% date_end previous_period_filter %} is not null) /* date ranges or in the past x days */
+          THEN (
             CASE
-              WHEN ${created_raw} >=  {% date_start previous_period_filter %}
-                AND ${created_raw}  <= {% date_end previous_period_filter %}
+              WHEN (${created_raw} >=  {% date_start previous_period_filter %}
+                  AND ${created_raw}  <= {% date_end previous_period_filter %})
                 THEN 'This Period'
-              WHEN ${created_raw}  >= DATEADD(day,-1*DATEDIFF('day',{% date_start previous_period_filter %}, {% date_end previous_period_filter %} ) + 1, DATEADD(day,-1,{% date_start previous_period_filter %} ) )
-                AND ${created_raw}  <= DATEADD(day,-1,{% date_start previous_period_filter %} )
+              WHEN (date(${created_raw})  >= DATE_SUB(DATE_SUB(date({% date_start previous_period_filter %}), INTERVAL 1 DAY )
+                                          , INTERVAL DATE_DIFF(date({% date_end previous_period_filter %}),
+                                          date({% date_start previous_period_filter %}), DAY ) + 1 DAY)
+                  AND date(${created_raw})  <= DATE_SUB(date({% date_start previous_period_filter %}), INTERVAL 1 DAY ))
                 THEN 'Previous Period'
-            END
-          END ;;
+              ELSE NULL END)
+         ELSE NULL END;;
   }
 
   dimension: device_type {

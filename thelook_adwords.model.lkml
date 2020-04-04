@@ -1,6 +1,6 @@
 label: "3) Digital Marketing"
 
-connection: "snowflake"
+connection: "looker-private-demo"
 
 include: "*/*.view.lkml"         # include all views in this project
 include: "dashboards/*.dashboard.lookml"  # include all dashboards in this project

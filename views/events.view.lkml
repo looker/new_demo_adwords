@@ -12,20 +12,20 @@ view: events {
     sql: ${TABLE}.session_id ;;
   }
 
-  dimension: utm_code {
+   dimension: utm_code {
     type: string
-    sql: ${ad_event_id}:: varchar || ' - ' || ${referrer_code} ::varchar ;;
+    sql: CONCAT(SAFE_CAST(${ad_event_id} AS STRING), ' - ', SAFE_CAST(${referrer_code} AS STRING)) ;;
   }
 
   dimension: ad_event_id {
     type: number
-    sql: ${TABLE}.ad_event_id :: int ;;
+    sql: SAFE_CAST(${TABLE}.ad_event_id AS INT64) ;;
   }
 
   dimension: referrer_code {
     hidden: yes
     type: number
-    sql: ${TABLE}.referrer_code :: int ;;
+    sql: SAFE_CAST(${TABLE}.referrer_code AS INT64) ;;
   }
 
   dimension: browser {
@@ -67,18 +67,21 @@ view: events {
     type: string
     description: "The reporting period as selected by the Previous Period Filter"
     sql:
-      CASE
-        WHEN {% date_start previous_period_filter %} is not null AND {% date_end previous_period_filter %} is not null /* date ranges or in the past x days */
-          THEN
+       CASE
+        WHEN ({% date_start previous_period_filter %} is not null
+          AND {% date_end previous_period_filter %} is not null) /* date ranges or in the past x days */
+          THEN (
             CASE
-              WHEN ${event_raw} >=  {% date_start previous_period_filter %}
-                AND ${event_raw}  <= {% date_end previous_period_filter %}
+              WHEN (${event_raw} >=  {% date_start previous_period_filter %}
+                  AND ${event_raw}  <= {% date_end previous_period_filter %})
                 THEN 'This Period'
-              WHEN ${event_raw}  >= DATEADD(day,-1*DATEDIFF('day',{% date_start previous_period_filter %}, {% date_end previous_period_filter %} ) + 1, DATEADD(day,-1,{% date_start previous_period_filter %} ) )
-                AND ${event_raw}  <= DATEADD(day,-1,{% date_start previous_period_filter %} )
+              WHEN (date(${event_raw})  >= DATE_SUB(DATE_SUB(date({% date_start previous_period_filter %}), INTERVAL 1 DAY )
+                                          , INTERVAL DATE_DIFF(date({% date_end previous_period_filter %}),
+                                          date({% date_start previous_period_filter %}), DAY ) + 1 DAY)
+                  AND date(${event_raw})  <= DATE_SUB(date({% date_start previous_period_filter %}), INTERVAL 1 DAY ))
                 THEN 'Previous Period'
-            END
-          END ;;
+              ELSE NULL END)
+         ELSE NULL END;;
   }
 
 
@@ -174,7 +177,8 @@ view: events {
   dimension: viewed_product_id {
     type: number
     sql: CASE
-        WHEN ${event_type} = 'Product' THEN right(${full_page_url},length(${full_page_url})-9)
+        WHEN ${event_type} = 'Product' THEN SUBSTR(${full_page_url},
+        LENGTH(${full_page_url})- (LENGTH(${full_page_url})-10),LENGTH(${full_page_url})-9)
       END
        ;;
   }
@@ -196,11 +200,11 @@ view: events {
   dimension: funnel_step_adwords {
     description: "Login -> Browse -> Add to Cart -> Checkout (for Adwords)"
     sql: CASE
-        WHEN ${event_type} IN ('Login', 'Home') and ${utm_code} is [not] null THEN '(1) Land'
-        WHEN ${event_type} IN ('Category', 'Brand') and ${utm_code} is [not] null THEN '(2) Browse Inventory'
-        WHEN ${event_type} = 'Product' and ${utm_code} is [not] null THEN '(3) View Product'
-        WHEN ${event_type} = 'Cart' and ${utm_code} is [not] null THEN '(4) Add Item to Cart'
-        WHEN ${event_type} = 'Purchase' and ${utm_code} is [not] null THEN '(5) Purchase'
+        WHEN ${event_type} IN ('Login', 'Home') and ${utm_code} is not null THEN '(1) Land'
+        WHEN ${event_type} IN ('Category', 'Brand') and ${utm_code} is not null THEN '(2) Browse Inventory'
+        WHEN ${event_type} = 'Product' and ${utm_code} is not null THEN '(3) View Product'
+        WHEN ${event_type} = 'Cart' and ${utm_code} is not null THEN '(4) Add Item to Cart'
+        WHEN ${event_type} = 'Purchase' and ${utm_code} is not null THEN '(5) Purchase'
       END
        ;;
   }
@@ -280,8 +284,6 @@ view: events {
       event_id,
       event_time,
       event_type,
-      #       - os
-      #       - browser
       full_page_url, user_id, funnel_step]
   }
 
