@@ -66,7 +66,7 @@ view: keywords {
 
   dimension: period {
     type: number
-    sql: ${TABLE}.PERIOD ;;
+    sql: ${TABLE}.PERIOD_ID ;;
   }
 
   dimension: quality_score {
