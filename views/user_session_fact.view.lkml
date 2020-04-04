@@ -23,7 +23,7 @@ view: user_session_fact {
 
   dimension: site_acquisition_ad_event_id {
     type: number
-    sql: safe_cast(${TABLE}.site_acquisition_ad_event_id as int64) ;;
+    sql: safe_cast(${TABLE}.site_acquisition_ad_event_id, int64) ;;
   }
   dimension: site_acquisition_source {
     type: string
@@ -164,45 +164,45 @@ view: user_session_fact {
       WHEN ${site_acquisition_source} = 'Adwords'
         THEN
             CASE
-              WHEN random() <.6 THEN 'Jeans'
-              WHEN random() <.7 THEN 'Accessories'
+              WHEN rand() <.6 THEN 'Jeans'
+              WHEN rand() <.7 THEN 'Accessories'
               ELSE 'Tops'
             END
 
       WHEN ${site_acquisition_source} = 'Email'
         THEN
             CASE
-              WHEN random() <.05 THEN 'Jeans'
-              WHEN random() <.4 THEN 'Accessories'
+              WHEN rand() <.05 THEN 'Jeans'
+              WHEN rand() <.4 THEN 'Accessories'
               ELSE 'Tops'
             END
 
        WHEN ${site_acquisition_source} = 'Facebook'
         THEN
             CASE
-              WHEN random() <.6 THEN 'Jeans'
-              WHEN random() <.7 THEN 'Accessories'
+              WHEN rand() <.6 THEN 'Jeans'
+              WHEN rand() <.7 THEN 'Accessories'
               ELSE 'Tops'
             END
       WHEN ${site_acquisition_source} = 'Organic'
         THEN
             CASE
-              WHEN random() <.6 THEN 'Jeans'
-              WHEN random() <.7 THEN 'Accessories'
+              WHEN rand() <.6 THEN 'Jeans'
+              WHEN rand() <.7 THEN 'Accessories'
               ELSE 'Tops'
             END
 
       WHEN ${site_acquisition_source} = 'Youtube'
       THEN
           CASE
-            WHEN random() <.6 THEN 'Jeans'
-            WHEN random() <.7 THEN 'Accessories'
+            WHEN rand() <.6 THEN 'Jeans'
+            WHEN rand() <.7 THEN 'Accessories'
             ELSE 'Tops'
           END
       ELSE
             CASE
-              WHEN random() <.6 THEN 'Jeans'
-              WHEN random() <.7 THEN 'Accessories'
+              WHEN rand() <.6 THEN 'Jeans'
+              WHEN rand() <.7 THEN 'Accessories'
               ELSE 'Tops'
             END
       END
