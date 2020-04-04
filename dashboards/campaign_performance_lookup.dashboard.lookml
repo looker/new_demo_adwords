@@ -1,8 +1,7 @@
-- dashboard: campaign_performance
-  title: Campaign Performance
+- dashboard: campaign_performance_lookup
+  title: Campaign Performance Lookup
   layout: newspaper
   query_timezone: user_timezone
-  description: 'Drill down dashboards for campaign performance lookup'
   embed_style:
     background_color: "#ffffff"
     show_title: true
@@ -55,6 +54,9 @@
     comparison_label: "(CTR)"
     hidden_fields: []
     y_axes: []
+    note_state: collapsed
+    note_display: hover
+    note_text: ''
     listen:
       Campaign Name: campaigns.campaign_name
     row: 4
@@ -516,8 +518,8 @@
     col: 0
     width: 24
     height: 4
-  - title: Campaign Benchmark
-    name: Campaign Benchmark
+  - title: Attribution Benchmark
+    name: Attribution Benchmark
     model: thelook_adwords
     explore: events
     type: looker_line
