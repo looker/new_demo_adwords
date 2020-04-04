@@ -2,7 +2,6 @@
   title: 360 Marketing Overview
   layout: newspaper
   query_timezone: user_timezone
-  description: 'Overview of several digital marketing campaign - including clicks, impressions, ROI'
   embed_style:
     background_color: ''
     show_title: false
@@ -65,9 +64,9 @@
     hidden_fields: []
     listen:
       User Gender: users.gender
-    row: 8
+    row: 7
     col: 0
-    width: 16
+    width: 14
     height: 7
   - title: First Touch -  Acquisition Referrer
     name: First Touch -  Acquisition Referrer
@@ -112,7 +111,7 @@
     hidden_fields: []
     y_axes: []
     listen: {}
-    row: 25
+    row: 24
     col: 0
     width: 6
     height: 6
@@ -171,7 +170,7 @@
     inner_radius: 50
     hidden_fields: []
     listen: {}
-    row: 31
+    row: 30
     col: 6
     width: 18
     height: 7
@@ -223,7 +222,7 @@
     hidden_fields: []
     y_axes: []
     listen: {}
-    row: 25
+    row: 24
     col: 12
     width: 12
     height: 6
@@ -292,7 +291,7 @@
     note_display: above
     note_text: ''
     listen: {}
-    row: 31
+    row: 30
     col: 0
     width: 6
     height: 7
@@ -360,7 +359,7 @@
     hidden_fields: [session_purchase_facts.total_sale_price, user_acquisition.count,
       salesuser, session_purchase_facts.revenue, user_session_fact.count]
     listen: {}
-    row: 18
+    row: 17
     col: 12
     width: 12
     height: 7
@@ -418,7 +417,7 @@
     value_format: "$#,##0"
     y_axes: []
     listen: {}
-    row: 4
+    row: 3
     col: 8
     width: 4
     height: 4
@@ -479,7 +478,7 @@
     note_text: ''
     listen:
       Attribution Source: session_attribution.attribution_filter
-    row: 4
+    row: 3
     col: 0
     width: 4
     height: 4
@@ -536,7 +535,7 @@
     y_axes: []
     listen:
       Attribution Source: session_attribution.attribution_filter
-    row: 4
+    row: 3
     col: 12
     width: 4
     height: 4
@@ -593,9 +592,12 @@
     comparison_label: Prior Quarter
     hidden_fields: []
     y_axes: []
+    note_state: collapsed
+    note_display: hover
+    note_text: First purchase
     listen:
       Attribution Source: session_attribution.attribution_filter
-    row: 4
+    row: 3
     col: 4
     width: 4
     height: 4
@@ -643,7 +645,7 @@
     hidden_fields: []
     y_axes: []
     listen: {}
-    row: 25
+    row: 24
     col: 6
     width: 6
     height: 6
@@ -656,7 +658,7 @@
     row: 0
     col: 0
     width: 24
-    height: 4
+    height: 3
   - title: First Touch to Last Touch Analysis
     name: First Touch to Last Touch Analysis
     model: thelook_adwords
@@ -697,7 +699,7 @@
     hidden_fields: []
     y_axes: []
     listen: {}
-    row: 18
+    row: 17
     col: 0
     width: 12
     height: 7
@@ -705,7 +707,7 @@
     type: text
     title_text: "<span class='fa fa-tachometer'> Customer Behavior</span>"
     subtitle_text: Where are our customers coming from and when do they drop off?
-    row: 15
+    row: 14
     col: 0
     width: 24
     height: 3
@@ -716,7 +718,6 @@
     type: looker_pie
     fields: [session_attribution.attribution_source, session_attribution.total_attribution]
     filters:
-      session_attribution.attribution_filter: Last Touch
       session_attribution.attribution_source: "-NULL"
     sorts: [session_attribution.total_attribution desc, session_attribution.attribution_source]
     limit: 500
@@ -771,8 +772,9 @@
     show_silhouette: false
     totals_color: "#808080"
     hidden_fields: []
-    listen: {}
-    row: 4
+    listen:
+      Attribution Source: session_attribution.attribution_filter
+    row: 3
     col: 16
     width: 8
     height: 4
@@ -826,9 +828,9 @@
         label: Percent (0)
     series_types: {}
     listen: {}
-    row: 8
-    col: 16
-    width: 8
+    row: 7
+    col: 14
+    width: 10
     height: 7
   filters:
   - name: Attribution Source

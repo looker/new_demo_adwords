@@ -2,7 +2,6 @@
   title: Advertising Pulse
   layout: newspaper
   query_timezone: user_timezone
-  description: 'Display vs search, and things like timeline, revenue and cost goals'
   embed_style:
     background_color: "#f6f8fa"
     show_title: false
@@ -882,14 +881,14 @@
     col: 0
     width: 8
     height: 2
-  - name: 'display text'
+  - name: " (2)"
     type: text
     subtitle_text: How are we doing in Display?
     row: 2
     col: 8
     width: 8
     height: 2
-  - name: 'overall text'
+  - name: " (3)"
     type: text
     title_text: ''
     subtitle_text: How are we doing overall?
