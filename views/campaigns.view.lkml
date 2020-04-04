@@ -4,7 +4,7 @@ derived_table: {
   datagroup_trigger: ecommerce_etl
   sql: SELECT *
       FROM   ecomm.campaigns
-      UNION
+      UNION ALL
       SELECT 9999                 AS id,
       NULL                        AS advertising_channel,
       0                           AS amount,
