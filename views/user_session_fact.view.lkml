@@ -23,7 +23,7 @@ view: user_session_fact {
 
   dimension: site_acquisition_ad_event_id {
     type: number
-    sql: safe_cast(${TABLE}.site_acquisition_ad_event_id, int64) ;;
+    sql: safe_cast(${TABLE}.site_acquisition_ad_event_id as int64) ;;
   }
   dimension: site_acquisition_source {
     type: string
