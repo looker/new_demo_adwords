@@ -67,9 +67,7 @@ view: events {
     type: string
     description: "The reporting period as selected by the Previous Period Filter"
     sql:
-       CASE
-        WHEN ({% date_start previous_period_filter %} is not null
-          AND {% date_end previous_period_filter %} is not null) /* date ranges or in the past x days */
+        {% if previous_period_filter._in_query %}
           THEN (
             CASE
               WHEN (${event_raw} >=  {% date_start previous_period_filter %}
@@ -80,8 +78,8 @@ view: events {
                                           date({% date_start previous_period_filter %}), DAY ) + 1 DAY)
                   AND date(${event_raw})  <= DATE_SUB(date({% date_start previous_period_filter %}), INTERVAL 1 DAY ))
                 THEN 'Previous Period'
-              ELSE NULL END)
-         ELSE NULL END;;
+              ELSE NULL END
+        {% else %} NULL {% endif %};;
   }
 
 
