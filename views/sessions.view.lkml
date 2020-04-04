@@ -90,8 +90,9 @@ view: sessions {
 
   dimension: duration {
     label: "Duration (sec)"
-    type: number
-    sql: DATEDIFF('second', ${session_start_raw}, ${session_end_raw}) ;;
+    type: duration_second
+    sql_start: ${session_start_raw} ;;
+    sql_end: ${session_end_raw} ;;
   }
 
   measure: average_duration {
@@ -111,7 +112,7 @@ view: sessions {
 
   dimension: months_since_first_session {
     type: number
-    sql: datediff( 'month', ${users.created_raw}, ${session_start_raw} ) ;;
+    sql: date_diff(DATE(${session_start_raw}), DATE(${users.created_raw}), MONTH ) ;;
   }
 
   measure: count {
@@ -209,28 +210,24 @@ view: sessions {
     description:  "Weeks between campaign start and user's session start (e.g. first click)"
     view_label: "Campaigns"
     type: number
-    sql: DATEDIFF('week', ${campaigns.created_date}, ${session_start_date})  ;;
+    sql: DATE_DIFF(${session_start_date}, ${campaigns.created_date}, WEEK)  ;;
   }
 
   measure: count_with_cart {
     type: count
-
     filters: {
       field: includes_cart
       value: "Yes"
     }
-
     drill_fields: [detail*]
   }
 
   measure: count_with_purchase {
     type: count
-
     filters: {
       field: includes_purchase
       value: "Yes"
     }
-
     drill_fields: [detail*]
   }
 
@@ -263,11 +260,9 @@ view: sessions {
     view_label: "Funnel View"
     label: "(2) Browse or later"
     type: count
-
     filters: {
       field: furthest_funnel_step
-      value: "(2) Browse,(3) View Product,(4) Add to Cart,(5) Purchase
-      "
+      value: "(2) Browse,(3) View Product,(4) Add to Cart,(5) Purchase"
     }
     drill_fields: [detail*]
   }
@@ -276,13 +271,10 @@ view: sessions {
     view_label: "Funnel View"
     label: "(3) View Product or later"
     type: count
-
     filters: {
       field: furthest_funnel_step
-      value: "(3) View Product,(4) Add to Cart,(5) Purchase
-      "
+      value: "(3) View Product,(4) Add to Cart,(5) Purchase"
     }
-
     drill_fields: [detail*]
   }
 
@@ -290,13 +282,10 @@ view: sessions {
     view_label: "Funnel View"
     label: "(4) Add to Cart or later"
     type: count
-
     filters: {
       field: furthest_funnel_step
-      value: "(4) Add to Cart,(5) Purchase
-      "
+      value: "(4) Add to Cart,(5) Purchase"
     }
-
     drill_fields: [detail*]
   }
 
@@ -304,13 +293,10 @@ view: sessions {
     view_label: "Funnel View"
     label: "(5) Purchase"
     type: count
-
     filters: {
       field: furthest_funnel_step
-      value: "(5) Purchase
-      "
+      value: "(5) Purchase"
     }
-
     drill_fields: [detail*]
   }
 

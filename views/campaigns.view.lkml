@@ -4,14 +4,14 @@ derived_table: {
   datagroup_trigger: ecommerce_etl
   sql: SELECT *
       FROM   ecomm.campaigns
-      UNION
+      UNION ALL
       SELECT 9999                 AS id,
       NULL                        AS advertising_channel,
       0                           AS amount,
       NULL                        AS bid_type,
       'Total'                     AS campaign_name,
       '60'                        AS period,
-      Dateadd(day, -1, current_timestamp()::timestamp_ntz) AS created_at  ;;
+      date_add(current_date(), interval -1 day) AS created_at  ;;
 }
 
 ##### Campaign Facts #####
@@ -50,7 +50,7 @@ derived_table: {
   dimension: campaign_name {
     full_suggestions: yes
     type: string
-    sql: ${campaign_id}::VARCHAR ||  ' - ' || ${campaign_name_raw} ;;
+    sql: CONCAT(${campaign_id},' - ',${campaign_name_raw}) ;;
     link: {
       label: "Campaign Performance Dashboard"
       icon_url: "http://www.looker.com/favicon.ico"
@@ -89,7 +89,7 @@ derived_table: {
   }
 
   dimension: campaign_type {
-    sql: substring(substring(${campaign_name_raw},POSITION(' - ', ${campaign_name_raw})+3),POSITION(' - ', substring(${campaign_name_raw},POSITION(' - ', ${campaign_name_raw})+3))+3) ;;
+    sql: REGEXP_EXTRACT(${campaign_name_raw}, r"^\S+ - \S+ - (\S+)") ;;
   }
 
   dimension_group: created {
@@ -119,26 +119,22 @@ derived_table: {
     ]
     convert_tz: no
     datatype: date
-    sql: dateadd('day', ${period},${created_date}) ;;
+    sql: date_add(${created_date}, INTERVAL ${period} DAY) ;;
   }
 
   dimension: day_of_quarter {
     type: number
-    sql: DATEDIFF(
-        'day',
-        CAST(CONCAT(${created_quarter}, '-01') as date),
-        ${created_raw})
-       ;;
+    sql: DATE_DIFF(${created_raw}, CAST(CONCAT(${created_quarter}, '-01') as date), DAY)  ;;
   }
 
   dimension: period {
     type: number
-    sql: ${TABLE}.period :: int ;;
+    sql:  SAFE_CAST(${TABLE}.period AS INT64);;
   }
 
   dimension: is_active_now {
     type: yesno
-    sql: ${end_date} >= CURRENT_DATE ;;
+    sql: ${end_date} >= CURRENT_DATE() ;;
   }
 
   measure: count {

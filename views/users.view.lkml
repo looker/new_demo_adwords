@@ -1,5 +1,6 @@
 view: users {
   sql_table_name: ecomm.users ;;
+
   ## Demographics ##
 
   dimension: id {
@@ -11,16 +12,17 @@ view: users {
 
   dimension: first_name {
     hidden: yes
-    sql: INITCAP(${TABLE}.first_name) ;;
+    sql: CONCAT(UPPER(SUBSTR(${TABLE}.first_name,1,1)), LOWER(SUBSTR(${TABLE}.first_name,2))) ;;
+
   }
 
   dimension: last_name {
     hidden: yes
-    sql: INITCAP(${TABLE}.last_name) ;;
+    sql: CONCAT(UPPER(SUBSTR(${TABLE}.last_name,1,1)), LOWER(SUBSTR(${TABLE}.last_name,2))) ;;
   }
 
   dimension: name {
-    sql: ${first_name} || ' ' || ${last_name} ;;
+    sql: concat(${first_name}, ' ', ${last_name}) ;;
   }
 
   dimension: age {
@@ -40,7 +42,7 @@ view: users {
   }
 
   dimension: gender_short {
-    sql: LOWER(LEFT(${gender},1)) ;;
+    sql: LOWER(SUBSTR(${gender},1,1)) ;;
   }
 
   dimension: user_image {
@@ -51,10 +53,9 @@ view: users {
   dimension: email {
     sql: ${TABLE}.email ;;
     tags: ["email"]
-
     link: {
       label: "User Lookup Dashboard"
-      url: "http://demo.looker.com/dashboards/160?Email={{ value | encode_uri }}"
+      url: "/dashboards/thelook_event::customer_lookup?Email={{ value | encode_uri }}"
       icon_url: "http://www.looker.com/favicon.ico"
     }
     action: {
@@ -75,7 +76,7 @@ view: users {
         type: textarea
         required: yes
         default:
-        "Dear {{ users.name._value }},
+        "Dear {{ users.first_name._value }},
 
         Thanks for your loyalty to the Look.  We'd like to offer you a 10% discount
         on your next purchase!  Just use the code LOYAL when checking out!
@@ -83,12 +84,12 @@ view: users {
         Your friends at the Look"
       }
     }
-    required_fields: [name]
+    required_fields: [name, first_name]
   }
 
   dimension: image_file {
     hidden: yes
-    sql: ('https://docs.looker.com/assets/images/'||${gender_short}||'.jpg') ;;
+    sql: concat('https://docs.looker.com/assets/images/',${gender_short},'.jpg') ;;
   }
 
   ## Demographics ##
@@ -111,7 +112,7 @@ view: users {
 
   dimension: uk_postcode {
     label: "UK Postcode"
-    sql: CASE WHEN ${TABLE}.country = 'UK' THEN TRANSLATE(LEFT(${zip},2),'0123456789','') END ;;
+    sql: case when ${TABLE}.country = 'UK' then regexp_replace(${zip}, '[0-9]', '') else null end;;
     map_layer_name: uk_postcode_areas
     drill_fields: [city, zip]
   }
@@ -142,13 +143,13 @@ view: users {
 
   dimension_group: created {
     type: time
-    timeframes: [time, date, month, raw]
+#     timeframes: [time, date, week, month, raw]
     sql: ${TABLE}.created_at ;;
   }
 
   dimension: history {
     sql: ${TABLE}.id ;;
-    html: <a href="/explore/thelook/order_items?fields=order_items.detail*&f[users.id]={{ value }}">Order History</a>
+    html: <a href="/explore/thelook_event/order_items?fields=order_items.detail*&f[users.id]={{ value }}">Order History</a>
       ;;
   }
 
@@ -157,27 +158,20 @@ view: users {
   }
 
   dimension: ssn {
-    # dummy field used in next dim
+    # dummy field used in next dim, generate 4 random numbers to be the last 4 digits
     hidden: yes
-    type: number
-    sql: lpad(cast(round(random() * 10000, 0) as char(4)), 4, '0') ;;
+    type: string
+    sql: CONCAT(CAST(FLOOR(10*RAND()) AS INT64),CAST(FLOOR(10*RAND()) AS INT64),
+      CAST(FLOOR(10*RAND()) AS INT64),CAST(FLOOR(10*RAND()) AS INT64));;
   }
 
   dimension: ssn_last_4 {
     label: "SSN Last 4"
     description: "Only users with sufficient permissions will see this data"
     type: string
-    sql:
-          CASE  WHEN '{{_user_attributes["can_see_sensitive_data"]}}' = 'yes'
+    sql: CASE WHEN '{{_user_attributes["can_see_sensitive_data"]}}' = 'Yes'
                 THEN ${ssn}
-                ELSE MD5(${ssn}||'salt')
-          END;;
-    html:
-          {% if _user_attributes["can_see_sensitive_data"]  == 'yes' %}
-          {{ value }}
-          {% else %}
-            ####
-          {% endif %}  ;;
+                ELSE '####' END;;
   }
 
   ## MEASURES ##
@@ -202,10 +196,10 @@ view: users {
   }
 
   set: detail {
-    fields: [id, name, email, age, created_date, created_month, orders.count, order_items.count]
+    fields: [id, name, email, age, created_date, orders.count, order_items.count]
   }
 
   set: user_facts {
-    fields: [name, email, age, gender, created_date, created_month]
+    fields: [name, email, age, gender, created_date, created_month, first_name]
   }
 }

@@ -2,7 +2,6 @@ explore: user_session_fact {
   hidden: yes
 }
 
-
 view: user_session_fact {
   derived_table: {
     datagroup_trigger: ecommerce_etl
@@ -24,7 +23,7 @@ view: user_session_fact {
 
   dimension: site_acquisition_ad_event_id {
     type: number
-    sql: ${TABLE}.site_acquisition_ad_event_id :: int ;;
+    sql: safe_cast(${TABLE}.site_acquisition_ad_event_id as int64) ;;
   }
   dimension: site_acquisition_source {
     type: string
@@ -97,20 +96,16 @@ view: user_session_fact {
         sql: ${count_with_purchase} = 0 ;;
         label: "None"
       }
-
       when: {
         sql: ${count_with_purchase} > 0 AND ${count_with_purchase} < 3 ;;
         label: "1-2"
       }
-
       when: {
         sql:${count_with_purchase} >= 3 ;;
         label: "3+"
       }
     }
-
     sql: ${count_with_purchase} ;;
-
   }
 
   dimension: has_purchase {
@@ -130,28 +125,33 @@ view: user_session_fact {
     type: count
     drill_fields: [campaigns.campaign_type,count_p2]
   }
+
   measure: count_p2 {
     label: "Count"
     hidden: yes
     type: count
     drill_fields: [campaigns.campaign_name_raw,count_p3]
   }
+
   measure: count_p3 {
     label: "Count"
     hidden: yes
     type: count
     drill_fields: [keywords.criterion_name,count_p4]
   }
+
   measure: count_p4 {
     label: "Count"
     hidden: yes
     type: count
   }
+
   measure: average_loyalty {
     type: average
     value_format_name: decimal_1
     sql: ${count_with_purchase} ;;
   }
+
   measure: average_engagement {
     type: average
     value_format_name: decimal_1
@@ -164,51 +164,49 @@ view: user_session_fact {
       WHEN ${site_acquisition_source} = 'Adwords'
         THEN
             CASE
-              WHEN random() <.6 THEN 'Jeans'
-              WHEN random() <.7 THEN 'Accessories'
+              WHEN rand() <.6 THEN 'Jeans'
+              WHEN rand() <.7 THEN 'Accessories'
               ELSE 'Tops'
             END
 
       WHEN ${site_acquisition_source} = 'Email'
         THEN
             CASE
-              WHEN random() <.05 THEN 'Jeans'
-              WHEN random() <.4 THEN 'Accessories'
+              WHEN rand() <.05 THEN 'Jeans'
+              WHEN rand() <.4 THEN 'Accessories'
               ELSE 'Tops'
             END
 
        WHEN ${site_acquisition_source} = 'Facebook'
         THEN
             CASE
-              WHEN random() <.6 THEN 'Jeans'
-              WHEN random() <.7 THEN 'Accessories'
+              WHEN rand() <.6 THEN 'Jeans'
+              WHEN rand() <.7 THEN 'Accessories'
               ELSE 'Tops'
             END
       WHEN ${site_acquisition_source} = 'Organic'
         THEN
             CASE
-              WHEN random() <.6 THEN 'Jeans'
-              WHEN random() <.7 THEN 'Accessories'
+              WHEN rand() <.6 THEN 'Jeans'
+              WHEN rand() <.7 THEN 'Accessories'
               ELSE 'Tops'
             END
 
       WHEN ${site_acquisition_source} = 'Youtube'
       THEN
           CASE
-            WHEN random() <.6 THEN 'Jeans'
-            WHEN random() <.7 THEN 'Accessories'
+            WHEN rand() <.6 THEN 'Jeans'
+            WHEN rand() <.7 THEN 'Accessories'
             ELSE 'Tops'
           END
       ELSE
             CASE
-              WHEN random() <.6 THEN 'Jeans'
-              WHEN random() <.7 THEN 'Accessories'
+              WHEN rand() <.6 THEN 'Jeans'
+              WHEN rand() <.7 THEN 'Accessories'
               ELSE 'Tops'
             END
       END
     ;;
-
-
   }
 
   set: user_session_measures {
