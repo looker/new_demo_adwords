@@ -68,7 +68,6 @@ view: events {
     description: "The reporting period as selected by the Previous Period Filter"
     sql:
         {% if previous_period_filter._in_query %}
-          THEN (
             CASE
               WHEN (${event_raw} >=  {% date_start previous_period_filter %}
                   AND ${event_raw}  <= {% date_end previous_period_filter %})
