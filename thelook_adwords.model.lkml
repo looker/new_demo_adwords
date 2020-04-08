@@ -7,7 +7,7 @@ include: "dashboards/*.dashboard.lookml"  # include all dashboards in this proje
 
 
 datagroup: ecommerce_etl {
-  sql_trigger: SELECT max(completed_at) FROM ecomm.etl_jobs ;;
+  sql_trigger: SELECT max(event_id) FROM ecomm.events ;;
   max_cache_age: "24 hours"}
 persist_with: ecommerce_etl
 
