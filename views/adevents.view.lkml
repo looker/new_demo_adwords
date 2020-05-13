@@ -32,7 +32,7 @@ view: adevents {
 
   filter: previous_period_filter {
     type: date
-    description: "Use this filter for period analysis"
+    description: "Use this filter for  analysis"
   }
 
   dimension: previous_period {
