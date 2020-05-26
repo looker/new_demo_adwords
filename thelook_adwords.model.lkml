@@ -1,4 +1,4 @@
-label: "3) Digital Marketing"
+label: "Digital Marketing"
 
 connection: "looker-private-demo"
 
