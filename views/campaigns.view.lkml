@@ -3,7 +3,7 @@ view: campaigns {
 derived_table: {
   datagroup_trigger: ecommerce_etl
   sql: SELECT *
-      FROM   ecomm.campaigns
+      FROM   looker-private-demo.ecomm.campaigns
       UNION ALL
       SELECT 9999                 AS id,
       NULL                        AS advertising_channel,
