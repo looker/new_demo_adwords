@@ -1,4 +1,4 @@
-label: "3) Digital Marketing"
+label: "Digital Marketing"
 
 connection: "looker-private-demo"
 
@@ -7,7 +7,7 @@ include: "dashboards/*.dashboard.lookml"  # include all dashboards in this proje
 
 
 datagroup: ecommerce_etl {
-  sql_trigger: SELECT max(id) FROM ecomm.events ;;
+  sql_trigger: SELECT max(id) FROM looker-private-demo.ecomm.events ;;
   max_cache_age: "24 hours"}
 persist_with: ecommerce_etl
 
@@ -77,7 +77,6 @@ explore: sessions{
     view_label: "Users"
     relationship: one_to_one
     sql_on: ${users.id} = ${user_session_fact.session_user_id} ;;
-#     fields: [user_session_measures*] -- ZL: commenting out so I can use first and last touch attribution sources as regular dimensions
   }
 
   join: session_attribution {
@@ -99,19 +98,4 @@ explore: sessions{
     relationship: many_to_one
     sql_on: ${campaigns.campaign_id} = ${adgroups.campaign_id} ;;
   }
-
-  ## Removing preferred category in favor of version based directly off of referral source
-#   join: user_purchase_facts {
-#     view_label: "Users"
-#     relationship: one_to_one
-#     sql_on: ${events.user_id} = ${user_purchase_facts.user_id} ;;
-#   }
-
-#   join: adevents {
-#     relationship: one_to_many
-#     sql_on: ${events.ad_event_id} = ${adevents.adevent_id}
-#       and ${events.referrer_code} = ${adevents.keyword_id}
-#       and ${events.is_entry_event}
-#       ;;
-#   }
 }

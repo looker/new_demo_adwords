@@ -1,6 +1,6 @@
 view: adgroups {
   view_label: "Ad Groups"
-  sql_table_name: ecomm.ad_groups ;;
+  sql_table_name: looker-private-demo.ecomm.ad_groups ;;
 
   dimension: ad_id {
     primary_key: yes
