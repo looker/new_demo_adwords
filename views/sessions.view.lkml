@@ -24,7 +24,7 @@ view: sessions {
         , MAX(id) AS bounce_event_id
         , MAX(traffic_source) AS traffic_source
         , MAX(ad_event_id) AS ad_event_id
-      FROM ecomm.events
+      FROM looker-private-demo.ecomm.events
       GROUP BY session_id
       )
 ;;
