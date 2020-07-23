@@ -1,5 +1,5 @@
 view: keywords {
-  sql_table_name: ecomm.keywords ;;
+  sql_table_name: looker-private-demo.ecomm.keywords ;;
 
   dimension: keyword_id {
     primary_key: yes

@@ -1,6 +1,6 @@
 view: adevents {
   view_label: "Ad Events"
-  sql_table_name: ecomm.ad_events ;;
+  sql_table_name: looker-private-demo.ecomm.ad_events ;;
 
   dimension: adevent_id {
     type: number
