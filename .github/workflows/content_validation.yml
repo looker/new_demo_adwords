@@ -1,8 +1,8 @@
 name: content_validate
 env:
-  DEMO_NAME: Call Center
-  PROJECT_NAME: call_center
-  HOST: demoexpo
+  DEMO_NAME: Digital Marketing
+  PROJECT_NAME: digital_marketing
+  HOST: demo
 on:
   schedule:
     - cron: '0 4 * * 1-5' 
