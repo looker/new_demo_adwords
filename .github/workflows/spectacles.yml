@@ -35,7 +35,6 @@ jobs:
           --client-id ${{ secrets.CLIENT_ID }} \
           --client-secret ${{ secrets.CLIENT_SECRET }} \
           --project ${{ env.PROJECT_NAME }} \
-          --exclude sfdc_demo/company_goals \
           --branch `if [ -z "${{ github.head_ref }}" ]; then echo master; else echo ${{ github.head_ref }}; fi` \
           --remote-reset 
     - name: slack_notify_success
