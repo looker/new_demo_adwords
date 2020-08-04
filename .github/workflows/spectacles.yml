@@ -4,9 +4,9 @@
 name: spectacles
 
 env:
-  DEMO_NAME: Call Center
-  PROJECT_NAME: call_center
-  HOST: demoexpo
+  DEMO_NAME: Digital Marketing
+  PROJECT_NAME: digital_marketing
+  HOST: demo
 on:
   pull_request:
     branches: [ master ]
