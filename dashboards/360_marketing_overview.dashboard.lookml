@@ -411,7 +411,7 @@
     y_axes: []
     listen: {}
     row: 3
-    col: 8
+    col: 9
     width: 4
     height: 4
   - title: Revenue
@@ -473,7 +473,7 @@
       Attribution Source: session_attribution.attribution_filter
     row: 3
     col: 0
-    width: 4
+    width: 5
     height: 4
   - title: Purchases
     name: Purchases
@@ -529,7 +529,7 @@
     listen:
       Attribution Source: session_attribution.attribution_filter
     row: 3
-    col: 12
+    col: 13
     width: 4
     height: 4
   - title: Users Acquired
@@ -591,7 +591,7 @@
     listen:
       Attribution Source: session_attribution.attribution_filter
     row: 3
-    col: 4
+    col: 5
     width: 4
     height: 4
   - title: Last Touch Conversion Referrer
@@ -768,8 +768,8 @@
     listen:
       Attribution Source: session_attribution.attribution_filter
     row: 3
-    col: 16
-    width: 8
+    col: 17
+    width: 7
     height: 4
   - title: Highest Spending Campaigns
     name: Highest Spending Campaigns
