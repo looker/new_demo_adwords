@@ -1051,6 +1051,16 @@
     explore: events
     listens_to_filters: []
     field: adevents.created_date
+  - name: Brand
+    title: Brand
+    type: field_filter
+    default_value: ''
+    allow_multiple_values: true
+    required: false
+    model: thelook
+    explore: order_items
+    listens_to_filters: []
+    field: products.brand
   - name: Location
     title: Location
     type: string_filter
