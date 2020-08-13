@@ -1,6 +1,7 @@
 - dashboard: 360_marketing_overview
   title: 360 Marketing Overview
   layout: newspaper
+  preferred_viewer: dashboards
   query_timezone: user_timezone
   elements:
   - title: Customer Trends
@@ -471,6 +472,7 @@
     note_text: ''
     listen:
       Attribution Source: session_attribution.attribution_filter
+      Acquisition Date: adevents.created_date
     row: 3
     col: 0
     width: 5
