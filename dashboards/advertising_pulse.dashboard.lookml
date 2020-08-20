@@ -402,7 +402,6 @@
     interpolation: linear
     labelScale: ".1"
     hidden_fields: []
-    title_hidden: true
     listen:
       Date: adevents.created_date
     row: 4
