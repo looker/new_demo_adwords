@@ -1,7 +1,7 @@
 - dashboard: advertising_pulse
   title: Advertising Pulse
   layout: newspaper
-  preferred_viewer: dashboards-next
+  preferred_viewer: dashboards
   query_timezone: user_timezone
   embed_style:
     background_color: "#f6f8fa"
