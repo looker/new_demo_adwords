@@ -4,6 +4,7 @@ explore: user_session_fact {
 
 view: user_session_fact {
   derived_table: {
+    publish_as_db_view: yes
     datagroup_trigger: ecommerce_etl
     explore_source: events {
       column: session_user_id { field: sessions.session_user_id }
