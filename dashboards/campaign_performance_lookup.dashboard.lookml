@@ -1,6 +1,7 @@
 - dashboard: campaign_performance_lookup
   title: Campaign Performance Lookup
   layout: newspaper
+  preferred_viewer: dashboards-next
   query_timezone: user_timezone
   embed_style:
     background_color: "#ffffff"
