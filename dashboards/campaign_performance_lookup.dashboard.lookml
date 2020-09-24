@@ -570,7 +570,7 @@
     hidden_fields: [session_purchase_facts.total_attribution, campaigns.count, calculation_1,
       campaign_revenue, session_purchase_facts.revenue]
     x_axis_label: Weeks Since Start
-    colors: ["#87d79b", "#294988"]
+
     series_colors: {}
     listen:
       Campaign Name: campaigns.campaign_selector
