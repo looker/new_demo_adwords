@@ -19,8 +19,8 @@
     fields: [adevents.total_clicks, adevents.click_rate]
     limit: 500
     query_timezone: America/Los_Angeles
-    custom_color_enabled: true
-    custom_color: "#88a7a9"
+
+
     show_single_value_title: true
     show_comparison: true
     comparison_type: value
@@ -49,7 +49,7 @@
     show_null_labels: false
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#808080"
+
     series_types: {}
     single_value_title: Clicks
     comparison_label: "(CTR)"
@@ -72,8 +72,8 @@
     fields: [adevents.total_impressions]
     limit: 500
     query_timezone: America/Los_Angeles
-    custom_color_enabled: true
-    custom_color: "#88a7a9"
+
+
     show_single_value_title: true
     show_comparison: false
     comparison_type: change
@@ -102,7 +102,7 @@
     show_null_labels: false
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#808080"
+
     series_types: {}
     single_value_title: Impressions
     comparison_label: Weekly Change
@@ -122,8 +122,8 @@
     fields: [adevents.total_cost]
     limit: 500
     query_timezone: America/Los_Angeles
-    custom_color_enabled: true
-    custom_color: "#88a7a9"
+
+
     show_single_value_title: true
     show_comparison: false
     comparison_type: value
@@ -152,7 +152,7 @@
     show_null_labels: false
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#808080"
+
     series_types: {}
     single_value_title: Total Cost
     comparison_label: Associated Revenue
@@ -172,8 +172,8 @@
     fields: [session_purchase_facts.revenue]
     limit: 500
     query_timezone: America/Los_Angeles
-    custom_color_enabled: true
-    custom_color: "#88a7a9"
+
+
     show_single_value_title: true
     show_comparison: false
     comparison_type: change
@@ -202,7 +202,7 @@
     show_null_labels: false
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#808080"
+
     series_types: {}
     single_value_title: Associated Revenue
     comparison_label: Campaign End Date
@@ -250,7 +250,7 @@
     interpolation: linear
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#808080"
+
     query_timezone: America/Los_Angeles
     ordering: none
     show_null_labels: false
@@ -265,7 +265,7 @@
             axisId: adevents.total_clicks}], showLabels: true, showValues: false,
         maxValue: !!null '', minValue: !!null '', valueFormat: !!null '', unpinAxis: false,
         tickDensity: default, tickDensityCustom: 5, type: linear}]
-    colors: ["#87d79b", "#294988", "#476d70", "#294259", "#747474"]
+
     series_colors: {}
     listen:
       Campaign Name: campaigns.campaign_name
@@ -318,7 +318,7 @@
     show_null_labels: false
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#808080"
+
     series_types: {}
     conditional_formatting: [{type: low to high, value: !!null '', background_color: !!null '',
         font_color: !!null '', palette: {name: Custom, colors: ["#ffffff", "#87d79b"]},
@@ -377,7 +377,7 @@
     show_null_labels: false
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#808080"
+
     interpolation: linear
     show_row_numbers: true
     truncate_column_names: false
@@ -400,10 +400,7 @@
       show_hide: hide
       first_last: first
       num_rows: 0
-    colors: ["#673AB7", "#3F51B5", "#2196F3", "#03A9F4", "#00BCD4", "#009688", "#4CAF50",
-      "#8BC34A", "#d1e03a", "#FFEB3B", "#9E9E9E", "#607D8B"]
-    series_colors:
-      session_purchase_facts.revenue: "#294988"
+
     reference_lines: []
     trend_lines: [{color: "#999292", label_position: right, period: 7, regression_type: linear,
         series_index: 1, show_label: true, label_type: string, label: Trend}]
@@ -450,8 +447,8 @@
     show_null_labels: false
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#949393"
-    colors: ["#87d79b", "#294988", "#476d70", "#294259", "#747474"]
+
+
     series_colors: {}
     x_axis_label: Keyword Name
     y_axes: [{label: '', maxValue: !!null '', minValue: !!null '', orientation: left,
@@ -563,7 +560,7 @@
     show_null_labels: false
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#808080"
+
     series_types: {}
     y_axes: [{label: '', orientation: left, series: [{id: 681 - NA - Search - Competition,
             name: 681 - NA - Search - Competition, axisId: session_purchase_facts.return_on_investment},
@@ -589,8 +586,8 @@
     fields: [session_purchase_facts.ROI]
     limit: 500
     query_timezone: America/Los_Angeles
-    custom_color_enabled: true
-    custom_color: "#88a7a9"
+
+
     show_single_value_title: true
     show_comparison: false
     comparison_type: change
@@ -619,7 +616,7 @@
     show_null_labels: false
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#808080"
+
     series_types: {}
     single_value_title: ROI
     comparison_label: Campaign End Date
@@ -645,8 +642,8 @@
     dynamic_fields: [{table_calculation: is_active, label: Is Active, expression: 'if(${campaigns.is_active_now},
           "Is Active", "Not Active")', value_format: !!null '', value_format_name: !!null '',
         _kind_hint: dimension, _type_hint: string}]
-    custom_color_enabled: true
-    custom_color: "#88a7a9"
+
+
     show_single_value_title: true
     show_comparison: true
     comparison_type: change
@@ -675,7 +672,7 @@
     show_null_labels: false
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#808080"
+
     series_types: {}
     comparison_label: ''
     hidden_fields: [campaigns.is_active_now]
@@ -732,7 +729,7 @@
     show_null_labels: false
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#808080"
+
     series_types: {}
     y_axes: [{label: '', orientation: left, series: [{id: 681 - NA - Search - Competition,
             name: 681 - NA - Search - Competition, axisId: session_purchase_facts.return_on_investment},
@@ -742,8 +739,6 @@
     hidden_fields: [campaigns.count, calculation_1, campaign_revenue, campaign_spend,
       adevents.total_cost]
     x_axis_label: Weeks Since Start
-    series_colors: {}
-    colors: ["#87d79b", "#294988"]
     listen:
       Campaign Name: campaigns.campaign_selector
     row: 8
