@@ -834,16 +834,6 @@
     explore: sessions
     listens_to_filters: []
     field: session_attribution.attribution_filter
-  - name: User Gender
-    title: User Gender
-    type: field_filter
-    default_value: ''
-    allow_multiple_values: true
-    required: false
-    model: thelook_adwords
-    explore: events
-    listens_to_filters: []
-    field: users.gender
   - name: Acquisition Date
     title: Acquisition Date
     type: date_filter
