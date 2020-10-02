@@ -55,7 +55,6 @@
     show_null_labels: false
     hidden_fields: []
     listen:
-      User Gender: users.gender
     row: 7
     col: 0
     width: 14
