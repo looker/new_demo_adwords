@@ -69,7 +69,7 @@ derived_table: {
     action: {
       label: "Send to Microsoft Teams"
       icon_url: "https://apprecs.org/ios/images/app-icons/256/aa/1113153706.jpg"
-      url: "https://us-central1-looker-retail-demo-1.cloudfunctions.net/sendtoteams"
+      url: "https://us-central1-looker-private-demo.cloudfunctions.net/sendtomsteams"
 
       param: {
         name: "msteamswebhook"
