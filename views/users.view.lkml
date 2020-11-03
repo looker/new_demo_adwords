@@ -195,11 +195,30 @@ view: users {
     drill_fields: [detail*]
   }
 
+  dimension: pray_to_god {
+    type: string
+    sql: "am i any good?" ;;
+    html:
+
+    <link rel="stylesheet" href="https://www.google.com">
+<div class="card" width="100%" height="100%">
+  <img src="https://i.insider.com/5b202c021ae6621b008b4d44?width=1100&format=jpeg&auto=webp" alt="John" style="width:35%;height:35%">
+    <h1>{{ name._value }}</h1>
+  <h3>{{ email._value }}</h3>
+  <h3>{{ users.city._value }}, {{ users.state._value }}</h3>
+  <span style="font-size:24px">
+  <a href="#"><i class="fa fa-dribbble"></i></a>
+  <a href="#"><i class="fa fa-twitter"></i></a>
+  <a href="#"><i class="fa fa-linkedin"></i></a>
+  <a href="#"><i class="fa fa-facebook"></i></a></span>
+</div> ;;
+  }
+
   set: detail {
     fields: [id, name, email, age, created_date, orders.count, order_items.count]
   }
 
   set: user_facts {
-    fields: [name, email, age, gender, created_date, created_month, first_name]
+    fields: [name, email, age, gender, created_date, created_month, first_name, city, state, pray_to_god]
   }
 }

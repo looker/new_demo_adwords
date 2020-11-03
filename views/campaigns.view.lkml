@@ -18,7 +18,7 @@ derived_table: {
 
   filter: campaign_selector {
     type: string
-    suggest_dimension: campaign_name
+    # suggest_dimension: campaign_name
   }
 
   dimension: campaign_benchmark {

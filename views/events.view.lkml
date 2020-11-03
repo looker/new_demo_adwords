@@ -190,8 +190,24 @@ view: events {
         WHEN ${event_type} = 'Product' THEN '(3) View Product'
         WHEN ${event_type} = 'Cart' THEN '(4) Add Item to Cart'
         WHEN ${event_type} = 'Purchase' THEN '(5) Purchase'
+        ELSE 'No Event'
       END
        ;;
+
+    html:
+    {% if value == '(1) Land' %}
+      <div style="background: #8BC34A; border-radius: 2px; color: #fff; display: inline-block; font-size: 11px; font-weight: bold; line-height: 1; padding: 3px 4px; width: 100%; text-align: center;">{{ rendered_value }}</div>
+    {% elsif value == '(2) Browse Inventory' %}
+      <div style="background:  #4285F4; border-radius: 2px; color: #fff; display: inline-block; font-size: 11px; font-weight: bold; line-height: 1; padding: 3px 4px; width: 100%; text-align: center;">{{ rendered_value }}</div>
+    {% elsif value == '(3) View Product' %}
+      <div style="background: #FBBC04; border-radius: 2px; color: #fff; display: inline-block; font-size: 11px; font-weight: bold; line-height: 1; padding: 3px 4px; width: 100%; text-align: center;">{{ rendered_value }}</div>
+    {% elsif value == '(4) Add Item to Cart' %}
+      <div style="background: #B31412; border-radius: 2px; color: #fff; display: inline-block; font-size: 11px; font-weight: bold; line-height: 1; padding: 3px 4px; width: 100%; text-align: center;">{{ rendered_value }}</div>
+    {% elsif value == '(5) Purchase' %}
+      <div style="background: #137333; border-radius: 2px; color: #fff; display: inline-block; font-size: 11px; font-weight: bold; line-height: 1; padding: 3px 4px; width: 100%; text-align: center;">{{ rendered_value }}</div>
+    {% else %}
+      <div style="background: #EA8600; border-radius: 2px; color: #fff; display: inline-block; font-size: 11px; font-weight: bold; line-height: 1; padding: 3px 4px; width: 100%; text-align: center;">{{ rendered_value }}</div>
+    {% endif %} ;;
   }
 
   dimension: funnel_step_adwords {
