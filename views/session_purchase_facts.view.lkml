@@ -1,6 +1,7 @@
 view: session_purchase_facts {
   derived_table: {
     datagroup_trigger: ecommerce_etl
+    publish_as_db_view: yes
     sql:
       with session_purchase as (
       select

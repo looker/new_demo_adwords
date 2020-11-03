@@ -18,6 +18,10 @@ explore: events{
     relationship: many_to_one
     sql_on: ${events.session_id} = ${sessions.session_id} ;;
   }
+  join: products {
+    relationship: many_to_one
+    sql_on: ${products.id}=cast(${events.viewed_product_id} as int64) ;;
+  }
   join: users {
     view_label: "Users"
     relationship: many_to_one
