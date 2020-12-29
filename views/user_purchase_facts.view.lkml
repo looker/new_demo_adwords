@@ -2,17 +2,8 @@ view: user_purchase_facts {
   derived_table: {
     datagroup_trigger: ecommerce_etl
     sql:
-    with user_product_sales as (
-    select user_id, product_category, sum(sale_price) as product_sales, row_number() over(PARTITION BY user_id order by sum(sale_price ) desc ) as category_rank
-      from looker-private-demo.ecomm.order_items
-      join looker-private-demo.ecomm.inventory_items
-      on order_items.inventory_item_id = inventory_items.id
-      join looker-private-demo.ecomm.products
-      on inventory_items.product_id = products.id
-      group by 1,2)
-
       select user_id, product_category as preferred_category
-      from user_product_sales
+      from ${user_product_sales.SQL_TABLE_NAME}
       where category_rank = 1
        ;;
   }
