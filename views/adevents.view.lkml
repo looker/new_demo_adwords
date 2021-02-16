@@ -164,7 +164,7 @@ view: adevents {
     label: "Click Through Rate (CTR)"
     description: "Percent of people that click on an ad."
     type: number
-    sql: ${total_clicks}*1.0/nullif(${total_impressions},0) ;;
+    sql: .5*${total_clicks}*1.0/nullif(${total_impressions},0) ;;
     value_format_name: percent_2
     drill_fields: [detail*]
 
