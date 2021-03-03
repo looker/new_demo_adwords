@@ -3,7 +3,7 @@ view: campaigns {
 derived_table: {
   datagroup_trigger: ecommerce_etl
   sql: SELECT *
-      FROM   ecomm.campaigns
+      FROM   looker-private-demo.ecomm.campaigns
       UNION ALL
       SELECT 9999                 AS id,
       NULL                        AS advertising_channel,
@@ -65,6 +65,39 @@ derived_table: {
       label: "Pause Campaign"
       icon_url: "https://www.google.com/s2/favicons?domain=www.adwords.google.com"
       url: "https://adwords.google.com/aw/ads?campaignId={{ campaign_id._value | encode_uri }}"
+    }
+    action: {
+      label: "Send to Microsoft Teams"
+      icon_url: "https://apprecs.org/ios/images/app-icons/256/aa/1113153706.jpg"
+      url: "https://us-central1-looker-private-demo.cloudfunctions.net/sendtomsteams"
+
+      param: {
+        name: "msteamswebhook"
+        value: "https://outlook.office.com/webhook/ea063618-4f80-4b0e-9e56-ba2fa46cce15@d218a038-fce6-4d24-b555-da29bdb61480/IncomingWebhook/a5d535f262ca40978bc1f14dadc19b46/d9cd9560-7bf0-4648-879a-ea56deebb579"
+      }
+
+      param: {
+        name: "link"
+        value: "https://demo.looker.com/dashboards/pwSkck3zvGd1fnhCO7Fc12?Campaign%20Name={{value | encode_uri}}"
+      }
+
+      param: {
+        name: "linktext"
+        value: "{{value}} Campaign Dashboard"
+      }
+
+      form_param: {
+        name: "Title"
+        type: string
+        default: "You should take a look at this campaign: {{value}}"
+      }
+
+      form_param: {
+        name: "Message"
+        type: textarea
+        default: "Hey,
+        Could you check out the latest on {{value}}?"
+      }
     }
   }
 
