@@ -67,8 +67,8 @@ derived_table: {
       url: "https://adwords.google.com/aw/ads?campaignId={{ campaign_id._value | encode_uri }}"
     }
     action: {
-      label: "Send to Microsoft Teams"
-      icon_url: "https://apprecs.org/ios/images/app-icons/256/aa/1113153706.jpg"
+      label: "Send to Google Hangouts"
+      icon_url: "https://www.google.com/s2/favicons?domain=https://hangouts.google.com/"
       url: "https://us-central1-looker-private-demo.cloudfunctions.net/sendtomsteams"
 
       param: {
