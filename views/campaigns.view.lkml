@@ -54,7 +54,7 @@ derived_table: {
     link: {
       label: "Campaign Performance Dashboard"
       icon_url: "http://www.looker.com/favicon.ico"
-      url: "/dashboards/pwSkck3zvGd1fnhCO7Fc12?Campaign Name={{ value | encode_uri }}"
+      url: "/dashboards-next/pwSkck3zvGd1fnhCO7Fc12?Campaign Name={{ value | encode_uri }}"
     }
     link: {
       label: "View on AdWords"
