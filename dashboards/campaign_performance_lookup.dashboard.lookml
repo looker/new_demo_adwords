@@ -760,3 +760,13 @@
     explore: events
     listens_to_filters: []
     field: campaigns.campaign_name
+  - name: Keyword Name
+    title: Keyword Name
+    type: field_filter
+    default_value: ''
+    allow_multiple_values: true
+    required: false
+    model: thelook_adwords
+    explore: events
+    listens_to_filters: []
+    field: keywords.criterion_name
