@@ -18,6 +18,11 @@ derived_table: {
 
   filter: campaign_selector {
     type: string
+    suggest_dimension: campaign_name
+  }
+
+  filter: campaign_selector_id {
+    type: number
     suggest_dimension: campaign_id
   }
 
