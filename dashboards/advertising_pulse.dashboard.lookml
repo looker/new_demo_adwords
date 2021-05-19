@@ -1,6 +1,7 @@
 - dashboard: advertising_pulse
   title: Advertising Pulse
   layout: newspaper
+  preferred_viewer: dashboards
   query_timezone: user_timezone
   embed_style:
     background_color: "#f6f8fa"
@@ -45,14 +46,14 @@
     show_null_labels: false
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#808080"
+
     show_null_points: true
     point_style: circle
     interpolation: monotone
     query_timezone: America/Los_Angeles
     column_spacing_ratio:
     column_group_spacing_ratio:
-    colors: ["#294988", "#87d79b", "#476d70", "#294259", "#747474"]
+
     series_colors: {}
     series_types: {}
     hidden_fields: []
@@ -99,7 +100,7 @@
     interpolation: monotone
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#808080"
+
     ordering: none
     show_null_labels: false
     y_axes: [{label: CPC ($), maxValue: !!null '', minValue: !!null '', orientation: left,
@@ -115,7 +116,7 @@
     series_labels:
       adevents.cost_per_click: CPC ($)
       adevents.total_clicks: Click
-    colors: ["#87d79b", "#294988", "#476d70", "#294259", "#747474"]
+
     series_colors: {}
     x_axis_datetime_label: "%b %d"
     hidden_fields: []
@@ -139,8 +140,7 @@
     dynamic_fields: [{table_calculation: type, label: Type, expression: '"Display"',
         value_format: !!null '', value_format_name: !!null '', _kind_hint: dimension,
         _type_hint: string}]
-    custom_color_enabled: true
-    custom_color: "#88a7a9"
+
     show_single_value_title: true
     show_comparison: true
     comparison_type: progress_percentage
@@ -191,8 +191,8 @@
     dynamic_fields: [{table_calculation: type, label: Type, expression: '"Display"',
         value_format: !!null '', value_format_name: !!null '', _kind_hint: dimension,
         _type_hint: string}]
-    custom_color_enabled: true
-    custom_color: "#88a7a9"
+
+
     show_single_value_title: true
     show_comparison: false
     comparison_type: value
@@ -243,8 +243,8 @@
     sorts: [adevents.total_clicks desc]
     limit: 500
     column_limit: 50
-    custom_color_enabled: true
-    custom_color: "#88a7a9"
+
+
     show_single_value_title: true
     show_comparison: false
     comparison_type: value
@@ -295,8 +295,8 @@
     sorts: [adevents.total_clicks desc]
     limit: 500
     column_limit: 50
-    custom_color_enabled: true
-    custom_color: "#88a7a9"
+
+
     show_single_value_title: true
     show_comparison: true
     comparison_type: progress_percentage
@@ -368,7 +368,7 @@
     stacking: ''
     limit_displayed_rows: false
     legend_position: center
-    colors: ["#54538f", "#88a7a9", "#605772", "#5b8ebe", "#7ec99a", "#5db794"]
+
     series_types: {}
     point_style: circle
     series_colors: {}
@@ -383,12 +383,12 @@
     show_dropoff: true
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#808080"
+
     leftAxisLabelVisible: false
     leftAxisLabel: ''
     rightAxisLabelVisible: false
     rightAxisLabel: ''
-    barColors: ["#476d70", "#294988", "#87d79b", "#294259", "#747474"]
+
     smoothedBars: false
     orientation: automatic
     labelPosition: left
@@ -396,12 +396,10 @@
     percentPosition: inline
     valuePosition: right
     labelColorEnabled: false
-    labelColor: "#FFF"
     show_null_points: true
     interpolation: linear
     labelScale: ".1"
     hidden_fields: []
-    title_hidden: true
     listen:
       Date: adevents.created_date
     row: 4
@@ -423,7 +421,6 @@
     limit: 500
     column_limit: 50
     query_timezone: America/Los_Angeles
-    barColors: ["#87d79b", "#294988"]
     groupBars: true
     labelSize: 10pt
     showLegend: true
@@ -450,7 +447,7 @@
     show_null_labels: false
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#808080"
+
     show_row_numbers: true
     truncate_column_names: false
     hide_totals: false
@@ -459,8 +456,6 @@
     enable_conditional_formatting: false
     conditional_formatting_include_totals: false
     conditional_formatting_include_nulls: false
-    custom_color_enabled: false
-    custom_color: forestgreen
     show_single_value_title: true
     show_comparison: false
     comparison_type: value
@@ -469,7 +464,6 @@
     series_types: {}
     hidden_fields: []
     valueFormat: ''
-    colors: ['palette: Looker Classic']
     series_colors: {}
     y_axes: []
     listen:
@@ -532,7 +526,7 @@
     limit_displayed_rows: false
     hidden_series: []
     legend_position: center
-    colors: ["#294988", "#87d79b", "#476d70", "#294259", "#747474"]
+
     series_types:
       Search - revenue_adjusted: column
       Display - revenue_adjusted: column
@@ -620,7 +614,7 @@
     stacking: ''
     limit_displayed_rows: false
     legend_position: center
-    colors: ["#294988", "#87d79b", "#476d70", "#294259", "#747474"]
+
     series_types:
       goal: area
       Search - revenue_adjusted: column
@@ -677,8 +671,8 @@
         value_format: !!null '', value_format_name: percent_0, _kind_hint: measure,
         _type_hint: number}]
     query_timezone: America/Los_Angeles
-    custom_color_enabled: true
-    custom_color: "#88a7a9"
+
+
     show_single_value_title: true
     show_comparison: true
     comparison_type: change
@@ -707,7 +701,7 @@
     show_null_labels: false
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#808080"
+
     series_types: {}
     single_value_title: Total Spend
     comparison_label: Previous Period
@@ -737,8 +731,8 @@
         value_format: !!null '', value_format_name: percent_0, _kind_hint: measure,
         _type_hint: number}]
     query_timezone: America/Los_Angeles
-    custom_color_enabled: true
-    custom_color: "#88a7a9"
+
+
     show_single_value_title: true
     show_comparison: true
     comparison_type: change
@@ -767,7 +761,7 @@
     show_null_labels: false
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#808080"
+
     series_types: {}
     single_value_title: Associated Revenue
     comparison_label: Previous Period
@@ -831,7 +825,7 @@
     show_null_labels: false
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#b6b6b6"
+
     show_row_numbers: true
     truncate_column_names: false
     hide_totals: false
@@ -843,7 +837,7 @@
     hidden_fields: [session_purchase_facts.total_attribution, expense, session_purchase_facts.net_profit,
       offset, offset_for_negative]
     series_types: {}
-    colors: ["#294988", "#87d79b", "#476d70", "#294259", "#747474"]
+
     series_colors:
       offset: transparent
       expense_negative: "#294988"
@@ -974,7 +968,7 @@
     hidden_fields: [session_purchase_facts.total_attribution, goal_pace, first_day_of_quarter,
       date, running_revenue, session_purchase_facts.revenue, goal]
     font_size: medium
-    colors: ["#294988", "#87d79b", "#476d70", "#294259", "#747474"]
+
     series_colors:
       goal: "#c8c8ca"
     hidden_series: []
