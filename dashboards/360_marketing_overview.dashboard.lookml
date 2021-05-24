@@ -1,14 +1,8 @@
 - dashboard: 360_marketing_overview
   title: 360 Marketing Overview
   layout: newspaper
+  preferred_viewer: dashboards
   query_timezone: user_timezone
-  embed_style:
-    background_color: ''
-    show_title: false
-    title_color: "#fffffF"
-    show_filters_bar: false
-    tile_text_color: "#ffffff"
-    text_tile_text_color: "#ffffff"
   elements:
   - title: Customer Trends
     name: Customer Trends
@@ -45,7 +39,6 @@
     limit_displayed_rows: false
     hidden_series: [user_session_fact.average_engagement, user_session_fact.average_loyalty]
     legend_position: center
-    colors: ["#87d79b", "#294988"]
     series_types: {}
     point_style: none
     series_colors: {}
@@ -58,12 +51,10 @@
     interpolation: monotone
     show_totals_labels: true
     show_silhouette: false
-    totals_color: "#808080"
     ordering: none
     show_null_labels: false
     hidden_fields: []
     listen:
-      User Gender: users.gender
     row: 7
     col: 0
     width: 14
@@ -103,10 +94,8 @@
     show_null_labels: false
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#808080"
     series_types: {}
     inner_radius: 50
-    colors: ["#294988", "#87d79b", "#476d70", "#bababa", "#294259", "#747474"]
     series_colors: {}
     hidden_fields: []
     y_axes: []
@@ -146,7 +135,6 @@
     limit_displayed_rows: false
     hidden_series: [sessions.count_product_or_later]
     legend_position: center
-    colors: ["#294988", "#87d79b", "#476d70", "#bababa", "#294259", "#747474"]
     series_types: {}
     point_style: none
     series_colors: {}
@@ -164,7 +152,7 @@
     show_dropoff: true
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#808080"
+
     value_labels: legend
     label_type: labPer
     inner_radius: 50
@@ -210,19 +198,19 @@
     interpolation: monotone
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#808080"
+
     value_labels: legend
     label_type: labPer
     ordering: none
     show_null_labels: false
     series_types: {}
     inner_radius: 50
-    colors: ["#294988", "#87d79b", "#476d70", "#bababa", "#294259", "#747474"]
+
     series_colors: {}
     hidden_fields: []
     y_axes: []
     listen: {}
-    row: 24
+    row: 17
     col: 12
     width: 12
     height: 6
@@ -263,7 +251,7 @@
     stacking: ''
     limit_displayed_rows: false
     legend_position: center
-    colors: ["#294988", "#87d79b", "#476d70", "#bababa", "#294259", "#747474"]
+
     series_types: {}
     point_style: none
     series_colors: {}
@@ -275,7 +263,7 @@
     show_null_labels: false
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#808080"
+
     show_null_points: true
     interpolation: monotone
     show_row_numbers: true
@@ -338,7 +326,7 @@
     stacking: ''
     limit_displayed_rows: false
     legend_position: center
-    colors: ["#294988", "#87d79b", "#476d70", "#bababa", "#294259", "#747474"]
+
     series_types: {}
     point_style: none
     series_colors: {}
@@ -359,7 +347,7 @@
     hidden_fields: [session_purchase_facts.total_sale_price, user_acquisition.count,
       salesuser, session_purchase_facts.revenue, user_session_fact.count]
     listen: {}
-    row: 17
+    row: 23
     col: 12
     width: 12
     height: 7
@@ -377,8 +365,8 @@
     dynamic_fields: [{table_calculation: prior_month, label: Prior Month, expression: "${adevents.total_cost}/offset(${adevents.total_cost},\
           \ 1)-1", value_format: !!null '', value_format_name: percent_0, _kind_hint: measure,
         _type_hint: number}]
-    custom_color_enabled: true
-    custom_color: "#88a7a9"
+
+
     show_single_value_title: true
     show_comparison: true
     comparison_type: change
@@ -409,7 +397,7 @@
     show_null_labels: false
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#808080"
+
     series_types: {}
     hidden_fields: []
     comparison_label: Prior Quarter
@@ -418,7 +406,7 @@
     y_axes: []
     listen: {}
     row: 3
-    col: 8
+    col: 9
     width: 4
     height: 4
   - title: Revenue
@@ -436,8 +424,8 @@
     dynamic_fields: [{table_calculation: prior_period, label: Prior Period, expression: "${session_attribution.total_attribution}/offset(${session_attribution.total_attribution},1)-1",
         value_format: !!null '', value_format_name: percent_0, _kind_hint: measure,
         _type_hint: number}]
-    custom_color_enabled: true
-    custom_color: "#88a7a9"
+
+
     show_single_value_title: true
     show_comparison: true
     comparison_type: change
@@ -466,7 +454,7 @@
     show_null_labels: false
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#808080"
+
     series_types: {}
     single_value_title: Adwords Revenue
     value_format: "$#,##0"
@@ -478,9 +466,10 @@
     note_text: ''
     listen:
       Attribution Source: session_attribution.attribution_filter
+      Acquisition Date: adevents.created_date
     row: 3
     col: 0
-    width: 4
+    width: 5
     height: 4
   - title: Purchases
     name: Purchases
@@ -497,8 +486,8 @@
     dynamic_fields: [{table_calculation: prior_period, label: Prior Period, expression: "${sessions.count_with_purchase}/offset(${sessions.count_with_purchase},1)-1",
         value_format: !!null '', value_format_name: percent_0, _kind_hint: measure,
         _type_hint: number}]
-    custom_color_enabled: true
-    custom_color: "#88a7a9"
+
+
     show_single_value_title: true
     show_comparison: true
     comparison_type: change
@@ -527,7 +516,7 @@
     show_null_labels: false
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#808080"
+
     series_types: {}
     single_value_title: Purchases
     comparison_label: Prior Quarter
@@ -536,7 +525,7 @@
     listen:
       Attribution Source: session_attribution.attribution_filter
     row: 3
-    col: 12
+    col: 13
     width: 4
     height: 4
   - title: Users Acquired
@@ -555,8 +544,8 @@
     dynamic_fields: [{table_calculation: prior_period, label: Prior Period, expression: "${user_session_fact.count}/offset(\
           \ ${user_session_fact.count},1)-1", value_format: !!null '', value_format_name: percent_0,
         _kind_hint: measure, _type_hint: number}]
-    custom_color_enabled: true
-    custom_color: "#88a7a9"
+
+
     show_single_value_title: true
     show_comparison: true
     comparison_type: change
@@ -585,7 +574,7 @@
     show_null_labels: false
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#808080"
+
     series_types: {}
     single_value_title: Users Acquired
     value_format: "###,###"
@@ -598,7 +587,7 @@
     listen:
       Attribution Source: session_attribution.attribution_filter
     row: 3
-    col: 4
+    col: 5
     width: 4
     height: 4
   - title: Last Touch Conversion Referrer
@@ -637,10 +626,10 @@
     show_null_labels: false
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#808080"
+
     series_types: {}
     inner_radius: 50
-    colors: ["#294988", "#87d79b", "#476d70", "#bababa", "#294259", "#747474"]
+
     series_colors: {}
     hidden_fields: []
     y_axes: []
@@ -670,7 +659,7 @@
     sorts: [session_purchase_facts.revenue desc]
     limit: 500
     column_limit: 50
-    color_range: ["#294988", "#87d79b", "#476d70", "#bababa", "#294259", "#747474"]
+
     stacking: ''
     show_value_labels: false
     label_density: 25
@@ -694,7 +683,7 @@
     show_null_labels: false
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#808080"
+
     series_types: {}
     hidden_fields: []
     y_axes: []
@@ -725,12 +714,6 @@
     query_timezone: user_timezone
     value_labels: legend
     label_type: labPer
-    colors: ["#294988", "#87d79b", "#476d70", "#bababa", "#294259", "#747474"]
-    series_colors:
-      Organic: "#bababa"
-      Adwords: "#294988"
-      Facebook: "#476d70"
-      Email: "#87d79b"
     x_axis_gridlines: false
     y_axis_gridlines: false
     show_view_names: true
@@ -770,13 +753,13 @@
     show_null_labels: false
     show_totals_labels: false
     show_silhouette: false
-    totals_color: "#808080"
+
     hidden_fields: []
     listen:
       Attribution Source: session_attribution.attribution_filter
     row: 3
-    col: 16
-    width: 8
+    col: 17
+    width: 7
     height: 4
   - title: Highest Spending Campaigns
     name: Highest Spending Campaigns
@@ -796,7 +779,18 @@
     truncate_text: true
     hide_totals: false
     hide_row_totals: false
-    size_to_fit: false
+    size_to_fit: true
+    table_theme: white
+    limit_displayed_rows: false
+    enable_conditional_formatting: true
+    header_text_alignment: left
+    header_font_size: '12'
+    rows_font_size: '12'
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    show_sql_query_menu_options: false
+    show_totals: true
+    show_row_totals: true
     series_labels:
       session_attribution.total_attribution: Revenue
     series_column_widths:
@@ -808,25 +802,18 @@
         is_active: false
       session_attribution.ROI:
         is_active: false
-    table_theme: white
-    limit_displayed_rows: false
-    enable_conditional_formatting: true
-    header_text_alignment: left
-    header_font_size: '12'
-    rows_font_size: '12'
     conditional_formatting: [{type: less than, value: 0, background_color: '', font_color: "#ff1225",
         color_application: {collection_id: f14810d2-98d7-42df-82d0-bc185a074e42, palette_id: 90a81bec-f33f-43c9-a36a-0ea5f037dfa0,
           options: {constraints: {min: {type: minimum}, mid: {type: number, value: 0},
               max: {type: maximum}}, mirror: false, reverse: false, stepped: true}},
         bold: false, italic: false, strikethrough: false, fields: [session_attribution.ROI]}]
-    conditional_formatting_include_totals: false
-    conditional_formatting_include_nulls: false
     series_value_format:
       session_attribution.ROI:
         name: percent_0
         format_string: "#,##0%"
         label: Percent (0)
     series_types: {}
+    defaults_version: 1
     listen: {}
     row: 7
     col: 14
@@ -839,23 +826,19 @@
     default_value: Last Touch
     allow_multiple_values: true
     required: false
+    ui_config:
+      type: radio_buttons
+      display: inline
     model: thelook_adwords
     explore: sessions
     listens_to_filters: []
     field: session_attribution.attribution_filter
-  - name: User Gender
-    title: User Gender
-    type: field_filter
-    default_value: ''
-    allow_multiple_values: true
-    required: false
-    model: thelook_adwords
-    explore: events
-    listens_to_filters: []
-    field: users.gender
   - name: Acquisition Date
     title: Acquisition Date
     type: date_filter
-    default_value: 12 months ago for 12 months
+    default_value: 12 months
     allow_multiple_values: true
     required: false
+    ui_config:
+      type: relative_timeframes
+      display: inline

@@ -1,6 +1,7 @@
 view: sessions {
   derived_table: {
     datagroup_trigger: ecommerce_etl
+    publish_as_db_view: yes
     sql:
       SELECT
         row_number() over (partition by session_user_id order by session_end) as session_rank
@@ -24,7 +25,7 @@ view: sessions {
         , MAX(id) AS bounce_event_id
         , MAX(traffic_source) AS traffic_source
         , MAX(ad_event_id) AS ad_event_id
-      FROM ecomm.events
+      FROM looker-private-demo.ecomm.events
       GROUP BY session_id
       )
 ;;
