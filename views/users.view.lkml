@@ -196,7 +196,7 @@ view: users {
   }
 
   set: detail {
-    fields: [id, name, email, age, created_date, orders.count, order_items.count]
+    fields: [id, name, email, age, age_tier, created_date, orders.count, order_items.count]
   }
 
   set: user_facts {
