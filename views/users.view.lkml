@@ -195,6 +195,11 @@ view: users {
     drill_fields: [detail*]
   }
 
+  measure:future_age {
+    type:  number
+    sql:  ${age} * 1.2 ;;
+  }
+
   set: detail {
     fields: [id, name, email, age, created_date, orders.count, order_items.count]
   }
